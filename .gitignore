@@ -1,0 +1,199 @@
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+.AppleDouble/
+.LSOverride/
+
+# Docker volumes
+mysql_data/
+postgres_data/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node / JavaScript
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.pnp/
+.pnp.js
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*~
+*.swp
+*.swo
+
+# Archives
+*.zip
+*.rar
+*.tar
+*.tar.gz
+*.7z
+
+# System
+.project
+.pydevproject
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Package manager
+package-lock.json.bak
+yarn-error.log
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+Thumbs.db
+.AppleDouble/
+.LSOverride/
+
+# Temporary files
+*.tmp
+*.bak
+*~
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# PyCharm/JetBrains settings
+.idea/
+
+# MyPy cache
+.mypy_cache/
+
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# Logs and local secrets
+*.log
+.env
+.env.*
+.secret
+
+# SQLite and database
+*.sqlite3
+*.db
+
+# MacOS & system files
+.DS_Store
+Thumbs.db
+
+# Node (if mixing JS)
+node_modules/
+
+# Pip cache
+pip-log.txt
+pip-delete-this-directory.txt
+*.pip-cache/
+
+# IDE additional
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+
+# OS files
+*.swp
+*.swo
+*~
+*.bak
+.AppleDouble/
+.LSOverride/
+
+# Python compiled extensions
+*.so
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local configuration
+.env.local
+.env.*.local
+local_settings.py
+
+# Docker volumes (local)
+mysql_data/
+
+Credentials/
+
+RESOURCES/

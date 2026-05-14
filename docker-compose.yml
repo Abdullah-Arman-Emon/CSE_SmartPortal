@@ -1,0 +1,51 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: csedu_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Password
+      MYSQL_DATABASE: csedu
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend-main/backend-main
+    container_name: csedu_backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend-main/backend-main/.env
+    environment:
+      DATABASE_URL: mysql+pymysql://root:Password@mysql/csedu
+      SECRET_KEY: supersecretkey
+      RESOURCE_HUB: RESOURCES
+    volumes:
+      - ./backend-main/backend-main:/app
+      - ./backend-main/backend-main/RESOURCES:/app/RESOURCES
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  frontend:
+    build:
+      context: ./Frontend-main/Frontend-main/frontend
+      args:
+        VITE_BACKEND_URL: http://backend:8000
+    container_name: csedu_frontend
+    depends_on:
+      - backend
+    ports:
+      - "5002:80"
+
+volumes:
+  mysql_data:

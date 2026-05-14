@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Md. Abdur Razzaque",
+    "role": "Professor & Chairman",
+    "expertise": [
+      "AI and ML in UAV Networks",
+      "Edge Intelligence",
+      "AI for Internet of Things",
+      "Green Networking and Sustainable Internet",
+      "Energy Optimization"
+    ],
+    "email": "razzaque@du.ac.bd",
+    "phone": "01841066390",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1768_new.jpg",
+    "publications": [],
+    "bio": "Md. Abdur Razzaque (M'08, SM'12)is a Professor of the Dept. of Computer Science and Engineering, University of Dhaka and he is the current chairman of the Department. He chaired 2021 and 2020 Executive Committees for IEEE Computer Society Bangladesh Chapter. He received his BS in Applied Physics and Electronics and MS in Computer Science from University of Dhaka, Bangladesh in 1995 and 1996, respectively. He obtained a PhD in Computer Engineering from Kyung Hee University, South Korea in 2009. He worked for Green University of Bangladesh for different periods as Pro Vice Chancellor, Dean of Faculty of Science and Engineering and Chairperson, Dept of CSE during 2016-2021. He was a research professor at Kyung Hee University, South Korea during 2010-2011. He worked as a visiting professor in Stratford University, Virginia, USA in 2017. He is the director of Green Networking Research Group (http://cse.du.ac.bd/gnr) of the Dept. of CSE, DU. He has been promoting Outcome Based Education for Science and Engineering Faculties of leading universities of the country. He lead many national and international funded research projects. His research interest is in the area of modeling, analysis and optimization of wireless networking protocols and architectures, Mobile Crowdsourcing, Sensor Data Clouds, Internet of Things, Edge Computing, etc. He has published 190+ research papers in peer-reviewed conferences and journals. He is offering editorial services to reputed journals and contributing to numerous international conferences at different capacities. He is a senior member of IEEE, member of IEEE Computer Society, Internet Society (ISOC), etc."
+  },
+  {
+    "id": 2,
+    "name": "Dr. Suraiya Pervin",
+    "role": "Professor",
+    "expertise": [
+      "Natural Language Processing",
+      "Digital Signal Processing"
+    ],
+    "email": "suraiya@du.ac.bd",
+    "phone": "+880-2-8650143",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_suraiya.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 3,
+    "name": "Dr. Md. Haider Ali",
+    "role": "Professor",
+    "expertise": [
+      "Computer Graphics and Image Processing"
+    ],
+    "email": "haider@du.ac.bd",
+    "phone": "+880244865057",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1762_new.jpg",
+    "publications": [],
+    "bio": "Md. Haider Ali (also Mohammad Haider Ali) has completed his Doctor of Engineering from the dept. of Electronics and Information Engineering, Toyohashi University of Technology, Japan in the field of Computer Graphics. His research interest includes Computer Graphics and Image Processing. He is currently working as a professor in the dept. of Computer Science and Engineering, University of Dhaka. Dr. Mohammad Haider Ali is the fellow of Bangladesh Computer Society, and former Student Member of Institute of Electronics, Information and Communication Engineering (IEICE), Japan."
+  },
+  {
+    "id": 4,
+    "name": "Dr. Hafiz Md. Hasan Babu",
+    "role": "Professor",
+    "expertise": [],
+    "email": "hafizbabu@du.ac.bd",
+    "phone": "+88-01711351055",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1930_new.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 5,
+    "name": "Dr. Md. Rezaul Karim",
+    "role": "Professor",
+    "expertise": [
+      "Graph Drawing Algorithms",
+      "Dataminig",
+      "Digital Forensic",
+      "Project Management",
+      "Information Security"
+    ],
+    "email": "rkarim@du.ac.bd",
+    "phone": "880-2-9661900",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_rkarim.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 6,
+    "name": "Dr. Md. Hasanuzzaman",
+    "role": "Professor",
+    "expertise": [],
+    "email": "hzaman@du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2555.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 7,
+    "name": "Dr. Shabbir Ahmed",
+    "role": "Professor",
+    "expertise": [
+      "Delay Tolerant Networks, IoT"
+    ],
+    "email": "sumaiyarafia@gmail.com",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1759.jpg",
+    "publications": [],
+    "bio": "Current research includes protocol designs of Delay Tolerant Networks (DTN), AdHoc routings, and security of IoT and embedded devices."
+  },
+  {
+    "id": 8,
+    "name": "Dr. Md. Mustafizur Rahman",
+    "role": "Professor",
+    "expertise": [],
+    "email": "mustafiz@du.ac.bd",
+    "phone": "+880-1927-199-301",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1766.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 9,
+    "name": "Dr. Saifuddin Md. Tareeq",
+    "role": "Professor",
+    "expertise": [
+      "Humanoid Robot Behavior Generation (for social skill development of Autistic Children)",
+      "Bioinformatics",
+      "Data Analysis (big data)",
+      "Human Robot Interaction",
+      "Machine Learning",
+      "Regulatory Elements Finding in Genome for Stress Tolerance (salt, drought etc)"
+    ],
+    "email": "smtareeq@du.ac.bd",
+    "phone": "880-2-9661900",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1767.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 10,
+    "name": "Dr. Chowdhury Farhan Ahmed",
+    "role": "Professor",
+    "expertise": [
+      "Knowledge Discovery",
+      "Machine Learning",
+      "Data Mining"
+    ],
+    "email": "farhan@du.ac.bd",
+    "phone": "880-2-9661900",
+    "office": "",
+    "officeHours": "",
+    "image": "https://duap.du.ac.bd/upload/img/cse_farhan.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 11,
+    "name": "Dr. Md. Mamun-Or-Rashid",
+    "role": "Professor",
+    "expertise": [],
+    "email": "mamun@cse.du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/1769_mamun_academic.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 12,
+    "name": "Dr. Mosaddek Hossain Kamal",
+    "role": "Professor",
+    "expertise": [
+      "Intelligent system for Electric Vehicle Cloud Charging Infrastructure",
+      "Embedded System for Industry"
+    ],
+    "email": "tushar@du.ac.bd",
+    "phone": "01700766184",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1764.JPG",
+    "publications": [],
+    "bio": "The Postdoctoral Fellowships (PDF) program provides support to a core of the most promising researchers at a pivotal time in their careers. The fellowships are also intended to secure a supply of highly qualified Canadians with leading-edge scientific and research skills for Canadian industry, government, and academic institutions. for more: https://www.nserc-crsng.gc.ca/students-etudiants/pd-np/pdf-bp_eng.asp"
+  },
+  {
+    "id": 13,
+    "name": "Dr. Muhammad Asif Hossain Khan",
+    "role": "Professor",
+    "expertise": [
+      "Natural Language Processing",
+      "Developing Efficient Feature Selection Algorithms, Deep Learning Algorithms, Attention Modules",
+      "Mechine Learning",
+      "Text Mining"
+    ],
+    "email": "asif@du.ac.bd",
+    "phone": "01793593098",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_asif.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 14,
+    "name": "Dr. Upama Kabir",
+    "role": "Professor",
+    "expertise": [],
+    "email": "upama2@gmail.com",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/1765_UK.jpg",
+    "publications": [],
+    "bio": "A prestigious recognition for a student who secure the highest marks among all four faculties (science, biological science, pharmacy and law) of University of Dhaka in M.Sc. Exam"
+  },
+  {
+    "id": 15,
+    "name": "Dr. Moinul Islam Zaber",
+    "role": "Professor",
+    "expertise": [],
+    "email": "zaber@du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/1782_MoinulZaber-COLOUR.jpg",
+    "publications": [],
+    "bio": "Moinul Zaberis a data and computational social scientist. His research focus is Artificial Intelligence and Telecommunication Technology for public policy. He uses machine learning, statistical inference, econometrics, techno-ethnographic analysis, and design thinking to harness data for policy insights and intervention design. Dr. Zaber is an expert on Ai for Development, Data Science,  Data Governance, and Public Policy. He is a co-founder and director of the Data and Design Lab (dndlab.org) at CSEDU- the first AI for development and computational social science lab in Bangladesh."
+  },
+  {
+    "id": 16,
+    "name": "Abu Ahmed Ferdaus",
+    "role": "Associate Professor",
+    "expertise": [
+      "Data Science",
+      "Machine Learning",
+      "Data Mining"
+    ],
+    "email": "ferdaus@du.ac.bd",
+    "phone": "+88029670734",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_ferdaus.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 17,
+    "name": "Dr. Mosarrat Jahan",
+    "role": "Associate Professor",
+    "expertise": [
+      "Applying blockchain to handle performance and data security issues.",
+      "VANET security",
+      "IoT security",
+      "Developing lightweight solutions for handling security issues of the Internet of Things (IoT).",
+      "Analyzing various security issues of Vehicular Ad Hoc Networks (VANETs) and proposing solutions.",
+      "Blockchain",
+      "Cloud security",
+      "Analysis of various cloud security issues and proposing solutions to protect users' data.",
+      "Applied Cryptography"
+    ],
+    "email": "mosarratjahan@cse.du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_mosarratjahan.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 18,
+    "name": "Dr. Ismat Rahman",
+    "role": "Associate Professor",
+    "expertise": [],
+    "email": "ismat@cse.du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_4669_new.jpeg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 19,
+    "name": "Dr. Sarker Tanveer Ahmed Rumee",
+    "role": "Associate Professor",
+    "expertise": [
+      "Operating Systems",
+      "Program Analysis",
+      "Information Security"
+    ],
+    "email": "rumee@cse.du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2585.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 20,
+    "name": "Dr. Md. Mosaddek Khan",
+    "role": "Associate Professor",
+    "expertise": [],
+    "email": "mosaddek@du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2557.png",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 21,
+    "name": "Dr. Muhammad Ibrahim",
+    "role": "Associate Professor",
+    "expertise": [
+      "Metaheuristic Optimization Algorithms",
+      "Information Retrieval",
+      "Artificial Intelligence",
+      "Machine Learning"
+    ],
+    "email": "ibrahim313@du.ac.bd",
+    "phone": "+880 2 9661920",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/4167_Me_photo_2020_b.jpg",
+    "publications": [],
+    "bio": "MGS and MIPRS Scholarships from Monash University, Australia. Covered the entire duration of the PhD study."
+  },
+  {
+    "id": 22,
+    "name": "Hasnain Heickal",
+    "role": "Assistant Professor",
+    "expertise": [
+      "Machine Learning, Natural Language Processing.",
+      "Artificial Intelligence"
+    ],
+    "email": "hasnain@cse.univdhaka.edu",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.edu.bd/fontView/assets/faculty_image/image_2556.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 23,
+    "name": "Md. Mahmudur Rahman",
+    "role": "Assistant Professor",
+    "expertise": [
+      "Knowledge Discovery",
+      "Pattern Mining",
+      "Machine Learning"
+    ],
+    "email": "mrr.rana13@gmail.com",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2562.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 24,
+    "name": "Md. Ashraful Islam",
+    "role": "Assistant Professor",
+    "expertise": [
+      "Pattern Mining",
+      "Graph mining, Weighted Pattern Mining, Sequential Pattern Mining, Data Stream Mining",
+      "Incremental Learning",
+      "Speech Recognition, Speech Synthesizer, Seq2Seq Models, Lemmatiation, POS Tagger",
+      "Machine Learning",
+      "Natural Language Processing"
+    ],
+    "email": "ashraful@du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_4168.JPG",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 25,
+    "name": "Zarrin Tasnim Sworna",
+    "role": "Lecturer",
+    "expertise": [
+      "Cyber Security"
+    ],
+    "email": "zarrinsworna@gmail.com",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2561.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 26,
+    "name": "Mubin Ul Haque",
+    "role": "Lecturer",
+    "expertise": [
+      "Reconfigurable and Quantum Computing",
+      "Cyber Security"
+    ],
+    "email": "mubin@cse.du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2560.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 27,
+    "name": "Md. Fahim Arefin",
+    "role": "Lecturer",
+    "expertise": [],
+    "email": "fahim@cse.du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_61068_new.png",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 28,
+    "name": "Redwan Ahmed Rizvee",
+    "role": "Lecturer",
+    "expertise": [
+      "Deep Learning",
+      "Programming Systems",
+      "Data Mining",
+      "High Performance Computing"
+    ],
+    "email": "rizvee@cse.du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_61070_new.jpg",
+    "publications": [],
+    "bio": "From the Department of Computer Science and Engineering, University of Dhaka for acquiring the first position in the batch in B.Sc"
+  },
+  {
+    "id": 29,
+    "name": "Md. Tanvir Alam",
+    "role": "Lecturer",
+    "expertise": [
+      "Machine learning on graphs",
+      "Graph Neural Networks"
+    ],
+    "email": "tanvir@cse.du.ac.bd",
+    "phone": "01551225972",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_61083_new.JPG",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 30,
+    "name": "Jargis Ahmed",
+    "role": "Lecturer",
+    "expertise": [
+      "Computer Networking",
+      "Mobile Edge ComputingInternet of Things (IoT)Cloud Computing"
+    ],
+    "email": "jargis@cse.du.ac.bd",
+    "phone": "",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/76908_315534097_3288402398090050_8467021205814801729_n.jpg",
+    "publications": [],
+    "bio": ""
+  },
+  {
+    "id": 31,
+    "name": "Palash Roy",
+    "role": "Lecturer",
+    "expertise": [
+      "Edge and Cloud Computing",
+      "Network Intelligence",
+      "Federated Learning",
+      "Unmanned Aerial Vehicles",
+      "AI for Internet of Things"
+    ],
+    "email": "palash@cse.du.ac.bd",
+    "phone": "01846869580",
+    "office": "",
+    "officeHours": "",
+    "image": "https://ssl.du.ac.bd/fontView/assets/faculty_image/76909_Palash_Roy_Formal.jpg",
+    "publications": [],
+    "bio": ""
+  }
+]
