@@ -1,0 +1,147 @@
+[
+    {
+        "id": 1,
+        "title": "Bachelor of Science in Computer Science",
+        "level": "Bachelor",
+        "description": "The BS in Computer Science program at the Department of CSE provides a comprehensive foundation in computer science principles, software development, algorithms, and data structures. Students gain hands-on experience through projects and internships, preparing them for careers in software engineering, systems analysis, and research.",
+        "credits": 140,
+        "duration": "4 years",
+        "studentsEnrolled": 325,
+        "applicationDeadline": "May 15, 2023",
+        "tuitionFee": "$8,500 per year",
+        "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        "faculty": [
+            {
+                "name": "Dr. Ahmed Khan",
+                "position": "Program Director",
+                "expertise": "Artificial Intelligence",
+                "imageUrl": "https://randomuser.me/api/portraits/men/1.jpg"
+            },
+            {
+                "name": "Prof. Sarah Johnson",
+                "position": "Senior Faculty",
+                "expertise": "Database Systems",
+                "imageUrl": "https://randomuser.me/api/portraits/women/2.jpg"
+            },
+            {
+                "name": "Dr. Michael Chen",
+                "position": "Associate Professor",
+                "expertise": "Computer Networks",
+                "imageUrl": "https://randomuser.me/api/portraits/men/3.jpg"
+            }
+        ],
+        "admissionRequirements": "High school diploma with strong background in mathematics and science. Minimum GPA of 3.0 required. SAT score of at least 1200 or equivalent ACT score.",
+        "careerProspects": "Graduates find employment as software engineers, systems analysts, database administrators, and IT consultants in both public and private sectors. Average starting salary is $72,000 per year.",
+        "departmentInfo": {
+            "name": "Department of Computer Science and Engineering",
+            "establishedYear": 1985,
+            "chairperson": "Prof. David Williams, PhD",
+            "website": "https://cse.university.edu",
+            "email": "cse@university.edu",
+            "phone": "+1 (123) 456-7890",
+            "address": "Computer Science Building, University Campus, 123 University Avenue",
+            "achievements": [
+                "Ranked in the top 50 CS departments nationally",
+                "More than 85% placement rate within 6 months of graduation",
+                "Strong industry partnerships with leading tech companies"
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "title": "Masters of Science in Computer Science and Engineering",
+        "level": "Masters",
+        "description": "The MS in Computer Science and Engineering program is designed for students seeking advanced knowledge in computer science theory and applications. The curriculum emphasizes research methodology and specialized topics in emerging technologies such as artificial intelligence, cloud computing, and cybersecurity.",
+        "credits": 36,
+        "duration": "2 years",
+        "studentsEnrolled": 120,
+        "applicationDeadline": "April 1, 2023",
+        "tuitionFee": "$12,800 per year",
+        "imageUrl": "https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80",
+        "faculty": [
+            {
+                "name": "Prof. Jessica Williams",
+                "position": "Program Director",
+                "expertise": "Machine Learning",
+                "imageUrl": "https://randomuser.me/api/portraits/women/4.jpg"
+            },
+            {
+                "name": "Dr. Robert Garcia",
+                "position": "Research Chair",
+                "expertise": "High-Performance Computing",
+                "imageUrl": "https://randomuser.me/api/portraits/men/5.jpg"
+            },
+            {
+                "name": "Dr. Emily Zhang",
+                "position": "Associate Professor",
+                "expertise": "Computer Vision",
+                "imageUrl": "https://randomuser.me/api/portraits/women/6.jpg"
+            }
+        ],
+        
+        "admissionRequirements": "Bachelor's degree in Computer Science or related field with minimum GPA of 3.2. GRE scores required. Statement of purpose and three letters of recommendation.",
+        "careerProspects": "Graduates are prepared for roles in research and development, advanced software engineering, data science, and academia. Average salary range is $90,000-$120,000 depending on specialization.",
+        "departmentInfo": {
+            "name": "Department of Computer Science and Engineering",
+            "establishedYear": 1985,
+            "chairperson": "Prof. David Williams, PhD",
+            "website": "https://cse.university.edu",
+            "email": "cse@university.edu",
+            "phone": "+1 (123) 456-7890",
+            "address": "Computer Science Building, University Campus, 123 University Avenue",
+            "achievements": [
+                "Ranked in the top 50 CS departments nationally",
+                "More than 85% placement rate within 6 months of graduation",
+                "Strong industry partnerships with leading tech companies"
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "title": "Doctor of Philosophy in Physics",
+        "level": "Doctorate",
+        "description": "The PhD in Physics program prepares students for research careers in physics, focusing on theoretical and experimental methodologies. Students conduct original research in various specializations including quantum mechanics, astrophysics, and condensed matter physics.",
+        "credits": 72,
+        "duration": "4-6 years",
+        "studentsEnrolled": 45,
+        "applicationDeadline": "March 1, 2023",
+        "tuitionFee": "$15,000 per year",
+        "imageUrl": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        "faculty": [
+            {
+                "name": "Prof. David Nelson",
+                "position": "Program Director",
+                "expertise": "Quantum Mechanics",
+                "imageUrl": "https://randomuser.me/api/portraits/men/7.jpg"
+            },
+            {
+                "name": "Dr. Lisa Chen",
+                "position": "Research Professor",
+                "expertise": "Astrophysics",
+                "imageUrl": "https://randomuser.me/api/portraits/women/8.jpg"
+            },
+            {
+                "name": "Dr. James Wilson",
+                "position": "Distinguished Professor",
+                "expertise": "Particle Physics",
+                "imageUrl": "https://randomuser.me/api/portraits/men/9.jpg"
+            }
+        ],
+        "admissionRequirements": "Master's degree in Physics or related field. Research experience and strong recommendation letters required.",
+        "careerProspects": "Graduates pursue careers in academic research, national laboratories, aerospace industry, and technology research centers.",
+        "departmentInfo": {
+            "name": "Department of Physics",
+            "establishedYear": 1970,
+            "chairperson": "Prof. Margaret Thompson, PhD",
+            "website": "https://physics.university.edu",
+            "email": "physics@university.edu",
+            "phone": "+1 (123) 456-7891",
+            "address": "Physics Building, University Campus, 456 Science Avenue",
+            "achievements": [
+                "Ranked in the top 30 Physics departments nationally",
+                "Strong research output in quantum physics",
+                "Collaborative partnerships with national laboratories"
+            ]
+        }
+    }
+]

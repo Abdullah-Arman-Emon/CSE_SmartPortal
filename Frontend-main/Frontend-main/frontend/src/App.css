@@ -1,0 +1,26 @@
+/* Custom styles for the signup page */
+.gradient-bg {
+  background: linear-gradient(135deg, #1e3a8a 0%, #475569 50%, #334155 100%);
+}
+
+/* Focus states and custom styling */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Social button hover effects */
+.social-btn {
+  transition: all 0.2s ease-in-out;
+}
+
+.social-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"]:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
