@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   mysql:
     image: mysql:8.0
@@ -45,7 +43,9 @@ services:
     build:
       context: ./Frontend-main/Frontend-main/frontend
       args:
-        VITE_BACKEND_URL: "${VITE_BACKEND_URL:-http://localhost:8080/api}"
+        # For deployed setups the frontend should call the proxy's /api path (same origin).
+        # Use '/api' so the browser sends requests to the same host/port that serves the frontend
+        VITE_BACKEND_URL: "${VITE_BACKEND_URL:-/api}"
     container_name: csedu_frontend
     depends_on:
       - backend
