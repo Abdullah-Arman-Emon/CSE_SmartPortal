@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-from pydantic import Field
+from pydantic import ConfigDict, Field
 import os
 
 class Settings(BaseSettings):
@@ -7,8 +7,9 @@ class Settings(BaseSettings):
     secret_key: str
     resource_hub: str = Field(..., alias="RESOURCE_HUB")  # <-- Add this line
 
-    class Config:
-        env_file = ".env"
-        # extra = "forbid"  # Optional: Prevents loading any extra fields
+    model_config = ConfigDict(
+        env_file=".env",
+        extra="ignore",  # Allow unrelated env vars in the same .env file
+    )
 
 settings = Settings()
