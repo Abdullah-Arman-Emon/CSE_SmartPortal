@@ -40,7 +40,7 @@ services:
     build:
       context: ./Frontend-main/Frontend-main/frontend
       args:
-        VITE_BACKEND_URL: http://backend:8080
+        VITE_BACKEND_URL: https://logicloop.farefin.com
     container_name: csedu_frontend
     depends_on:
       - backend
