@@ -1,0 +1,314 @@
+{
+  "1": [
+    {
+      "id": 101,
+      "code": "CSE 101",
+      "title": "Introduction to Computer Science",
+      "semester": "Fall 2025",
+      "year": 1,
+      "credits": 3,
+      "description": "An introduction to computer science and programming concepts.",
+      "image": "/images/computer-science-intro.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 102,
+      "code": "CSE 102",
+      "title": "Introduction to Programming",
+      "semester": "Fall 2025",
+      "year": 1,
+      "credits": 3,
+      "description": "Fundamentals of programming using a high-level language.",
+      "image": "/images/programming-intro.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 201,
+      "code": "CSE 201",
+      "title": "Data Structures",
+      "semester": "Spring 2026",
+      "year": 1,
+      "credits": 3,
+      "description": "Implementation and analysis of fundamental data structures.",
+      "image": "/images/data-structures.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1456428746267-a1756408f782?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 202,
+      "code": "CSE 202",
+      "title": "Digital Logic Design",
+      "semester": "Spring 2026",
+      "year": 1,
+      "credits": 3,
+      "description": "Boolean algebra, logic gates, and digital circuit design.",
+      "image": "/images/digital-logic.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 301,
+      "code": "CSE 301",
+      "title": "Computer Networking",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3,
+      "description": "Principles and practices of computer network systems.",
+      "image": "/images/computer-networking.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 302,
+      "code": "CSE 302",
+      "title": "Operating Systems",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 4,
+      "description": "Process management, memory management, and file systems.",
+      "image": "/images/operating-systems.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80"
+    },
+    {
+      "id": 303,
+      "code": "CSE 303",
+      "title": "Software Engineering",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3,
+      "description": "Software development life cycle and project management.",
+      "image": "/images/software-engineering.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
+    },
+    {
+      "id": 304,
+      "code": "CSE 304",
+      "title": "Database Management Systems",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3,
+      "description": "Database design, SQL, and database administration.",
+      "image": "/images/database-systems.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1603969072881-b0fc7f3d6d7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 401,
+      "code": "CSE 401",
+      "title": "Artificial Intelligence",
+      "semester": "Spring 2027",
+      "year": 3,
+      "credits": 3,
+      "description": "Problem-solving methods in artificial intelligence.",
+      "image": "/images/artificial-intelligence.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1677442135132-198ca30c7285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80"
+    },
+    {
+      "id": 402,
+      "code": "CSE 402",
+      "title": "Computer Graphics",
+      "semester": "Spring 2027",
+      "year": 3,
+      "credits": 3,
+      "description": "2D and 3D graphics algorithms and programming.",
+      "image": "/images/computer-graphics.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80"
+    },
+    {
+      "id": 403,
+      "code": "CSE 403",
+      "title": "Theory of Computation",
+      "semester": "Spring 2027",
+      "year": 3,
+      "credits": 3,
+      "description": "Formal languages, automata, and computational complexity.",
+      "image": "/images/theory-of-computation.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 404,
+      "code": "CSE 404",
+      "title": "Compiler Design",
+      "semester": "Spring 2027",
+      "year": 3,
+      "credits": 3,
+      "description": "Lexical analysis, parsing, and code generation.",
+      "image": "/images/compiler-design.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 405,
+      "code": "CSE 405",
+      "title": "Machine Learning",
+      "semester": "Fall 2027",
+      "year": 4,
+      "credits": 3,
+      "description": "Supervised and unsupervised learning algorithms.",
+      "image": "/images/machine-learning.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 406,
+      "code": "CSE 406",
+      "title": "Cryptography and Network Security",
+      "semester": "Fall 2027",
+      "year": 4,
+      "credits": 3,
+      "description": "Encryption, authentication, and network security protocols.",
+      "image": "/images/network-security.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 407,
+      "code": "CSE 407",
+      "title": "Mobile App Development",
+      "semester": "Fall 2027",
+      "year": 4,
+      "credits": 3,
+      "description": "Development of applications for mobile devices.",
+      "image": "/images/mobile-app-dev.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 408,
+      "code": "CSE 408",
+      "title": "Web Development",
+      "semester": "Fall 2027",
+      "year": 4,
+      "credits": 3,
+      "description": "Client-server architecture and web application development.",
+      "image": "/images/web-development.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 409,
+      "code": "CSE 409",
+      "title": "Cloud Computing",
+      "semester": "Spring 2028",
+      "year": 4,
+      "credits": 3,
+      "description": "Distributed systems and cloud service models.",
+      "image": "/images/cloud-computing.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 410,
+      "code": "CSE 410",
+      "title": "Data Science",
+      "semester": "Spring 2028",
+      "year": 4,
+      "credits": 3,
+      "description": "Data analysis, visualization, and statistical modeling.",
+      "image": "/images/data-science.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 411,
+      "code": "CSE 411",
+      "title": "Natural Language Processing",
+      "semester": "Spring 2028",
+      "year": 4,
+      "credits": 3,
+      "description": "Algorithms for processing and analyzing human language.",
+      "image": "/images/nlp.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 412,
+      "code": "CSE 412",
+      "title": "Final Year Project",
+      "semester": "Spring 2028",
+      "year": 4,
+      "credits": 6,
+      "description": "Capstone project integrating knowledge from various courses.",
+      "image": "/images/project.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    }
+  ],
+  "2": [
+    {
+      "id": 501,
+      "code": "CSE 501",
+      "title": "Advanced Algorithms",
+      "semester": "Fall 2025",
+      "year": 1,
+      "credits": 3,
+      "description": "Design and analysis of advanced algorithms with emphasis on complexity theory.",
+      "image": "/images/advanced-algorithms.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 502,
+      "code": "CSE 502",
+      "title": "Computer Architecture",
+      "semester": "Fall 2025",
+      "year": 1,
+      "credits": 3,
+      "description": "Advanced topics in computer organization and architecture.",
+      "image": "/images/computer-architecture.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 503,
+      "code": "CSE 503",
+      "title": "Machine Learning",
+      "semester": "Spring 2026",
+      "year": 1,
+      "credits": 3,
+      "description": "Fundamentals of machine learning theory and implementation of key algorithms.",
+      "image": "/images/machine-learning-ms.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 504,
+      "code": "CSE 504",
+      "title": "Advanced Database Systems",
+      "semester": "Spring 2026",
+      "year": 1,
+      "credits": 3,
+      "description": "Advanced topics in database systems including distributed databases and data mining.",
+      "image": "/images/advanced-database.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 505,
+      "code": "CSE 505",
+      "title": "Cloud Computing",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3,
+      "description": "Concepts and technologies of cloud-based systems and services.",
+      "image": "/images/cloud-computing-ms.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 506,
+      "code": "CSE 506",
+      "title": "Big Data Analytics",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3,
+      "description": "Processing and analyzing large datasets using modern technologies.",
+      "image": "/images/big-data.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 507,
+      "code": "CSE 507",
+      "title": "Deep Learning",
+      "semester": "Spring 2027",
+      "year": 2,
+      "credits": 3,
+      "description": "Neural networks and deep learning architectures and applications.",
+      "image": "/images/deep-learning.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    },
+    {
+      "id": 508,
+      "code": "CSE 508",
+      "title": "Thesis Research",
+      "semester": "Spring 2027",
+      "year": 2,
+      "credits": 6,
+      "description": "Independent research leading to a master's thesis.",
+      "image": "/images/thesis.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+    }
+  ]
+}
