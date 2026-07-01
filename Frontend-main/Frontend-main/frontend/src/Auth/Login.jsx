@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { Mail, Lock, AlertCircle } from "lucide-react";
+
+import { AuthContext } from "../context/AuthContext";
+import AuthLayout from "./AuthLayout";
+import Spinner from "../components/ui/Spinner";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 
 function Login() {
   const { setToken, user, setUser, loading } = useContext(AuthContext);
@@ -16,8 +18,8 @@ function Login() {
     password: "",
     rememberMe: false,
   });
-
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -29,27 +31,24 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // clear old error
-
+    setError("");
+    setSubmitting(true);
     try {
       const response = await axios.post(`${BACKEND_URL}/v1/auth/login`, {
         email: formData.email,
         password: formData.password,
       });
-
       const token = response.data?.access_token;
-
       if (formData.rememberMe) {
         localStorage.setItem("token", token);
       } else {
         sessionStorage.setItem("token", token);
       }
-
-      setToken(token); // AuthProvider will fetch the user automatically
-
-      // navigate("/");
+      setToken(token); // AuthProvider fetches the user automatically
     } catch (err) {
-      setError(err.response?.data?.detail || "Login failed");
+      setError(err.response?.data?.detail || "Login failed. Check your credentials.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -73,120 +72,81 @@ function Login() {
 
   if (!loading && user?.isAuthenticated) return null;
 
+  const inputCls =
+    "w-full pl-11 pr-4 py-3 bg-slate-800/70 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40 transition-colors";
+
   return (
-    <div className="min-h-screen flex">
-      {/* Left side (blank white area) */}
-      <div className="hidden lg:block lg:w-1/2 bg-white"></div>
-
-      {/* Right side (login form) */}
-      <div className="w-full lg:w-1/2 bg-slate-900 flex items-center justify-center p-4">
-        <div className="w-full max-w-md p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Welcome!</h1>
-            <p className="text-slate-400 text-sm">
-              Please log in to access your dashboard.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <div className="text-red-500 text-sm text-center bg-red-100/10 py-2 rounded-lg">
-                {error}
-              </div>
-            )}
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-slate-400 text-sm mb-2"
-              >
-                Email
-              </label>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-slate-800/80 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-slate-400 text-sm mb-2"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-slate-800/80 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="rememberMe"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                  className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
-                />
-                <label
-                  htmlFor="rememberMe"
-                  className="ml-2 text-slate-400 text-sm"
-                >
-                  Remember me
-                </label>
-              </div>
-              <a
-                href="#"
-                className="text-blue-400 text-sm hover:text-blue-300 transition-colors"
-              >
-                Forgot password?
-              </a>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-slate-800"
-            >
-              Login
-            </button>
-
-            <div className="text-center mt-2">
-              <p className="text-slate-400 text-sm">
-                Don't have an account?{" "}
-                <a
-                  href="/signup"
-                  className="text-blue-400 hover:text-blue-300 transition-colors"
-                >
-                  Sign Up Here
-                </a>
-              </p>
-            </div>
-
-            <div className="text-center mt-4">
-              <a
-                href="/"
-                className="text-blue-400 hover:text-blue-300 transition-colors text-sm"
-              >
-                Back to Homepage
-              </a>
-            </div>
-          </form>
+    <AuthLayout
+      subtitle={
+        <div className="mb-8 text-center lg:text-left">
+          <h1 className="text-3xl font-bold text-white mb-1">Welcome back</h1>
+          <p className="text-slate-400 text-sm">Log in to access your dashboard.</p>
         </div>
-      </div>
-    </div>
+      }
+    >
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {error && (
+          <div className="flex items-center gap-2 text-sm text-red-300 bg-red-500/10 border border-red-500/30 px-3 py-2.5 rounded-lg">
+            <AlertCircle size={16} className="shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        <div>
+          <label htmlFor="email" className="block text-slate-400 text-sm mb-2">Email</label>
+          <div className="relative">
+            <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+            <input
+              type="text" id="email" name="email"
+              value={formData.email} onChange={handleChange} required
+              placeholder="you@cs.du.ac.bd" className={inputCls}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="password" className="block text-slate-400 text-sm mb-2">Password</label>
+          <div className="relative">
+            <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+            <input
+              type="password" id="password" name="password"
+              value={formData.password} onChange={handleChange} required
+              placeholder="••••••••" className={inputCls}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <label className="flex items-center gap-2 text-slate-400 text-sm cursor-pointer">
+            <input
+              type="checkbox" name="rememberMe"
+              checked={formData.rememberMe} onChange={handleChange}
+              className="w-4 h-4 rounded accent-indigo-500"
+            />
+            Remember me
+          </label>
+          <span className="text-slate-600 text-sm cursor-not-allowed" title="Please contact the department office">
+            Forgot password?
+          </span>
+        </div>
+
+        <button
+          type="submit" disabled={submitting}
+          className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
+        >
+          {submitting && <Spinner size={18} />}
+          {submitting ? "Logging in…" : "Login"}
+        </button>
+
+        <p className="text-center text-slate-400 text-sm">
+          Don&apos;t have an account?{" "}
+          <Link to="/signup" className="text-indigo-400 hover:text-indigo-300">Sign up</Link>
+        </p>
+        <p className="text-center">
+          <Link to="/" className="text-slate-500 hover:text-slate-400 text-sm">← Back to homepage</Link>
+        </p>
+      </form>
+    </AuthLayout>
   );
 }
 

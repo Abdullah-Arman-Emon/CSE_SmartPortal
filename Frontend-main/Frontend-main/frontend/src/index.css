@@ -52,9 +52,27 @@
   background: #475569;
 }
 
-/* Smooth transitions */
-* {
-  transition: all 0.3s ease;
+/* Base polish */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
+}
+
+/* Scoped smooth transitions for interactive elements only
+   (global `* { transition: all }` caused layout jank). */
+a, button, input, select, textarea, [role="button"] {
+  transition: color 0.2s ease, background-color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Accessible keyboard focus */
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
 }
 
 /* Card hover effects */

@@ -30,6 +30,7 @@ import Finance from './Student/Finance'
 import AdminFinance from './Admin/AdminFinance'
 import NoticeBoard from './pages/NoticeBoard'
 import StudentEventShow from './Student/StudentEventShow'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -95,7 +96,7 @@ function App() {
         <Route path='/settingspage' element={<SettingsPage />} />
         <Route path="/finance" element={<Finance />} />
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )
