@@ -3,42 +3,22 @@ import { Mail, Phone, MapPin, Calendar, Award, BookOpen, Users, GraduationCap, A
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
+// Import content as bundled assets so it works in production build too.
+// (fetch('/src/assets/..') only works in the vite dev server, not the built app.)
+import aboutText from '../assets/about.txt?raw';
+import historyText from '../assets/history.txt?raw';
+import missionText from '../assets/mission.txt?raw';
+import chairmanText from '../assets/chairman.txt?raw';
+import chairmanImg from '../assets/chairman.jpg';
+
 const AboutChairman = () => {
   const [activeSection, setActiveSection] = useState('about');
-  const [sectionContent, setSectionContent] = useState({
-    about: '',
-    history: '',
-    mission: '',
-    chairman: ''
-  });
-
-  useEffect(() => {
-    // Load all text files when component mounts
-    const loadTextFiles = async () => {
-      try {
-        const aboutResponse = await fetch('/src/assets/about.txt');
-        const historyResponse = await fetch('/src/assets/history.txt');
-        const missionResponse = await fetch('/src/assets/mission.txt');
-        const chairmanResponse = await fetch('/src/assets/chairman.txt');
-        
-        const aboutText = await aboutResponse.text();
-        const historyText = await historyResponse.text();
-        const missionText = await missionResponse.text();
-        const chairmanText = await chairmanResponse.text();
-        
-        setSectionContent({
-          about: aboutText,
-          history: historyText,
-          mission: missionText,
-          chairman: chairmanText
-        });
-      } catch (error) {
-        console.error("Error loading text files:", error);
-      }
-    };
-    
-    loadTextFiles();
-  }, []);
+  const sectionContent = {
+    about: aboutText,
+    history: historyText,
+    mission: missionText,
+    chairman: chairmanText
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -124,9 +104,9 @@ const AboutChairman = () => {
               {/* Added Chairman image in the chairman section */}
               {activeSection === 'chairman' && (
                 <div className="float-right ml-6 mb-4">
-                  <img 
-                    src="/src/assets/chairman.jpg" 
-                    alt="Chairman" 
+                  <img
+                    src={chairmanImg}
+                    alt="Chairman"
                     className="w-64 rounded-lg shadow-md"
                   />
                 </div>

@@ -1,5 +1,8 @@
 # CLAUDE.md — CSEDU University Management System
 
+> ⛔ **Rule: NEVER `git push`.** Commit locally if asked, কিন্তু push সবসময় শুধু user করবে — Claude কখনো push করবে না (কোনো branch-এ নয়, prod তো নয়ই)।
+
+
 Monorepo: FastAPI + React + MySQL, Docker + host-nginx (TLS) দিয়ে deploy। LogicLoop team, prod = `logicloop.farefin.com`।
 Roles: guest/admission · student · teacher · admin। Domains: courses, assignments/submissions, finance/payments, events+RSVP, notices, meetings, equipment, exams, admissions, resource hub।
 
