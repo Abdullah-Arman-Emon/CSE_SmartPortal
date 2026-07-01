@@ -151,7 +151,7 @@ def get_missing_classes(student_id: int, db: Session = Depends(get_db)):
         response.append(StudentMissingClass(
             month=missing_class.month,
             year=missing_class.year,
-            percentage_classes=missing_class.percentage_classes
+            percentage_classes=missing_class.percentage
         ))
         
     return response

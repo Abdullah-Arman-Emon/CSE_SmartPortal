@@ -65,8 +65,24 @@ def get_or_create(db, model, defaults=None, **lookup):
     return obj, True
 
 
+def migrate():
+    """Add columns that create_all() cannot add to already-existing tables."""
+    from sqlalchemy import text
+    statements = [
+        "ALTER TABLE admission_form ADD COLUMN status VARCHAR(20) DEFAULT 'pending'",
+    ]
+    for stmt in statements:
+        try:
+            with engine.begin() as conn:
+                conn.execute(text(stmt))
+            print(f"  migrated: {stmt}")
+        except Exception:
+            pass  # column already exists — safe to ignore
+
+
 def seed():
     Base.metadata.create_all(bind=engine)
+    migrate()
     db = SessionLocal()
     try:
         # ---------------- Users ----------------
@@ -274,7 +290,8 @@ def seed():
                           field_of_study="Science", graduation_date=datetime(2022, 8, 1),
                           grade_gpa="5.00",
                           required_doc="/resources/demo-doc.pdf",
-                          transcript="/resources/demo-transcript.pdf"))
+                          transcript="/resources/demo-transcript.pdf",
+                          status="shortlisted"))
 
         # ---------------- Attendance ----------------
         get_or_create(db, MissingClassOnMonth, student_id=s1.id,

@@ -9,6 +9,8 @@ class AdmissionForm(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     form_given_on =  Column(DateTime, nullable=False)
+    # Review workflow: pending | shortlisted | accepted | rejected
+    status = Column(String(20), nullable=False, default="pending")
     
     # Personal Information
     first_name = Column(String(100), nullable=False)

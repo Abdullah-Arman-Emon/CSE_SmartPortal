@@ -26,6 +26,7 @@ class AdmissionFormCreate(BaseModel):
 class AdmissionFormOut(BaseModel):
     id: int
     form_given_on: datetime
+    status: Optional[str] = "pending"
     first_name: str
     last_name: str
     email: EmailStr

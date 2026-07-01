@@ -93,6 +93,27 @@ function AdminAdmission() {
     setShowModal(true)
   }
 
+  const STATUS_STYLES = {
+    pending: 'bg-amber-100 text-amber-800',
+    shortlisted: 'bg-blue-100 text-blue-800',
+    accepted: 'bg-green-100 text-green-800',
+    rejected: 'bg-red-100 text-red-800',
+  }
+
+  const handleStatusChange = async (applicationId, status) => {
+    try {
+      await axios.put(`${BACKEND_URL}/admin/admission/status/${applicationId}?status=${status}`)
+      setApplications((prev) =>
+        prev.map((a) => (a.id === applicationId ? { ...a, status } : a))
+      )
+      setSuccess('Application status updated')
+      setTimeout(() => setSuccess(''), 3000)
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to update status')
+      setTimeout(() => setError(''), 3000)
+    }
+  }
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -283,6 +304,9 @@ function AdminAdmission() {
                     Submitted
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -331,6 +355,20 @@ function AdminAdmission() {
                         <Calendar size={14} className="text-gray-400" />
                         {formatDate(application.form_given_on)}
                       </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <select
+                        value={application.status || 'pending'}
+                        onChange={(e) => handleStatusChange(application.id, e.target.value)}
+                        className={`text-xs font-medium rounded-full px-2.5 py-1 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer ${
+                          STATUS_STYLES[application.status || 'pending']
+                        }`}
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="shortlisted">Shortlisted</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                      </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex items-center gap-2">

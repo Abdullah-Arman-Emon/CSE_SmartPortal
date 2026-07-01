@@ -29,6 +29,30 @@ def list_admission_forms(db: Session = Depends(get_db)):
     return db.query(AdmissionForm).order_by(desc(AdmissionForm.form_given_on)).all()
 
 
+ALLOWED_STATUSES = {"pending", "shortlisted", "accepted", "rejected"}
+
+
+# 🔹 Update admission review status (pending -> shortlisted -> accepted/rejected)
+@router.put("/status/{form_id}", response_model=AdmissionFormOut)
+def update_admission_status(
+    form_id: int,
+    status: str = Query(..., description="pending | shortlisted | accepted | rejected"),
+    db: Session = Depends(get_db),
+):
+    status = status.lower()
+    if status not in ALLOWED_STATUSES:
+        raise HTTPException(status_code=422, detail=f"Invalid status. Allowed: {sorted(ALLOWED_STATUSES)}")
+
+    form = db.query(AdmissionForm).filter(AdmissionForm.id == form_id).first()
+    if not form:
+        raise HTTPException(status_code=404, detail="Admission form not found")
+
+    form.status = status
+    db.commit()
+    db.refresh(form)
+    return form
+
+
 @router.delete("/delete/{form_id}", response_model=dict)
 def delete_admission_form(form_id: int, db: Session = Depends(get_db)):
     form = db.query(AdmissionForm).filter(AdmissionForm.id == form_id).first()
