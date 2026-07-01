@@ -121,45 +121,8 @@ function HomePage() {
             console.error("Error fetching notices:", error);
             setNewsError("Failed to load latest news. Please try again later.");
 
-            // Fallback to static data if API call fails
-            setNewsItems([
-                {
-                    id: 1,
-                    title: "CSE Department Receives Excellence Award 2024",
-                    excerpt:
-                        "Our department has been recognized for outstanding contributions to computer science education and research.",
-                    date: "2024-01-15",
-                    category: "Achievement",
-                    image: "/placeholder-news1.jpg",
-                },
-                {
-                    id: 2,
-                    title: "Revolutionary AI Research Published in Nature",
-                    excerpt:
-                        "Faculty members publish groundbreaking research on machine learning applications in healthcare.",
-                    date: "2024-01-10",
-                    category: "Research",
-                    image: "/placeholder-news2.jpg",
-                },
-                {
-                    id: 3,
-                    title: "Annual Tech Summit 2024 Announced",
-                    excerpt:
-                        "Join us for the biggest technology conference featuring industry leaders and cutting-edge innovations.",
-                    date: "2024-01-08",
-                    category: "Event",
-                    image: "/placeholder-news3.jpg",
-                },
-                {
-                    id: 4,
-                    title: "New Quantum Computing Lab Inaugurated",
-                    excerpt:
-                        "State-of-the-art quantum computing facility opens, expanding research capabilities in quantum algorithms.",
-                    date: "2024-01-05",
-                    category: "Infrastructure",
-                    image: "/placeholder-news4.jpg",
-                },
-            ]);
+            // No stale fallback content — show the error state instead of hardcoded news.
+            setNewsItems([]);
         } finally {
             setNewsLoading(false);
         }
@@ -185,7 +148,7 @@ function HomePage() {
             setEventsError("Failed to load events. Please try again later.");
 
             // Fallback to static data if API call fails
-            setEvents(recentEvents);
+            setEvents([]);
         } finally {
             setEventsLoading(false);
         }
@@ -440,7 +403,7 @@ function HomePage() {
                 setError("Failed to load events. Please try again later.");
 
                 // Fallback to static data if API call fails
-                setEvents(recentEvents);
+                setEvents([]);
             } finally {
                 setLoading(false);
             }
