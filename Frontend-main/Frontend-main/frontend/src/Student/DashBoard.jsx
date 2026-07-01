@@ -7,6 +7,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  Cell,
 } from "recharts";
 import {
   Home,
@@ -141,7 +142,7 @@ export default function Dashboard() {
       setLoadingAttendance(true);
       try {
         const response = await axios.get(
-          `${BACKEND_URL}/v1/student/dashboard/missing_classes/${studentId}`
+          `${BACKEND_URL}/v1/attendance/student/${studentId}`
         );
         setAttendance(response.data || []);
       } catch (error) {
@@ -494,13 +495,17 @@ export default function Dashboard() {
               </div>
             ) : (
               <>
-                <p className="text-xs text-slate-500 mb-3">Missing-class percentage by month</p>
+                <p className="text-xs text-slate-500 mb-3">Attendance % by course (≥75% = exam eligible)</p>
                 <ResponsiveContainer width="100%" height={180}>
                   <BarChart data={attendance}>
-                    <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-                    <YAxis tick={{ fontSize: 11 }} unit="%" />
+                    <XAxis dataKey="course_code" tick={{ fontSize: 11 }} />
+                    <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} unit="%" />
                     <Tooltip formatter={(v) => `${v}%`} />
-                    <Bar dataKey="percentage_classes" fill="#10b981" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="percentage" radius={[4, 4, 0, 0]}>
+                      {attendance.map((a, i) => (
+                        <Cell key={i} fill={a.eligible ? "#10b981" : "#ef4444"} />
+                      ))}
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               </>

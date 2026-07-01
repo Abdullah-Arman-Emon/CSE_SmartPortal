@@ -40,6 +40,7 @@ from app.Rakib.model.exam import Exam
 from app.Rakib.model.equipment import Equipment, StudentEquipment
 from app.Rakib.model.admissionform import AdmissionForm
 from app.Rakib.model.missingClassOnMonth import MissingClassOnMonth
+from app.Rakib.model.attendance import Attendance
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -293,10 +294,19 @@ def seed():
                           transcript="/resources/demo-transcript.pdf",
                           status="shortlisted"))
 
-        # ---------------- Attendance ----------------
+        # ---------------- Attendance (legacy monthly + per-session) ----------------
         get_or_create(db, MissingClassOnMonth, student_id=s1.id,
                       month=NOW.strftime("%B"), year=NOW.year,
                       defaults=dict(percentage=12))
+
+        # Per-session attendance for CSE 4113 across recent class dates.
+        for offset in range(6):
+            d = (NOW - timedelta(days=offset * 2)).date()
+            get_or_create(db, Attendance, course_id=c1.id, student_id=s1.id, date=d,
+                          defaults=dict(status="present"))
+            # s2 misses a couple of classes -> demonstrates <100%
+            get_or_create(db, Attendance, course_id=c1.id, student_id=s2.id, date=d,
+                          defaults=dict(status="absent" if offset in (1, 3) else "present"))
 
         db.commit()
         print("✅ Demo data seeded / verified successfully.")
