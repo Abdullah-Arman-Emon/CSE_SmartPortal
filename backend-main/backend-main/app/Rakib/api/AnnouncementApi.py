@@ -8,6 +8,7 @@ from app.Rakib.model.announcement import Announcement
 from app.Emon.model.course import Course
 from app.Emon.model.teacher import Teacher
 from app.Rakib.model.student import Student
+from app.Rakib.model.notification import Notification
 
 router = APIRouter(prefix="/v1/announcements", tags=["Announcements"])
 
@@ -45,6 +46,13 @@ def create_announcement(payload: AnnouncementCreate, db: Session = Depends(get_d
         raise HTTPException(status_code=404, detail="Course not found")
     ann = Announcement(course_id=payload.course_id, teacher_id=payload.teacher_id, text=payload.text.strip())
     db.add(ann)
+    # Notify every enrolled student.
+    for s in course.students:
+        if s.user_id:
+            db.add(Notification(
+                user_id=s.user_id, type="announcement",
+                text=f"New announcement in {course.code}: {ann.text[:60]}",
+            ))
     db.commit()
     db.refresh(ann)
     return _serialize(ann, {course.id: course})

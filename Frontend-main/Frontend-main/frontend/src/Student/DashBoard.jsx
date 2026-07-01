@@ -41,6 +41,7 @@ import axios from "axios";
 
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import NotificationBell from "../components/NotificationBell";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -198,6 +199,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="flex items-center gap-4">
+          <NotificationBell />
           {studentProfile?.profile_image ? (
             <img
               src={studentProfile.profile_image}

@@ -43,6 +43,7 @@ import AdminNotice from "./AdminNotice";
 import AdminFinance from "./AdminFinance";
 import AdminAttendance from "./AdminAttendance";
 import AdminUsers from "./AdminUsers";
+import NotificationBell from "../components/NotificationBell";
 
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -471,6 +472,7 @@ function AdminDashboard() {
                             </h1>
                         </div>
                         <div className="flex items-center gap-2 sm:gap-4">
+                            <NotificationBell />
                             <div className="hidden md:block text-sm text-gray-500">
                                 {new Date().toLocaleDateString("en-US", {
                                     weekday: "long",

@@ -8,6 +8,7 @@ import TeacherSettings from "./TeacherSettings";
 import TeacherMeeting from "./TeacherMeeting";
 import TeacherAttendance from "./TeacherAttendance";
 import TeacherRoster from "./TeacherRoster";
+import NotificationBell from "../components/NotificationBell";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -109,14 +110,17 @@ function TeacherDashboard() {
         <h1 className="text-3xl font-serif font-bold text-slate-800">
           Academic Dashboard
         </h1>
-        <p className="text-sm text-slate-500 font-serif">
-          {new Date().toLocaleDateString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </p>
+        <div className="flex items-center gap-3">
+          <NotificationBell />
+          <p className="text-sm text-slate-500 font-serif">
+            {new Date().toLocaleDateString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </p>
+        </div>
       </div>
 
       {/* Stats Cards */}
