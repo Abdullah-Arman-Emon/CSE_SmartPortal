@@ -12,9 +12,18 @@ app = FastAPI(
     description="CSEDU SERVER",
 )
 
+# Explicit origins. `allow_origins=["*"]` + `allow_credentials=True` is rejected by
+# browsers, so list the real frontends. Add your prod domain(s) here.
+allowed_origins = [
+    "https://logicloop.farefin.com",
+    "http://104.215.151.14:8081",
+    "http://localhost:5173",
+    "http://localhost:8081",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For development, or set your frontend URL
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -74,7 +83,7 @@ app.include_router(meetingApi.router)
 app.include_router(financeApi.router)
 
 from app.Rakib.api import StudentDashboardApi, StudentSettingsApi, StudentAssignmentApi, StudentMyClassesApi, TeacherMyClassesApi, AdminEquipmentApi, AdminEventApi
-from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi
+from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi, StudentExamApi
 
 app.include_router(StudentDashboardApi.router)
 app.include_router(StudentEquipmentApi.router)
@@ -90,6 +99,7 @@ app.include_router(AdminNoticeApi.router)
 app.include_router(AdminAdmissionHubApi.router)
 app.include_router(AdminExamApi.router)
 app.include_router(GuestAdmissionHubApi.router)
+app.include_router(StudentExamApi.router)
 
 app.include_router(UtilityApi.router)
 

@@ -1,0 +1,25 @@
+# Media (large, no code value)
+**/public/*.mp4
+**/public/*.jpg
+**/public/*.png
+**/public/*.ico
+**/assets/*.jpg
+**/assets/*.png
+
+# Generated / vendored (⚠️ node_modules is tracked in this repo — skip it)
+**/package-lock.json
+**/node_modules/
+**/dist/
+**/__pycache__/
+
+# Uploaded resources / secrets
+**/RESOURCES/
+**/.env
+
+# Verbose deployment docs & scripts (summary lives in CLAUDE.md)
+CLOUD_DEPLOYMENT.md
+COMPLETE_STATUS.md
+DEPLOYMENT_GUIDE.md
+DEPLOYMENT_README.md
+DIAGNOSTIC_REPORT.md
+*.sh

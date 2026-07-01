@@ -34,7 +34,9 @@ from fastapi import Request
 def upload_file(request: Request, file: UploadFile = File(...)):
     file_path = get_file_link(file)
     file_name = os.path.basename(file_path)
-    file_url = f"{request.base_url}resources/{file_name}"
+    # Return a same-origin RELATIVE url so it works behind any reverse proxy /
+    # domain (avoids saving http://127.0.0.1:8080/... into the DB in production).
+    file_url = f"/resources/{file_name}"
     return {"url": file_url}
 
 def get_file_link(file: UploadFile) -> str:
