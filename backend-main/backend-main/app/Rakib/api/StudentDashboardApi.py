@@ -36,6 +36,57 @@ def get_db():
 
 
 
+from fastapi import Query
+
+
+@router.get("/dashboard/all_students")
+def list_all_students(db: Session = Depends(get_db)):
+    """Admin picker: every student with name + batch."""
+    students = db.query(Student).order_by(Student.batch).all()
+    return [
+        {
+            "id": s.id,
+            "name": f"{s.first_name or ''} {s.last_name or ''}".strip() or "Student",
+            "batch": s.batch,
+        }
+        for s in students
+    ]
+
+
+@router.post("/dashboard/missing_classes")
+def record_missing_class(
+    student_id: int = Query(...),
+    month: str = Query(...),
+    year: int = Query(...),
+    percentage: int = Query(...),
+    db: Session = Depends(get_db),
+):
+    """Admin records/updates a student's monthly missing-class percentage."""
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    existing = (
+        db.query(MissingClassOnMonth)
+        .filter(
+            MissingClassOnMonth.student_id == student_id,
+            MissingClassOnMonth.month == month,
+            MissingClassOnMonth.year == year,
+        )
+        .first()
+    )
+    if existing:
+        existing.percentage = percentage
+    else:
+        db.add(
+            MissingClassOnMonth(
+                student_id=student_id, month=month, year=year, percentage=percentage
+            )
+        )
+    db.commit()
+    return {"message": "Attendance recorded"}
+
+
 @router.get("/dashboard/student_info/{student_id}", response_model=StudentInfo)
 def get_student_info(student_id: int, db: Session = Depends(get_db)):
     # Check if student exists

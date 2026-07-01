@@ -312,6 +312,34 @@ function TeacherDashboard() {
             </div>
           )}
         </div>
+
+        {/* Recent Activity */}
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+          <div className="p-5 border-b border-slate-100">
+            <h3 className="text-lg font-serif font-medium text-slate-700">
+              Recent Activity
+            </h3>
+          </div>
+          {!dashboardData.recent_activity ||
+          dashboardData.recent_activity.length === 0 ? (
+            <div className="p-8 text-center text-slate-500 text-sm font-serif">
+              No recent activity yet.
+            </div>
+          ) : (
+            <ul className="divide-y divide-slate-100">
+              {dashboardData.recent_activity.map((a, i) => (
+                <li key={i} className="p-4">
+                  <p className="text-sm text-slate-700">{a.message}</p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    {a.created_at
+                      ? new Date(a.created_at).toLocaleString()
+                      : ""}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );

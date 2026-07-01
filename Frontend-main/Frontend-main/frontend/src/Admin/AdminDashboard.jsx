@@ -41,6 +41,7 @@ import AdminExam from "./AdminExam";
 import AdminEvent from "./AdminEvent";
 import AdminNotice from "./AdminNotice";
 import AdminFinance from "./AdminFinance";
+import AdminAttendance from "./AdminAttendance";
 
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -260,14 +261,20 @@ function AdminDashboard() {
                     totalRevenue: totalRevenue,
                 }));
 
-                // TODO: Add API calls for students, teachers, and courses count when available
-                // For now, using mock data
-                setDashboardData((prev) => ({
-                    ...prev,
-                    totalStudents: 150,
-                    totalTeachers: 25,
-                    totalCourses: 35,
-                }));
+                // Real department-wide counts
+                try {
+                    const statsResponse = await axios.get(
+                        `${BACKEND_URL}/utility/stats/overview`
+                    );
+                    setDashboardData((prev) => ({
+                        ...prev,
+                        totalStudents: statsResponse.data.total_students,
+                        totalTeachers: statsResponse.data.total_teachers,
+                        totalCourses: statsResponse.data.total_courses,
+                    }));
+                } catch (statsError) {
+                    console.error("Failed to fetch stats:", statsError);
+                }
             } catch (error) {
                 console.error("Failed to fetch dashboard data:", error);
             }
@@ -296,9 +303,31 @@ function AdminDashboard() {
         { id: "events", label: "Events", icon: CalendarDays },
         { id: "notices", label: "Notices", icon: Bell },
         { id: "finance", label: "Finance", icon: DollarSign },
+        { id: "attendance", label: "Attendance", icon: UserCheck },
     ];
 
     const statsCards = [
+        {
+            title: "Total Students",
+            value: dashboardData.totalStudents,
+            icon: Users,
+            color: "bg-blue-500",
+            bgColor: "bg-blue-50",
+        },
+        {
+            title: "Total Teachers",
+            value: dashboardData.totalTeachers,
+            icon: GraduationCap,
+            color: "bg-purple-500",
+            bgColor: "bg-purple-50",
+        },
+        {
+            title: "Total Courses",
+            value: dashboardData.totalCourses,
+            icon: BookOpen,
+            color: "bg-teal-500",
+            bgColor: "bg-teal-50",
+        },
         {
             title: "Upcoming Meetings",
             value: dashboardData.upcomingMeetings,
@@ -979,6 +1008,8 @@ function AdminDashboard() {
                     {activeTab === "notices" && <AdminNotice />}
 
                     {activeTab === "finance" && <AdminFinance />}
+
+                    {activeTab === "attendance" && <AdminAttendance />}
                 </main>
             </div>
         </div>

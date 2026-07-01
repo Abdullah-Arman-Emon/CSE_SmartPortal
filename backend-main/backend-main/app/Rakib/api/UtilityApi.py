@@ -30,6 +30,22 @@ RESOURCE_PATH= settings.resource_hub
 
 from fastapi import Request
 
+from app.Emon.model.userModel import User
+from app.Rakib.model.student import Student
+from app.Emon.model.teacher import Teacher
+from app.Emon.model.course import Course
+
+
+@router.get("/stats/overview")
+def stats_overview(db: Session = Depends(get_db)):
+    """Real department-wide counts for the admin dashboard."""
+    return {
+        "total_students": db.query(Student).count(),
+        "total_teachers": db.query(Teacher).count(),
+        "total_courses": db.query(Course).count(),
+        "total_admins": db.query(User).filter(User.role == "admin").count(),
+    }
+
 @router.post("/upload")
 def upload_file(request: Request, file: UploadFile = File(...)):
     file_path = get_file_link(file)
