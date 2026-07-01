@@ -220,6 +220,38 @@ function TeacherDashboard() {
         </div>
       </div>
 
+      {/* Quick Actions */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <button
+          onClick={() => handlePageChange("Create New Course")}
+          className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg border border-slate-200 hover:border-amber-300 hover:shadow-md transition-all"
+        >
+          <span className="text-2xl">➕</span>
+          <span className="text-sm font-medium text-slate-700 font-serif">Create Course</span>
+        </button>
+        <button
+          onClick={() => handlePageChange("My Courses")}
+          className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all"
+        >
+          <span className="text-2xl">📚</span>
+          <span className="text-sm font-medium text-slate-700 font-serif">My Courses</span>
+        </button>
+        <button
+          onClick={() => handlePageChange("Meetings")}
+          className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg border border-slate-200 hover:border-emerald-300 hover:shadow-md transition-all"
+        >
+          <span className="text-2xl">📅</span>
+          <span className="text-sm font-medium text-slate-700 font-serif">Meetings</span>
+        </button>
+        <button
+          onClick={() => handlePageChange("Profile")}
+          className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg border border-slate-200 hover:border-purple-300 hover:shadow-md transition-all"
+        >
+          <span className="text-2xl">👤</span>
+          <span className="text-sm font-medium text-slate-700 font-serif">Profile</span>
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Today's Schedule */}
         <div className="lg:col-span-2 bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">

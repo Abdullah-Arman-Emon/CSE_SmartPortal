@@ -5,6 +5,7 @@ import React from "react";
 import Dashboard from "./DashBoard";
 import SettingsPage from "./Settings";
 import Enroll from "./Enroll";
+import MyCourses from "./MyCourses";
 import Finance from "./Finance";
 import ResourceHub from "./ResourceHub";
 import StudentNotice from "./StudentNotice";
@@ -14,7 +15,7 @@ import StudentEventShow from "./StudentEventShow";
 
 
 const StudentDashboard = () => {
-  const [activePage, setActivePage] = useState("Resource Hub");
+  const [activePage, setActivePage] = useState("Dashboard");
 
   const renderPage = () => {
     switch (activePage) {
@@ -23,7 +24,7 @@ const StudentDashboard = () => {
       case "Enroll in a new course":
         return <Enroll />
       case "My courses":
-        return <h1 className="text-xl">📚 Courses Page</h1>;
+        return <MyCourses />;
       case "Finance":
         return <Finance />;
       case "Resource Hub":

@@ -126,6 +126,9 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     if not db_user or not pwd_context.verify(user.password, db_user.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
+    if db_user.is_active is False:
+        raise HTTPException(status_code=403, detail="Account is deactivated. Contact the admin.")
+
     # ✅ Encode email & role in token
     payload = {
         "user_id": db_user.id,
@@ -202,3 +205,34 @@ def get_student_using_userId(user_id:int = Query(...), db: Session = Depends(get
     print(return_student)
     
     return return_student
+
+
+# ---------------- Admin: User Management ----------------
+
+@router.get("/users")
+def list_users(db: Session = Depends(get_db)):
+    users = db.query(User).order_by(User.id).all()
+    return [
+        {"id": u.id, "email": u.email, "role": u.role, "is_active": u.is_active}
+        for u in users
+    ]
+
+
+@router.put("/users/{user_id}/active")
+def set_user_active(user_id: int, active: bool = Query(...), db: Session = Depends(get_db)):
+    u = db.query(User).filter(User.id == user_id).first()
+    if not u:
+        raise HTTPException(status_code=404, detail="User not found")
+    u.is_active = active
+    db.commit()
+    return {"message": "updated", "is_active": u.is_active}
+
+
+@router.put("/users/{user_id}/reset-password")
+def admin_reset_password(user_id: int, new_password: str = Query(..., min_length=6), db: Session = Depends(get_db)):
+    u = db.query(User).filter(User.id == user_id).first()
+    if not u:
+        raise HTTPException(status_code=404, detail="User not found")
+    u.hashed_password = pwd_context.hash(new_password[:72])
+    db.commit()
+    return {"message": "Password reset successfully"}

@@ -178,7 +178,11 @@ export default function Dashboard() {
             <span className="text-sm font-medium">Return to Home</span>
           </Link>
           <div className="text-xl sm:text-2xl font-bold text-slate-800">
-            Good Morning, {studentProfile?.last_name || "Student"}
+            {(() => {
+              const h = new Date().getHours();
+              const greet = h < 12 ? "Good Morning" : h < 17 ? "Good Afternoon" : "Good Evening";
+              return `${greet}, ${studentProfile?.last_name || "Student"}`;
+            })()}
           </div>
         </div>
         <div className="flex items-center gap-4">

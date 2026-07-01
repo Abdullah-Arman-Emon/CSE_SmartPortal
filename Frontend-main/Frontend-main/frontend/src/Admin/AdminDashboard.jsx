@@ -42,6 +42,7 @@ import AdminEvent from "./AdminEvent";
 import AdminNotice from "./AdminNotice";
 import AdminFinance from "./AdminFinance";
 import AdminAttendance from "./AdminAttendance";
+import AdminUsers from "./AdminUsers";
 
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -304,6 +305,7 @@ function AdminDashboard() {
         { id: "notices", label: "Notices", icon: Bell },
         { id: "finance", label: "Finance", icon: DollarSign },
         { id: "attendance", label: "Attendance", icon: UserCheck },
+        { id: "users", label: "Users", icon: Users },
     ];
 
     const statsCards = [
@@ -1010,6 +1012,8 @@ function AdminDashboard() {
                     {activeTab === "finance" && <AdminFinance />}
 
                     {activeTab === "attendance" && <AdminAttendance />}
+
+                    {activeTab === "users" && <AdminUsers />}
                 </main>
             </div>
         </div>
