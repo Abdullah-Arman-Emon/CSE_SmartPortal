@@ -58,6 +58,8 @@ export default function Dashboard() {
   const [upcomingTests, setUpcomingTests] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(false);
   const [loadingTests, setLoadingTests] = useState(false);
+  const [attendance, setAttendance] = useState([]);
+  const [loadingAttendance, setLoadingAttendance] = useState(false);
 
   const [studentProfile, setStudentProfile] = useState({});
 
@@ -135,10 +137,26 @@ export default function Dashboard() {
       }
     }
 
+    async function fetchAttendance(studentId) {
+      setLoadingAttendance(true);
+      try {
+        const response = await axios.get(
+          `${BACKEND_URL}/v1/student/dashboard/missing_classes/${studentId}`
+        );
+        setAttendance(response.data || []);
+      } catch (error) {
+        console.error("Error fetching attendance:", error);
+        setAttendance([]);
+      } finally {
+        setLoadingAttendance(false);
+      }
+    }
+
     if (studentProfile && studentProfile?.id) {
       fetchStudentInfo(studentProfile?.id);
       fetchTodaysClasses(studentProfile?.id);
       fetchUpcomingTests(studentProfile?.id);
+      fetchAttendance(studentProfile?.id);
     }
   }, [studentProfile]);
 
@@ -449,7 +467,41 @@ export default function Dashboard() {
                 ))}
               </div>
             )}
-          </div>          
+          </div>
+
+          {/* Attendance (missing classes) */}
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-emerald-100 rounded-lg">
+                <TrendingUp className="text-emerald-600" size={20} />
+              </div>
+              <h3 className="text-lg font-bold text-slate-800">Attendance</h3>
+              {loadingAttendance && (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-600"></div>
+              )}
+            </div>
+
+            {loadingAttendance ? (
+              <div className="animate-pulse h-40 bg-slate-200 rounded-lg" />
+            ) : attendance.length === 0 ? (
+              <div className="text-center py-8">
+                <Activity className="mx-auto text-slate-400 mb-3" size={32} />
+                <p className="text-slate-500 text-sm">No attendance records yet</p>
+              </div>
+            ) : (
+              <>
+                <p className="text-xs text-slate-500 mb-3">Missing-class percentage by month</p>
+                <ResponsiveContainer width="100%" height={180}>
+                  <BarChart data={attendance}>
+                    <XAxis dataKey="month" tick={{ fontSize: 11 }} />
+                    <YAxis tick={{ fontSize: 11 }} unit="%" />
+                    <Tooltip formatter={(v) => `${v}%`} />
+                    <Bar dataKey="percentage_classes" fill="#10b981" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
