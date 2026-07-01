@@ -61,6 +61,7 @@ export default function Dashboard() {
   const [loadingTests, setLoadingTests] = useState(false);
   const [attendance, setAttendance] = useState([]);
   const [loadingAttendance, setLoadingAttendance] = useState(false);
+  const [announcements, setAnnouncements] = useState([]);
 
   const [studentProfile, setStudentProfile] = useState({});
 
@@ -153,11 +154,21 @@ export default function Dashboard() {
       }
     }
 
+    async function fetchAnnouncements(studentId) {
+      try {
+        const r = await axios.get(`${BACKEND_URL}/v1/announcements/student/${studentId}`);
+        setAnnouncements(r.data || []);
+      } catch (error) {
+        setAnnouncements([]);
+      }
+    }
+
     if (studentProfile && studentProfile?.id) {
       fetchStudentInfo(studentProfile?.id);
       fetchTodaysClasses(studentProfile?.id);
       fetchUpcomingTests(studentProfile?.id);
       fetchAttendance(studentProfile?.id);
+      fetchAnnouncements(studentProfile?.id);
     }
   }, [studentProfile]);
 
@@ -509,6 +520,30 @@ export default function Dashboard() {
                   </BarChart>
                 </ResponsiveContainer>
               </>
+            )}
+          </div>
+
+          {/* Announcements */}
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <Bell className="text-blue-600" size={20} />
+              </div>
+              <h3 className="text-lg font-bold text-slate-800">Announcements</h3>
+            </div>
+            {announcements.length === 0 ? (
+              <p className="text-slate-500 text-sm">No announcements.</p>
+            ) : (
+              <div className="space-y-3 max-h-64 overflow-y-auto">
+                {announcements.slice(0, 8).map((a) => (
+                  <div key={a.id} className="p-3 bg-slate-50 rounded-lg">
+                    <p className="text-sm text-slate-700">{a.text}</p>
+                    <p className="text-xs text-slate-400 mt-1">
+                      {a.course_code} · {a.created_at ? new Date(a.created_at).toLocaleDateString() : ""}
+                    </p>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>

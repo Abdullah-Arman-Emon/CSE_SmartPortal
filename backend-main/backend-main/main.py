@@ -60,6 +60,7 @@ from app.Emon.model.finance_event import FinanceEvent
 from app.Emon.model.student_payment import StudentPayment
 from app.Rakib.model.admissionform import AdmissionForm
 from app.Rakib.model.attendance import Attendance
+from app.Rakib.model.announcement import Announcement
 
 
 
@@ -84,7 +85,7 @@ app.include_router(meetingApi.router)
 app.include_router(financeApi.router)
 
 from app.Rakib.api import StudentDashboardApi, StudentSettingsApi, StudentAssignmentApi, StudentMyClassesApi, TeacherMyClassesApi, AdminEquipmentApi, AdminEventApi
-from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi, StudentExamApi, AttendanceApi
+from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi, StudentExamApi, AttendanceApi, AnnouncementApi
 
 app.include_router(StudentDashboardApi.router)
 app.include_router(StudentEquipmentApi.router)
@@ -102,6 +103,7 @@ app.include_router(AdminExamApi.router)
 app.include_router(GuestAdmissionHubApi.router)
 app.include_router(StudentExamApi.router)
 app.include_router(AttendanceApi.router)
+app.include_router(AnnouncementApi.router)
 
 app.include_router(UtilityApi.router)
 

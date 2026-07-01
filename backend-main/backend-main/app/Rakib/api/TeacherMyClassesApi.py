@@ -10,6 +10,8 @@ from app.Emon.model.assignment import Assignment
 from app.Emon.model.submission import Submission
 from app.Rakib.model.student import Student
 from app.Emon.model.schedule import Schedule
+from app.Emon.model.userModel import User
+from pydantic import BaseModel
 
 
 from app.Emon.schema.course import CourseResponse, CourseCreate
@@ -27,6 +29,67 @@ def get_db():
     finally:
         db.close()
 
+
+
+def _sname(s: Student) -> str:
+    return f"{s.first_name or ''} {s.last_name or ''}".strip() or "Student"
+
+
+@router.get("/roster/{course_id}")
+def course_roster(course_id: int, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    students = sorted(course.students, key=lambda x: x.id)
+    return {
+        "course_id": course.id,
+        "count": len(students),
+        "students": [
+            {"id": s.id, "name": _sname(s), "batch": s.batch,
+             "email": s.user.email if s.user else None}
+            for s in students
+        ],
+    }
+
+
+@router.delete("/roster/{course_id}/{student_id}")
+def remove_student(course_id: int, student_id: int, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if student and student in course.students:
+        course.students.remove(student)
+        db.commit()
+    return {"message": "Student removed from course"}
+
+
+class EnrollEmails(BaseModel):
+    emails: list[str]
+
+
+@router.post("/roster/{course_id}/enroll")
+def enroll_by_emails(course_id: int, payload: EnrollEmails, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    added, skipped, notfound = 0, 0, []
+    for raw in payload.emails:
+        email = raw.strip().lower()
+        if not email:
+            continue
+        user = db.query(User).filter(User.email == email).first()
+        student = db.query(Student).filter(Student.user_id == user.id).first() if user else None
+        if not student:
+            notfound.append(email)
+            continue
+        if student in course.students:
+            skipped += 1
+        else:
+            course.students.append(student)
+            added += 1
+    db.commit()
+    return {"added": added, "skipped": skipped, "not_found": notfound}
 
 
 @router.get("/my_class/{course_id}", response_model=MyCourse)

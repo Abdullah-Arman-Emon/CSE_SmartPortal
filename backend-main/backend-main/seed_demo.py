@@ -41,6 +41,7 @@ from app.Rakib.model.equipment import Equipment, StudentEquipment
 from app.Rakib.model.admissionform import AdmissionForm
 from app.Rakib.model.missingClassOnMonth import MissingClassOnMonth
 from app.Rakib.model.attendance import Attendance
+from app.Rakib.model.announcement import Announcement
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -307,6 +308,13 @@ def seed():
             # s2 misses a couple of classes -> demonstrates <100%
             get_or_create(db, Attendance, course_id=c1.id, student_id=s2.id, date=d,
                           defaults=dict(status="absent" if offset in (1, 3) else "present"))
+
+        # ---------------- Announcement ----------------
+        get_or_create(
+            db, Announcement, course_id=c1.id,
+            text="Welcome to CSE 4113! Lab 4 is due next week — please start early.",
+            defaults=dict(teacher_id=t1.id, created_at=NOW - timedelta(days=1)),
+        )
 
         db.commit()
         print("✅ Demo data seeded / verified successfully.")
