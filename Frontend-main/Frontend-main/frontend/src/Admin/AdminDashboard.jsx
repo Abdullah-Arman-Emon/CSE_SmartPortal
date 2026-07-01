@@ -21,6 +21,16 @@ import {
     X,
 } from "lucide-react";
 import axios from "axios";
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    Tooltip,
+    ResponsiveContainer,
+    CartesianGrid,
+    Cell,
+} from "recharts";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
@@ -586,6 +596,76 @@ function AdminDashboard() {
                                         </motion.div>
                                     );
                                 })}
+                            </motion.div>
+
+                            {/* Analytics Overview */}
+                            <motion.div
+                                variants={itemVariants}
+                                className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+                            >
+                                <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 p-4 sm:p-6 shadow-sm">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="p-2 bg-orange-100 rounded-lg">
+                                            <BarChart3 className="text-orange-600" size={20} />
+                                        </div>
+                                        <h2 className="text-lg font-semibold text-gray-900">
+                                            Activity Overview
+                                        </h2>
+                                    </div>
+                                    <ResponsiveContainer width="100%" height={260}>
+                                        <BarChart
+                                            data={[
+                                                { name: "Applications", value: dashboardData.totalApplications, fill: "#6366f1" },
+                                                { name: "Exams", value: dashboardData.totalExams, fill: "#8b5cf6" },
+                                                { name: "Events", value: dashboardData.totalEvents, fill: "#f97316" },
+                                                { name: "Notices", value: dashboardData.totalNotices, fill: "#eab308" },
+                                                { name: "Meetings", value: dashboardData.upcomingMeetings, fill: "#3b82f6" },
+                                                { name: "Equipment", value: dashboardData.totalEquipment, fill: "#14b8a6" },
+                                            ]}
+                                        >
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                            <XAxis dataKey="name" tick={{ fontSize: 11 }} />
+                                            <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
+                                            <Tooltip cursor={{ fill: "#f8fafc" }} />
+                                            <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                                                {[
+                                                    "#6366f1", "#8b5cf6", "#f97316", "#eab308", "#3b82f6", "#14b8a6",
+                                                ].map((c, i) => (
+                                                    <Cell key={i} fill={c} />
+                                                ))}
+                                            </Bar>
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </div>
+
+                                <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 shadow-sm flex flex-col justify-center">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="p-2 bg-emerald-100 rounded-lg">
+                                            <DollarSign className="text-emerald-600" size={20} />
+                                        </div>
+                                        <h2 className="text-lg font-semibold text-gray-900">Finance</h2>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <p className="text-sm text-gray-500">Total Revenue</p>
+                                            <p className="text-3xl font-bold text-emerald-600">
+                                                ৳{dashboardData.totalRevenue.toLocaleString()}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
+                                            <span className="text-sm text-amber-800">Pending Payments</span>
+                                            <span className="text-lg font-bold text-amber-700">
+                                                {dashboardData.pendingPayments}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                            <span className="text-sm text-green-800">Fee Events</span>
+                                            <span className="text-lg font-bold text-green-700">
+                                                {dashboardData.totalFinanceEvents}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </motion.div>
 
                             {/* Recent Activity */}

@@ -10,9 +10,8 @@ import {
 } from "lucide-react";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const GEMINI_API_KEY =
-    import.meta.env.VITE_GEMINI_API_KEY ||
-    "AIzaSyCN_-ErIwiQk1y3PGWsg5p5kHngL2kGlvo";
+// Provide via build-time env (VITE_GEMINI_API_KEY). No hardcoded secret in the bundle.
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
 // Database query functions
