@@ -126,6 +126,51 @@ def dm_messages(course_id: int, user_a: int = Query(...), user_b: int = Query(..
     return [_serialize(db, m) for m in rows]
 
 
+@router.get("/inbox/{user_id}")
+def inbox(user_id: int, db: Session = Depends(get_db)):
+    """All DM conversations (course, peer) this user is part of, latest first.
+
+    Lets a student (or teacher) see who messaged them and jump straight into
+    the thread instead of hunting through course + member dropdowns.
+    """
+    rows = (
+        db.query(Message)
+        .filter(
+            Message.recipient_id.isnot(None),
+            or_(Message.sender_id == user_id, Message.recipient_id == user_id),
+        )
+        .order_by(Message.id.desc())
+        .limit(500)
+        .all()
+    )
+    threads = {}  # (course_id, peer_user_id) -> latest Message
+    for m in rows:
+        peer = m.recipient_id if m.sender_id == user_id else m.sender_id
+        threads.setdefault((m.course_id, peer), m)
+
+    course_ids = {cid for (cid, _) in threads}
+    courses = {
+        c.id: c for c in db.query(Course).filter(Course.id.in_(course_ids)).all()
+    } if course_ids else {}
+
+    out = []
+    for (course_id, peer), m in threads.items():
+        course = courses.get(course_id)
+        preview = m.text or (f"📎 {m.attachment_name}" if m.attachment_name else "📎 Attachment")
+        out.append({
+            "course_id": course_id,
+            "course_title": course.title if course else f"Course {course_id}",
+            "peer_user_id": peer,
+            "peer_name": _name_of(db, peer),
+            "last_text": preview,
+            "last_from_me": m.sender_id == user_id,
+            "last_at": m.created_at.isoformat() if m.created_at else None,
+            "last_id": m.id,
+        })
+    out.sort(key=lambda x: x["last_id"], reverse=True)
+    return out
+
+
 @router.get("/course/{course_id}/members")
 def course_members(course_id: int, db: Session = Depends(get_db)):
     """Teacher + students (user ids + names) for DM targets."""

@@ -25,9 +25,30 @@ function ChatPanel({ role }) {
   const [error, setError] = useState("");
   const [coursesLoaded, setCoursesLoaded] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [inbox, setInbox] = useState([]);
   const lastId = useRef(0);
   const bottom = useRef(null);
   const fileInput = useRef(null);
+
+  // Direct-message inbox: who has a conversation with me, latest first.
+  const loadInbox = useCallback(() => {
+    if (!me) return;
+    axios
+      .get(`${BACKEND_URL}/v1/chat/inbox/${me}`)
+      .then((r) => setInbox(r.data || []))
+      .catch(() => {});
+  }, [me]);
+
+  useEffect(() => {
+    loadInbox();
+    const t = setInterval(loadInbox, 15000);
+    return () => clearInterval(t);
+  }, [loadInbox]);
+
+  const openThread = (t) => {
+    setCourseId(String(t.course_id));
+    setTarget(String(t.peer_user_id));
+  };
 
   // Resolve teacher.id / student.id from the logged-in user.
   useEffect(() => {
@@ -112,6 +133,7 @@ function ChatPanel({ role }) {
       await axios.post(`${BACKEND_URL}/v1/chat/send`, payload);
       setError("");
       fetchMessages(false);
+      loadInbox();
       return true;
     } catch (err) {
       setError(err.response?.data?.detail || "Message could not be sent — try again.");
@@ -195,6 +217,40 @@ function ChatPanel({ role }) {
       {error && (
         <div className="px-4 py-3 rounded-lg border bg-red-50 border-red-200 text-red-700 text-sm">
           {error}
+        </div>
+      )}
+
+      {/* DM inbox: jump straight into a conversation */}
+      {inbox.length > 0 && (
+        <div className="bg-white rounded-xl border border-slate-200 p-4">
+          <p className="text-sm font-semibold text-slate-700 mb-2">Direct conversations</p>
+          <div className="space-y-1 max-h-44 overflow-y-auto">
+            {inbox.map((t) => {
+              const active = String(t.course_id) === String(courseId) && String(t.peer_user_id) === String(target);
+              return (
+                <button
+                  key={`${t.course_id}-${t.peer_user_id}`}
+                  onClick={() => openThread(t)}
+                  className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-left transition ${
+                    active ? "bg-amber-50 border border-amber-300" : "hover:bg-slate-50 border border-transparent"
+                  }`}
+                >
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-slate-700 truncate">
+                      {t.peer_name}
+                      <span className="text-xs font-normal text-slate-400"> · {t.course_title}</span>
+                    </p>
+                    <p className="text-xs text-slate-500 truncate">
+                      {t.last_from_me ? "You: " : ""}{t.last_text}
+                    </p>
+                  </div>
+                  <span className="text-[10px] text-slate-400 whitespace-nowrap">
+                    {t.last_at ? new Date(t.last_at).toLocaleDateString([], { month: "short", day: "numeric" }) : ""}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
 
