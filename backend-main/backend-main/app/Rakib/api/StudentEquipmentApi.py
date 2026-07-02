@@ -6,6 +6,7 @@ from datetime import datetime
 
 
 from app.Rakib.model.equipment import Equipment, StudentEquipment
+from app.Rakib.model.student import Student
 
 from app.Rakib.schema.StudentEquipmentSchema import EquipmentOut, StudentEquipmentCreate, StudentEquipmentOut
 
@@ -33,10 +34,17 @@ def list_all_equipments(db: Session = Depends(get_db)):
 @router.post("/equipment/place-order", response_model=StudentEquipmentOut)
 def place_order(order_data: StudentEquipmentCreate, db: Session = Depends(get_db)):
     
+    student = db.query(Student).filter(Student.id == order_data.student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found — log in again")
+
     equipment = db.query(Equipment).filter(Equipment.id == order_data.equipment_id).first()
 
     if not equipment or equipment.quantity_available < order_data.quantity:
         raise HTTPException(status_code=400, detail="Not enough equipment available")
+
+    if order_data.quantity < 1:
+        raise HTTPException(status_code=400, detail="Quantity must be at least 1")
 
     new_order = StudentEquipment(
         student_id=order_data.student_id,

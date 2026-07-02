@@ -44,9 +44,19 @@ const ResourceHub = () => {
     const [endDate, setEndDate] = useState("");
     const [showOrderModal, setShowOrderModal] = useState(false);
 
-    // Get current user - with better error handling
+    // Resolve the real student id from the logged-in user (user.id != student.id)
     const { user } = useContext(AuthContext);
-    let studentId = user?.id; // Default fallback
+    const [studentId, setStudentId] = useState(null);
+
+    useEffect(() => {
+        if (!user?.id) return;
+        axios
+            .get(`${BACKEND_URL}/v1/auth/get/student`, { params: { user_id: user.id } })
+            .then((r) => setStudentId(r.data?.id))
+            .catch(() =>
+                setError("Could not load your student profile. Please log in again.")
+            );
+    }, [user]);
 
     useEffect(() => {
         const fetchMyOrdersInternal = async () => {
