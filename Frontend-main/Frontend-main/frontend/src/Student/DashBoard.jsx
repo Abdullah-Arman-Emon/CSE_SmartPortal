@@ -34,7 +34,10 @@ import {
   Calendar,
   Clock,
   Activity,
-  TrendingUp
+  TrendingUp,
+  MessageSquare,
+  GraduationCap,
+  Calculator
 } from "lucide-react";
 
 import axios from "axios";
@@ -273,13 +276,37 @@ export default function Dashboard() {
             <Bell size={16} />
             <span className="hidden sm:inline">Notice</span>
           </button>
-          <button 
+          <button
             onClick={() => navigate("/finance")}
-            className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700 
+            className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700
               hover:bg-slate-50 hover:scale-105 transform transition-all duration-300 whitespace-nowrap"
           >
             <ClipboardList size={16} />
             <span className="hidden sm:inline">Finance</span>
+          </button>
+          <button
+            onClick={() => navigate("/results")}
+            className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700
+              hover:bg-slate-50 hover:scale-105 transform transition-all duration-300 whitespace-nowrap"
+          >
+            <GraduationCap size={16} />
+            <span className="hidden sm:inline">Results</span>
+          </button>
+          <button
+            onClick={() => navigate("/cgpa-calculator")}
+            className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700
+              hover:bg-slate-50 hover:scale-105 transform transition-all duration-300 whitespace-nowrap"
+          >
+            <Calculator size={16} />
+            <span className="hidden sm:inline">CGPA</span>
+          </button>
+          <button
+            onClick={() => navigate("/messages")}
+            className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700
+              hover:bg-slate-50 hover:scale-105 transform transition-all duration-300 whitespace-nowrap"
+          >
+            <MessageSquare size={16} />
+            <span className="hidden sm:inline">Messages</span>
           </button>
           <button 
             onClick={() => navigate("/StudentEventShow")}

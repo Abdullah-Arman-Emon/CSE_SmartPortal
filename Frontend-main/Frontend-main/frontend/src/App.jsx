@@ -31,6 +31,10 @@ import AdminFinance from './Admin/AdminFinance'
 import NoticeBoard from './pages/NoticeBoard'
 import StudentEventShow from './Student/StudentEventShow'
 import NotFound from './pages/NotFound'
+import ChatPanel from './components/ChatPanel'
+import StudentResults from './Student/StudentResults'
+import StudentCGPA from './Student/StudentCGPA'
+import StudentPageShell from './Student/StudentPageShell'
 
 function App() {
   return (
@@ -95,6 +99,30 @@ function App() {
         <Route path="/student-notice" element={<StudentNotice />} />
         <Route path='/settingspage' element={<SettingsPage />} />
         <Route path="/finance" element={<Finance />} />
+        <Route
+          path="/messages"
+          element={
+            <RequireAuth allowedRole="student">
+              <StudentPageShell><ChatPanel role="student" /></StudentPageShell>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/results"
+          element={
+            <RequireAuth allowedRole="student">
+              <StudentPageShell><StudentResults /></StudentPageShell>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/cgpa-calculator"
+          element={
+            <RequireAuth allowedRole="student">
+              <StudentPageShell><StudentCGPA /></StudentPageShell>
+            </RequireAuth>
+          }
+        />
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
