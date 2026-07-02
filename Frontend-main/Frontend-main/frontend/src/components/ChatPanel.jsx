@@ -1,14 +1,20 @@
 import { useState, useEffect, useRef, useContext, useCallback } from "react";
 import axios from "axios";
-import { Send, Users, MessageSquare } from "lucide-react";
+import { Send, Users, MessageSquare, Paperclip, FileText, Loader2 } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+const IMAGE_EXTS = ["png", "jpg", "jpeg", "gif", "webp"];
+const isImage = (url) => {
+  const ext = (url || "").split(".").pop().toLowerCase();
+  return IMAGE_EXTS.includes(ext);
+};
+
 // role: "teacher" | "student" (profile id is resolved from the logged-in user)
 function ChatPanel({ role }) {
   const { user } = useContext(AuthContext);
-  const me = user?.id;
+  const me = Number(user?.id);
   const [profileId, setProfileId] = useState(null);
   const [courses, setCourses] = useState([]);
   const [courseId, setCourseId] = useState("");
@@ -16,8 +22,12 @@ function ChatPanel({ role }) {
   const [target, setTarget] = useState("group"); // "group" | user_id
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const [error, setError] = useState("");
+  const [coursesLoaded, setCoursesLoaded] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const lastId = useRef(0);
   const bottom = useRef(null);
+  const fileInput = useRef(null);
 
   // Resolve teacher.id / student.id from the logged-in user.
   useEffect(() => {
@@ -26,7 +36,13 @@ function ChatPanel({ role }) {
       role === "teacher"
         ? `${BACKEND_URL}/v1/teacher/profile/get?userId=${me}`
         : `${BACKEND_URL}/v1/auth/get/student?user_id=${me}`;
-    axios.get(url).then((r) => setProfileId(r.data?.id)).catch(() => {});
+    axios
+      .get(url)
+      .then((r) => {
+        setProfileId(r.data?.id);
+        setError("");
+      })
+      .catch(() => setError("Could not load your profile — refresh the page or log in again."));
   }, [role, me]);
 
   useEffect(() => {
@@ -35,15 +51,22 @@ function ChatPanel({ role }) {
       role === "teacher"
         ? `${BACKEND_URL}/v1/teacher/courses/my_classes/${profileId}`
         : `${BACKEND_URL}/v1/student/courses/my_classes/${profileId}`;
-    axios.get(url).then((r) => setCourses(r.data || [])).catch(() => {});
+    axios
+      .get(url)
+      .then((r) => {
+        setCourses(r.data || []);
+        setCoursesLoaded(true);
+        setError("");
+      })
+      .catch(() => setError("Could not load your courses — please try again."));
   }, [role, profileId]);
 
   useEffect(() => {
     if (!courseId) return;
     axios
       .get(`${BACKEND_URL}/v1/chat/course/${courseId}/members`)
-      .then((r) => setMembers((r.data || []).filter((m) => m.user_id !== me)))
-      .catch(() => {});
+      .then((r) => setMembers((r.data || []).filter((m) => Number(m.user_id) !== me)))
+      .catch(() => setError("Could not load course members."));
   }, [courseId, me]);
 
   const fetchMessages = useCallback(
@@ -65,7 +88,7 @@ function ChatPanel({ role }) {
         } else if (reset) {
           setMessages([]);
         }
-      } catch { /* ignore */ }
+      } catch { /* polling errors are transient — keep the last good view */ }
     },
     [courseId, target, me]
   );
@@ -84,18 +107,82 @@ function ChatPanel({ role }) {
     bottom.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const sendPayload = async (payload) => {
+    try {
+      await axios.post(`${BACKEND_URL}/v1/chat/send`, payload);
+      setError("");
+      fetchMessages(false);
+      return true;
+    } catch (err) {
+      setError(err.response?.data?.detail || "Message could not be sent — try again.");
+      return false;
+    }
+  };
+
   const send = async () => {
     if (!text.trim() || !courseId) return;
+    const ok = await sendPayload({
+      course_id: Number(courseId),
+      sender_id: me,
+      recipient_id: target === "group" ? null : Number(target),
+      text: text.trim(),
+    });
+    if (ok) setText("");
+  };
+
+  const sendFile = async (file) => {
+    if (!file || !courseId) return;
+    setUploading(true);
     try {
-      await axios.post(`${BACKEND_URL}/v1/chat/send`, {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await axios.post(`${BACKEND_URL}/utility/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      await sendPayload({
         course_id: Number(courseId),
         sender_id: me,
         recipient_id: target === "group" ? null : Number(target),
-        text: text.trim(),
+        text: text.trim(), // optional caption
+        attachment_url: res.data.url,
+        attachment_name: file.name,
       });
       setText("");
-      fetchMessages(false);
-    } catch { /* ignore */ }
+    } catch (err) {
+      setError(err.response?.data?.detail || "File upload failed — try again.");
+    } finally {
+      setUploading(false);
+      if (fileInput.current) fileInput.current.value = "";
+    }
+  };
+
+  const renderAttachment = (m, mine) => {
+    if (!m.attachment_url) return null;
+    if (isImage(m.attachment_url)) {
+      return (
+        <a href={m.attachment_url} target="_blank" rel="noreferrer" className="block mt-1">
+          <img
+            src={m.attachment_url}
+            alt={m.attachment_name || "image"}
+            className="max-h-48 rounded-lg border border-slate-200 object-cover"
+          />
+        </a>
+      );
+    }
+    return (
+      <a
+        href={m.attachment_url}
+        target="_blank"
+        rel="noreferrer"
+        download={m.attachment_name || true}
+        className={`flex items-center gap-2 mt-1 px-2 py-1.5 rounded-lg text-sm underline ${
+          mine ? "bg-amber-600/40 text-white" : "bg-slate-100 text-slate-700"
+        }`}
+      >
+        <FileText size={15} />
+        <span className="truncate max-w-[220px]">{m.attachment_name || "Attachment"}</span>
+      </a>
+    );
   };
 
   return (
@@ -104,6 +191,12 @@ function ChatPanel({ role }) {
         <h1 className="text-2xl font-bold text-slate-800">Messages</h1>
         <p className="text-slate-500 text-sm">Course group chat and direct messages.</p>
       </div>
+
+      {error && (
+        <div className="px-4 py-3 rounded-lg border bg-red-50 border-red-200 text-red-700 text-sm">
+          {error}
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row gap-3">
         <select
@@ -130,7 +223,11 @@ function ChatPanel({ role }) {
 
       {!courseId ? (
         <div className="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-500">
-          Select a course to start chatting.
+          {coursesLoaded && courses.length === 0
+            ? (role === "student"
+                ? "You are not enrolled in any course yet — enroll in a course first, then chat here."
+                : "You have no courses yet — create a course first.")
+            : "Select a course to start chatting."}
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-slate-200 flex flex-col h-[60vh]">
@@ -144,12 +241,13 @@ function ChatPanel({ role }) {
               <p className="text-center text-slate-400 text-sm mt-8">No messages yet. Say hello 👋</p>
             ) : (
               messages.map((m) => {
-                const mine = m.sender_id === me;
+                const mine = Number(m.sender_id) === me;
                 return (
                   <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                     <div className={`max-w-[75%] rounded-2xl px-4 py-2 ${mine ? "bg-amber-500 text-white" : "bg-white border border-slate-200 text-slate-700"}`}>
                       {!mine && <p className="text-xs font-semibold text-slate-500 mb-0.5">{m.sender_name}</p>}
-                      <p className="text-sm whitespace-pre-wrap break-words">{m.text}</p>
+                      {m.text && <p className="text-sm whitespace-pre-wrap break-words">{m.text}</p>}
+                      {renderAttachment(m, mine)}
                       <p className={`text-[10px] mt-1 ${mine ? "text-amber-100" : "text-slate-400"}`}>
                         {m.created_at ? new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""}
                       </p>
@@ -161,15 +259,30 @@ function ChatPanel({ role }) {
             <div ref={bottom} />
           </div>
 
-          <div className="p-3 border-t border-slate-100 flex gap-2">
+          <div className="p-3 border-t border-slate-100 flex gap-2 items-center">
+            <input
+              ref={fileInput}
+              type="file"
+              className="hidden"
+              onChange={(e) => sendFile(e.target.files?.[0])}
+            />
+            <button
+              onClick={() => fileInput.current?.click()}
+              disabled={uploading}
+              title="Attach a file or image"
+              className="text-slate-500 hover:text-amber-600 p-2 rounded-lg hover:bg-slate-100 disabled:opacity-50"
+            >
+              {uploading ? <Loader2 size={18} className="animate-spin" /> : <Paperclip size={18} />}
+            </button>
             <input
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && send()}
-              placeholder="Type a message…"
-              className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              placeholder={uploading ? "Uploading attachment…" : "Type a message…"}
+              disabled={uploading}
+              className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:bg-slate-50"
             />
-            <button onClick={send} className="bg-amber-500 hover:bg-amber-600 text-white px-4 rounded-lg">
+            <button onClick={send} disabled={uploading} className="bg-amber-500 hover:bg-amber-600 text-white px-4 rounded-lg disabled:opacity-50">
               <Send size={18} />
             </button>
           </div>

@@ -62,9 +62,23 @@ export default function Dashboard() {
   const [loadingTests, setLoadingTests] = useState(false);
   const [attendance, setAttendance] = useState([]);
   const [loadingAttendance, setLoadingAttendance] = useState(false);
+  const [attendanceDetail, setAttendanceDetail] = useState(null);
   const [announcements, setAnnouncements] = useState([]);
 
   const [studentProfile, setStudentProfile] = useState({});
+
+  const loadAttendanceDetail = async (courseId) => {
+    if (!studentProfile?.id) return;
+    try {
+      const r = await axios.get(
+        `${BACKEND_URL}/v1/attendance/student/${studentProfile.id}`,
+        { params: { course_id: courseId, detail: true } }
+      );
+      setAttendanceDetail((r.data || [])[0] || null);
+    } catch {
+      setAttendanceDetail(null);
+    }
+  };
 
   // Add redirect protection - ensure user is authenticated
   useEffect(() => {
@@ -521,6 +535,55 @@ export default function Dashboard() {
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
+
+                {/* Per-course date-wise detail */}
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {attendance.map((a) => (
+                    <button
+                      key={a.course_id}
+                      onClick={() =>
+                        attendanceDetail?.course_id === a.course_id
+                          ? setAttendanceDetail(null)
+                          : loadAttendanceDetail(a.course_id)
+                      }
+                      className={`text-xs px-2.5 py-1 rounded-full border ${
+                        attendanceDetail?.course_id === a.course_id
+                          ? "bg-emerald-500 text-white border-emerald-500"
+                          : "bg-white text-slate-600 border-slate-300 hover:border-emerald-400"
+                      }`}
+                    >
+                      {a.course_code} details
+                    </button>
+                  ))}
+                </div>
+                {attendanceDetail && (
+                  <div className="mt-3 p-3 bg-slate-50 rounded-lg max-h-48 overflow-y-auto">
+                    <p className="text-xs font-semibold text-slate-600 mb-2">
+                      {attendanceDetail.course_title} — {attendanceDetail.attended}/{attendanceDetail.total_sessions} attended
+                    </p>
+                    {(attendanceDetail.records || []).length === 0 ? (
+                      <p className="text-xs text-slate-400">No records yet.</p>
+                    ) : (
+                      <div className="flex flex-wrap gap-1.5">
+                        {attendanceDetail.records.map((r) => (
+                          <span
+                            key={r.date}
+                            title={`${r.date}: ${r.status}`}
+                            className={`text-[11px] px-2 py-0.5 rounded ${
+                              r.status === "present"
+                                ? "bg-green-100 text-green-700"
+                                : r.status === "late"
+                                ? "bg-amber-100 text-amber-700"
+                                : "bg-red-100 text-red-700"
+                            }`}
+                          >
+                            {r.date.slice(5)} {r.status === "present" ? "P" : r.status === "late" ? "L" : "A"}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>

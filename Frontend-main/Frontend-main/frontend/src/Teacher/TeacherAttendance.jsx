@@ -28,6 +28,11 @@ function TeacherAttendance({ teacherProfile }) {
   const [marks, setMarks] = useState({});
   const [view, setView] = useState("mark"); // mark | report
   const [report, setReport] = useState(null);
+  const [matrix, setMatrix] = useState(null);
+  const [reportView, setReportView] = useState("summary"); // summary | register
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [riskOnly, setRiskOnly] = useState(false);
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [saving, setSaving] = useState(false);
 
@@ -91,15 +96,60 @@ function TeacherAttendance({ teacherProfile }) {
     }
   };
 
-  const loadReport = async () => {
+  const loadReport = async (from = fromDate, to = toDate) => {
     if (!courseId) return flash("error", "Select a course first.");
     setView("report");
+    const params = {};
+    if (from) params.from_date = from;
+    if (to) params.to_date = to;
     try {
-      const res = await axios.get(`${BACKEND_URL}/v1/attendance/course/${courseId}/report`);
-      setReport(res.data);
+      const [rep, mat] = await Promise.all([
+        axios.get(`${BACKEND_URL}/v1/attendance/course/${courseId}/report`, { params }),
+        axios.get(`${BACKEND_URL}/v1/attendance/course/${courseId}/matrix`, { params }),
+      ]);
+      setReport(rep.data);
+      setMatrix(mat.data);
     } catch (e) {
       flash("error", "Failed to load report.");
     }
+  };
+
+  // Re-load report when the date window changes while viewing it
+  useEffect(() => {
+    if (view === "report" && courseId) loadReport();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fromDate, toDate]);
+
+  const reportRows = report
+    ? report.students.filter((s) => !riskOnly || !s.eligible)
+    : [];
+
+  const downloadCSV = () => {
+    if (!report || !matrix) return;
+    let csv;
+    if (reportView === "summary") {
+      csv = ["Student,Batch,Present,Late,Absent,Percentage,Eligible"]
+        .concat(
+          reportRows.map(
+            (s) => `"${s.name}",${s.batch},${s.present},${s.late},${s.absent},${s.percentage},${s.eligible ? "Yes" : "No"}`
+          )
+        )
+        .join("\n");
+    } else {
+      csv = ["Student,Batch," + matrix.dates.join(",")]
+        .concat(
+          matrix.students.map(
+            (s) => `"${s.name}",${s.batch},` + matrix.dates.map((d) => s.marks[d] || "-").join(",")
+          )
+        )
+        .join("\n");
+    }
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `attendance_${report.course_code}_${reportView}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
   };
 
   const downloadPDF = () => {
@@ -116,16 +166,36 @@ function TeacherAttendance({ teacherProfile }) {
         </tr>`
       )
       .join("");
+    const STATUS_CHAR = { present: "P", late: "L", absent: "A" };
+    const registerHead = matrix && matrix.dates.length
+      ? `<tr><th>Student</th>${matrix.dates.map((d) => `<th style="text-align:center">${d.slice(5)}</th>`).join("")}</tr>`
+      : "";
+    const registerRows = matrix && matrix.dates.length
+      ? matrix.students
+          .map(
+            (s) => `<tr><td>${s.name}</td>${matrix.dates
+              .map((d) => {
+                const st = s.marks[d];
+                const color = st === "present" ? "#16a34a" : st === "late" ? "#d97706" : st === "absent" ? "#dc2626" : "#94a3b8";
+                return `<td style="text-align:center;color:${color};font-weight:bold">${STATUS_CHAR[st] || "—"}</td>`;
+              })
+              .join("")}</tr>`
+          )
+          .join("")
+      : "";
+    const window_label = fromDate || toDate ? ` · Window: ${fromDate || "…"} → ${toDate || "…"}` : "";
     const html = `<!doctype html><html><head><title>Attendance Report</title>
       <style>body{font-family:Arial,sans-serif;padding:24px;color:#1e293b}
       h1{font-size:20px;margin:0 0 4px}h2{font-size:14px;font-weight:normal;color:#64748b;margin:0 0 16px}
+      h3{font-size:15px;margin:24px 0 8px}
       table{width:100%;border-collapse:collapse;font-size:13px}
       th,td{border:1px solid #e2e8f0;padding:8px}th{background:#f8fafc;text-align:left}</style></head>
       <body>
         <h1>Attendance Report — ${report.course_title} (${report.course_code})</h1>
-        <h2>Batch ${report.batch} · ${report.semester} · Total sessions: ${report.total_sessions} · Generated ${new Date().toLocaleDateString()}</h2>
+        <h2>Batch ${report.batch} · ${report.semester} · Total sessions: ${report.total_sessions}${window_label} · Generated ${new Date().toLocaleDateString()}</h2>
         <table><thead><tr><th>Student</th><th>Batch</th><th>Present</th><th>Late</th><th>Absent</th><th>Attendance %</th><th>Exam eligibility (≥75%)</th></tr></thead>
         <tbody>${rows}</tbody></table>
+        ${registerRows ? `<h3>Date-wise Register (P=Present, L=Late, A=Absent)</h3><table><thead>${registerHead}</thead><tbody>${registerRows}</tbody></table>` : ""}
       </body></html>`;
     const w = window.open("", "_blank");
     w.document.write(html);
@@ -243,44 +313,136 @@ function TeacherAttendance({ teacherProfile }) {
                   <h3 className="font-bold text-slate-800">{report.course_title} ({report.course_code})</h3>
                   <p className="text-sm text-slate-500">Batch {report.batch} · {report.semester} · {report.total_sessions} sessions</p>
                 </div>
-                <button onClick={downloadPDF} className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm">
-                  <FileDown size={16} /> Download PDF
-                </button>
+                <div className="flex gap-2">
+                  <button onClick={downloadCSV} className="flex items-center gap-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg text-sm">
+                    <FileDown size={16} /> CSV
+                  </button>
+                  <button onClick={downloadPDF} className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm">
+                    <FileDown size={16} /> PDF
+                  </button>
+                </div>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-slate-50">
-                    <tr>
-                      <th className="px-4 py-2 text-left">Student</th>
-                      <th className="px-4 py-2 text-center">Present</th>
-                      <th className="px-4 py-2 text-center">Late</th>
-                      <th className="px-4 py-2 text-center">Absent</th>
-                      <th className="px-4 py-2 text-center">%</th>
-                      <th className="px-4 py-2 text-center">Eligibility</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {report.students.map((s) => (
-                      <tr key={s.student_id}>
-                        <td className="px-4 py-2 text-slate-700">{s.name}</td>
-                        <td className="px-4 py-2 text-center">{s.present}</td>
-                        <td className="px-4 py-2 text-center">{s.late}</td>
-                        <td className="px-4 py-2 text-center">{s.absent}</td>
-                        <td className={`px-4 py-2 text-center font-bold ${s.eligible ? "text-green-600" : "text-red-600"}`}>{s.percentage}%</td>
-                        <td className="px-4 py-2 text-center">
-                          {s.eligible ? (
-                            <span className="text-green-600 text-xs">Eligible</span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 text-red-600 text-xs">
-                              <AlertTriangle size={12} /> Not eligible
-                            </span>
-                          )}
-                        </td>
+
+              {/* Filters + view toggle */}
+              <div className="flex flex-wrap items-end gap-3 mb-4 pb-4 border-b border-slate-100">
+                <div>
+                  <label className="block text-xs text-slate-500 mb-1">From date</label>
+                  <input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)}
+                    className="px-3 py-1.5 border border-slate-300 rounded-lg text-sm" />
+                </div>
+                <div>
+                  <label className="block text-xs text-slate-500 mb-1">To date</label>
+                  <input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)}
+                    className="px-3 py-1.5 border border-slate-300 rounded-lg text-sm" />
+                </div>
+                {(fromDate || toDate) && (
+                  <button onClick={() => { setFromDate(""); setToDate(""); }}
+                    className="text-xs px-3 py-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    Clear dates
+                  </button>
+                )}
+                <div className="ml-auto flex gap-2">
+                  <button
+                    onClick={() => setReportView("summary")}
+                    className={`text-xs px-3 py-2 rounded-lg font-medium ${reportView === "summary" ? "bg-amber-500 text-white" : "bg-slate-100 text-slate-600"}`}
+                  >
+                    Summary
+                  </button>
+                  <button
+                    onClick={() => setReportView("register")}
+                    className={`text-xs px-3 py-2 rounded-lg font-medium ${reportView === "register" ? "bg-amber-500 text-white" : "bg-slate-100 text-slate-600"}`}
+                  >
+                    Date-wise Register
+                  </button>
+                  {reportView === "summary" && (
+                    <button
+                      onClick={() => setRiskOnly((v) => !v)}
+                      className={`text-xs px-3 py-2 rounded-lg font-medium ${riskOnly ? "bg-red-500 text-white" : "bg-red-50 text-red-600"}`}
+                    >
+                      At-risk only (&lt;75%)
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {reportView === "summary" ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-50">
+                      <tr>
+                        <th className="px-4 py-2 text-left">Student</th>
+                        <th className="px-4 py-2 text-center">Present</th>
+                        <th className="px-4 py-2 text-center">Late</th>
+                        <th className="px-4 py-2 text-center">Absent</th>
+                        <th className="px-4 py-2 text-center">%</th>
+                        <th className="px-4 py-2 text-center">Eligibility</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {reportRows.map((s) => (
+                        <tr key={s.student_id}>
+                          <td className="px-4 py-2 text-slate-700">{s.name}</td>
+                          <td className="px-4 py-2 text-center">{s.present}</td>
+                          <td className="px-4 py-2 text-center">{s.late}</td>
+                          <td className="px-4 py-2 text-center">{s.absent}</td>
+                          <td className={`px-4 py-2 text-center font-bold ${s.eligible ? "text-green-600" : "text-red-600"}`}>{s.percentage}%</td>
+                          <td className="px-4 py-2 text-center">
+                            {s.eligible ? (
+                              <span className="text-green-600 text-xs">Eligible</span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-red-600 text-xs">
+                                <AlertTriangle size={12} /> Not eligible
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                      {reportRows.length === 0 && (
+                        <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-400">No students match.</td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              ) : !matrix || matrix.dates.length === 0 ? (
+                <p className="text-slate-500 text-center py-8">No attendance taken in this date range yet.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="text-sm border-collapse">
+                    <thead className="bg-slate-50">
+                      <tr>
+                        <th className="px-4 py-2 text-left sticky left-0 bg-slate-50">Student</th>
+                        {matrix.dates.map((d) => (
+                          <th key={d} className="px-2 py-2 text-center whitespace-nowrap text-xs">{d.slice(5)}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {matrix.students.map((s) => (
+                        <tr key={s.student_id}>
+                          <td className="px-4 py-2 text-slate-700 whitespace-nowrap sticky left-0 bg-white">{s.name}</td>
+                          {matrix.dates.map((d) => {
+                            const st = s.marks[d];
+                            const cls =
+                              st === "present" ? "bg-green-100 text-green-700"
+                              : st === "late" ? "bg-amber-100 text-amber-700"
+                              : st === "absent" ? "bg-red-100 text-red-700"
+                              : "bg-slate-50 text-slate-300";
+                            const label = st === "present" ? "P" : st === "late" ? "L" : st === "absent" ? "A" : "—";
+                            return (
+                              <td key={d} className="px-1 py-1 text-center">
+                                <span className={`inline-block w-7 py-1 rounded text-xs font-bold ${cls}`} title={st ? `${d}: ${st}` : d}>
+                                  {label}
+                                </span>
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p className="text-xs text-slate-400 mt-3">P = Present · L = Late · A = Absent · — = not taken</p>
+                </div>
+              )}
             </>
           )}
         </div>

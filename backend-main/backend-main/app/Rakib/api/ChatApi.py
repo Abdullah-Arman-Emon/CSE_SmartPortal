@@ -37,7 +37,9 @@ class SendMessage(BaseModel):
     course_id: int
     sender_id: int
     recipient_id: Optional[int] = None
-    text: str
+    text: str = ""
+    attachment_url: Optional[str] = None
+    attachment_name: Optional[str] = None
 
 
 def _serialize(db, m: Message):
@@ -47,19 +49,44 @@ def _serialize(db, m: Message):
         "sender_name": _name_of(db, m.sender_id),
         "recipient_id": m.recipient_id,
         "text": m.text,
+        "attachment_url": m.attachment_url,
+        "attachment_name": m.attachment_name,
         "created_at": m.created_at.isoformat() if m.created_at else None,
     }
 
 
+def _member_user_ids(course: Course):
+    ids = set()
+    if course.teacher and course.teacher.user_id:
+        ids.add(course.teacher.user_id)
+    for s in course.students:
+        if s.user_id:
+            ids.add(s.user_id)
+    return ids
+
+
 @router.post("/send")
 def send_message(payload: SendMessage, db: Session = Depends(get_db)):
-    if not payload.text.strip():
+    text = (payload.text or "").strip()
+    if not text and not payload.attachment_url:
         raise HTTPException(status_code=422, detail="Empty message")
+
+    course = db.query(Course).filter(Course.id == payload.course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    members = _member_user_ids(course)
+    if payload.sender_id not in members:
+        raise HTTPException(status_code=403, detail="You are not a member of this course")
+    if payload.recipient_id is not None and payload.recipient_id not in members:
+        raise HTTPException(status_code=403, detail="Recipient is not a member of this course")
+
     m = Message(
         course_id=payload.course_id,
         sender_id=payload.sender_id,
         recipient_id=payload.recipient_id,
-        text=payload.text.strip(),
+        text=text,
+        attachment_url=payload.attachment_url,
+        attachment_name=payload.attachment_name,
     )
     db.add(m)
     db.commit()

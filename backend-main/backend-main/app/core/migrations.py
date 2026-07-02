@@ -16,6 +16,8 @@ STATEMENTS = [
     "ALTER TABLE students ADD COLUMN current_semester VARCHAR(10) NULL AFTER batch",
     "ALTER TABLE students ADD COLUMN program ENUM('bsc','msc') NOT NULL DEFAULT 'bsc' AFTER current_semester",
     "ALTER TABLE students ADD COLUMN msc_group ENUM('thesis','project') NULL AFTER program",
+    "ALTER TABLE messages ADD COLUMN attachment_url VARCHAR(500) NULL AFTER text",
+    "ALTER TABLE messages ADD COLUMN attachment_name VARCHAR(255) NULL AFTER attachment_url",
 ]
 
 

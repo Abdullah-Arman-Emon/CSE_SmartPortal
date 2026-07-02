@@ -98,14 +98,28 @@ def _percent(present_like: int, total: int) -> float:
     return round((present_like / total) * 100, 1) if total else 0.0
 
 
+def _date_window(q, from_date: Optional[date_type], to_date: Optional[date_type]):
+    if from_date:
+        q = q.filter(Attendance.date >= from_date)
+    if to_date:
+        q = q.filter(Attendance.date <= to_date)
+    return q
+
+
 @router.get("/course/{course_id}/report")
-def course_report(course_id: int, db: Session = Depends(get_db)):
+def course_report(
+    course_id: int,
+    from_date: Optional[date_type] = Query(None),
+    to_date: Optional[date_type] = Query(None),
+    db: Session = Depends(get_db),
+):
     course = db.query(Course).filter(Course.id == course_id).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
 
-    rows = db.query(Attendance).filter(Attendance.course_id == course_id).all()
-    # distinct session dates for this course
+    q = _date_window(db.query(Attendance).filter(Attendance.course_id == course_id), from_date, to_date)
+    rows = q.all()
+    # distinct session dates for this course (within the window)
     total_sessions = len({r.date for r in rows})
 
     per_student = {}
@@ -132,7 +146,7 @@ def course_report(course_id: int, db: Session = Depends(get_db)):
     return {
         "course_id": course_id,
         "course_title": course.title,
-        "course_code": course.code,
+        "course_code": course.course_code or course.code,
         "batch": course.batch,
         "semester": course.semester,
         "total_sessions": total_sessions,
@@ -140,43 +154,106 @@ def course_report(course_id: int, db: Session = Depends(get_db)):
     }
 
 
+@router.get("/course/{course_id}/matrix")
+def course_matrix(
+    course_id: int,
+    from_date: Optional[date_type] = Query(None),
+    to_date: Optional[date_type] = Query(None),
+    db: Session = Depends(get_db),
+):
+    """Date-wise register: every session date x every student with P/L/A status."""
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+
+    q = _date_window(db.query(Attendance).filter(Attendance.course_id == course_id), from_date, to_date)
+    rows = q.all()
+    dates = sorted({r.date for r in rows})
+
+    by_student = {}
+    for r in rows:
+        by_student.setdefault(r.student_id, {})[str(r.date)] = r.status
+
+    return {
+        "course_id": course_id,
+        "course_title": course.title,
+        "course_code": course.course_code or course.code,
+        "dates": [str(d) for d in dates],
+        "students": [
+            {
+                "student_id": s.id,
+                "name": _student_name(s),
+                "batch": s.batch,
+                "marks": by_student.get(s.id, {}),
+            }
+            for s in sorted(course.students, key=lambda x: x.id)
+        ],
+    }
+
+
 @router.get("/student/{student_id}")
-def student_attendance(student_id: int, db: Session = Depends(get_db)):
+def student_attendance(
+    student_id: int,
+    course_id: Optional[int] = Query(None),
+    detail: bool = Query(False),
+    db: Session = Depends(get_db),
+):
     student = db.query(Student).filter(Student.id == student_id).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
+    courses = [c for c in student.courses if course_id is None or c.id == course_id]
     result = []
-    for course in student.courses:
+    for course in courses:
         rows = db.query(Attendance).filter(Attendance.course_id == course.id).all()
         total_sessions = len({r.date for r in rows})
         mine = [r for r in rows if r.student_id == student_id]
         attended = sum(1 for r in mine if r.status in ("present", "late"))
-        result.append({
+        entry = {
             "course_id": course.id,
             "course_title": course.title,
-            "course_code": course.code,
+            "course_code": course.course_code or course.code,
             "attended": attended,
             "total_sessions": total_sessions,
             "percentage": _percent(attended, total_sessions),
             "eligible": _percent(attended, total_sessions) >= 75,
-        })
+        }
+        if detail:
+            entry["records"] = [
+                {"date": str(r.date), "status": r.status}
+                for r in sorted(mine, key=lambda r: r.date)
+            ]
+        result.append(entry)
     return result
 
 
 @router.get("/overview")
-def overview(batch: Optional[int] = Query(None), semester: Optional[str] = Query(None), db: Session = Depends(get_db)):
+def overview(
+    batch: Optional[int] = Query(None),
+    semester: Optional[str] = Query(None),
+    from_date: Optional[date_type] = Query(None),
+    to_date: Optional[date_type] = Query(None),
+    q: Optional[str] = Query(None, description="course title/code contains"),
+    db: Session = Depends(get_db),
+):
     """Admin read-only: per-course attendance health, optionally filtered."""
-    q = db.query(Course)
+    cq = db.query(Course)
     if batch is not None:
-        q = q.filter(Course.batch == batch)
+        cq = cq.filter(Course.batch == batch)
     if semester:
-        q = q.filter(Course.semester == semester)
-    courses = q.all()
+        cq = cq.filter(Course.semester == semester)
+    if q:
+        like = f"%{q}%"
+        cq = cq.filter(
+            (Course.title.like(like)) | (Course.code.like(like)) | (Course.course_code.like(like))
+        )
+    courses = cq.all()
 
     out = []
     for course in courses:
-        rows = db.query(Attendance).filter(Attendance.course_id == course.id).all()
+        rows = _date_window(
+            db.query(Attendance).filter(Attendance.course_id == course.id), from_date, to_date
+        ).all()
         total_sessions = len({r.date for r in rows})
         enrolled = len(course.students)
         # average attendance % across enrolled students
@@ -197,7 +274,7 @@ def overview(batch: Optional[int] = Query(None), semester: Optional[str] = Query
         out.append({
             "course_id": course.id,
             "course_title": course.title,
-            "course_code": course.code,
+            "course_code": course.course_code or course.code,
             "batch": course.batch,
             "semester": course.semester,
             "enrolled": enrolled,
