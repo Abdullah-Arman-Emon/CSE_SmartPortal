@@ -95,7 +95,7 @@ app.include_router(financeApi.router)
 app.include_router(curriculumApi.router)
 
 from app.Rakib.api import StudentDashboardApi, StudentSettingsApi, StudentAssignmentApi, StudentMyClassesApi, TeacherMyClassesApi, AdminEquipmentApi, AdminEventApi
-from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi, StudentExamApi, AttendanceApi, AnnouncementApi, NotificationApi, ChatApi, ResultApi
+from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi, StudentExamApi, AttendanceApi, AnnouncementApi, NotificationApi, ChatApi, ResultApi, ChatbotApi
 
 app.include_router(StudentDashboardApi.router)
 app.include_router(StudentEquipmentApi.router)
@@ -117,6 +117,7 @@ app.include_router(AnnouncementApi.router)
 app.include_router(NotificationApi.router)
 app.include_router(ChatApi.router)
 app.include_router(ResultApi.router)
+app.include_router(ChatbotApi.router)
 
 app.include_router(UtilityApi.router)
 

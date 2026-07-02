@@ -5,6 +5,7 @@ from typing import List
 
 
 from app.Emon.model.assignment import Assignment
+from app.Emon.model.course import Course
 
 
 from app.Rakib.schema.studentAssignmentSchema import AssignmentSchema, SubmissionSchema, SubmissionCreateSchema
@@ -26,23 +27,32 @@ def get_db():
 
 
 @router.get("/my_assignments", response_model=List[AssignmentSchema])
-def get_my_assignments_in_recency_order( 
+def get_my_assignments_in_recency_order(
+    student_id: int,
     db: Session = Depends(get_db),
-    student_id: int = Depends(lambda: 1)  # Replace with actual student ID retrieval logic
 ):
     """
     Get all assignments for a student in recency order.
     """
-    assignments = db.query(Assignment).filter(Assignment.students.any(id=student_id)).order_by(Assignment.given_date.desc()).all()
-    
+    # Assignments belong to courses; the student sees assignments of enrolled courses.
+    assignments = (
+        db.query(Assignment)
+        .join(Course, Assignment.course_id == Course.id)
+        .filter(Course.students.any(id=student_id))
+        .order_by(Assignment.given_date.desc())
+        .all()
+    )
+
     if not assignments:
         return []
-    
+
     my_assignments = []
     for assignment in assignments:
-        
+
         # Fetch the submission for the student if it exists
-        submission = db.query(assignment.submissions).filter_by(student_id=student_id).first
+        submission = db.query(Submission).filter_by(
+            assignment_id=assignment.id, student_id=student_id
+        ).first()
         
         my_submission = SubmissionSchema(
             id=submission.id,
@@ -78,11 +88,16 @@ def get_assignment_by_id(assignment_id: int, student_id: int, db: Session = Depe
     """
     Helper function to get an assignment by ID for a specific student.
     """
-    assignment = db.query(Assignment).filter(Assignment.id == assignment_id, Assignment.students.any(id=student_id)).first()
-    
+    assignment = (
+        db.query(Assignment)
+        .join(Course, Assignment.course_id == Course.id)
+        .filter(Assignment.id == assignment_id, Course.students.any(id=student_id))
+        .first()
+    )
+
     if not assignment:
         raise HTTPException(status_code=404, detail="Assignment not found")
-    
+
     submission = db.query(Submission).filter(Submission.assignment_id == assignment_id, Submission.student_id == student_id).first()
     
     my_submission = SubmissionSchema(
@@ -120,11 +135,16 @@ def submit_assignment(
     """
     Submit an assignment for a student.
     """
-    assignment = db.query(Assignment).filter(Assignment.id == assignment_id, Assignment.students.any(id=student_id)).first()
-    
+    assignment = (
+        db.query(Assignment)
+        .join(Course, Assignment.course_id == Course.id)
+        .filter(Assignment.id == assignment_id, Course.students.any(id=student_id))
+        .first()
+    )
+
     if not assignment:
         raise HTTPException(status_code=404, detail="Assignment not found")
-    
+
     submission = Submission(
         assignment_id=assignment_id,
         student_id=student_id,

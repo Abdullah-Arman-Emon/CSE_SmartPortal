@@ -145,8 +145,22 @@ CATALOG = [
 
 
 def seed():
-    Base.metadata.create_all(bind=engine)
-    run_migrations(engine)
+    # Right after `docker compose up` the backend may still be applying its own
+    # startup ALTERs; MySQL then raises 1684 "concurrent DDL" on introspection.
+    # Retry a few times instead of dying.
+    import time
+    from sqlalchemy.exc import OperationalError
+
+    for attempt in range(5):
+        try:
+            Base.metadata.create_all(bind=engine)
+            run_migrations(engine)
+            break
+        except OperationalError:
+            if attempt == 4:
+                raise
+            print("  DB busy (startup migrations still running?) — retrying in 3s...")
+            time.sleep(3)
     db = SessionLocal()
     created = updated = 0
     try:

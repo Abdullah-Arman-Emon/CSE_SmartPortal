@@ -17,7 +17,7 @@ const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/
 // Database query functions
 const queryDatabase = async (intent, query) => {
     try {
-        const response = await fetch(`${BACKEND_URL}/api/chatbot/query`, {
+        const response = await fetch(`${BACKEND_URL}/v1/chatbot/query`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
