@@ -155,6 +155,11 @@ const PeopleDirectory = () => {
                   <div>
                     <h3 className="font-bold text-slate-800">{person.name}</h3>
                     <p className="text-slate-600">{person.role}</p>
+                    {person.status && (
+                      <span className="inline-block mt-1 px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">
+                        {person.status}
+                      </span>
+                    )}
                   </div>
                 </div>
 
