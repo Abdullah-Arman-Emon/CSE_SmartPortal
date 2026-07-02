@@ -27,6 +27,7 @@ class Course(Base):
     
     
     image_url = Column(String(255))  # Optional image
+    credit = Column(Integer, default=3)  # credit hours (for CGPA weighting)
     teacher_id = Column(Integer, ForeignKey("teachers.id"), nullable=False)
     running = Column(Boolean, default=True)
 
