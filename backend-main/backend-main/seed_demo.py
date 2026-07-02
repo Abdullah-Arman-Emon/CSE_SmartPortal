@@ -72,6 +72,7 @@ def migrate():
     from sqlalchemy import text
     statements = [
         "ALTER TABLE admission_form ADD COLUMN status VARCHAR(20) DEFAULT 'pending'",
+        "ALTER TABLE users ADD COLUMN is_active BOOLEAN DEFAULT TRUE",
     ]
     for stmt in statements:
         try:
