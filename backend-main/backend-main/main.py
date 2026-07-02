@@ -71,6 +71,10 @@ from app.Emon.model.curriculum import CurriculumCourse
 # Create the tables
 Base.metadata.create_all(bind=engine)
 
+# Apply idempotent ALTERs that create_all() cannot (schema drift guard)
+from app.core.migrations import run_migrations
+run_migrations(engine)
+
 @app.get('/')
 def read_root():
     return {'message': 'CSEDU Backend is running'}

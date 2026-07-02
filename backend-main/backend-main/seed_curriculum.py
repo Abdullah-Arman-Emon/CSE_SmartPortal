@@ -14,9 +14,8 @@ Also runs the same try/except ALTER-TABLE migrations style as seed_demo.py for
 columns that Base.metadata.create_all() cannot add to existing tables.
 """
 
-from sqlalchemy import text
-
 from app.core.database import SessionLocal, Base, engine
+from app.core.migrations import run_migrations
 
 # Import every model so metadata + relationships are registered.
 from app.Emon.model.userModel import User
@@ -145,28 +144,9 @@ CATALOG = [
 ]
 
 
-def migrate():
-    """Add columns that create_all() cannot add to already-existing tables."""
-    statements = [
-        "ALTER TABLE courses ADD COLUMN course_code VARCHAR(20) NULL AFTER code",
-        "ALTER TABLE courses ADD INDEX idx_courses_course_code (course_code)",
-        "ALTER TABLE courses MODIFY COLUMN credit FLOAT NULL DEFAULT 3",
-        "ALTER TABLE students ADD COLUMN current_semester VARCHAR(10) NULL AFTER batch",
-        "ALTER TABLE students ADD COLUMN program ENUM('bsc','msc') NOT NULL DEFAULT 'bsc' AFTER current_semester",
-        "ALTER TABLE students ADD COLUMN msc_group ENUM('thesis','project') NULL AFTER program",
-    ]
-    for stmt in statements:
-        try:
-            with engine.begin() as conn:
-                conn.execute(text(stmt))
-            print(f"  migrated: {stmt}")
-        except Exception:
-            pass  # column/index already exists — safe to ignore
-
-
 def seed():
     Base.metadata.create_all(bind=engine)
-    migrate()
+    run_migrations(engine)
     db = SessionLocal()
     created = updated = 0
     try:

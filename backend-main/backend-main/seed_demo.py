@@ -69,19 +69,8 @@ def get_or_create(db, model, defaults=None, **lookup):
 
 def migrate():
     """Add columns that create_all() cannot add to already-existing tables."""
-    from sqlalchemy import text
-    statements = [
-        "ALTER TABLE admission_form ADD COLUMN status VARCHAR(20) DEFAULT 'pending'",
-        "ALTER TABLE users ADD COLUMN is_active BOOLEAN DEFAULT TRUE",
-        "ALTER TABLE courses ADD COLUMN credit INT DEFAULT 3",
-    ]
-    for stmt in statements:
-        try:
-            with engine.begin() as conn:
-                conn.execute(text(stmt))
-            print(f"  migrated: {stmt}")
-        except Exception:
-            pass  # column already exists — safe to ignore
+    from app.core.migrations import run_migrations
+    run_migrations(engine)
 
 
 def seed():
