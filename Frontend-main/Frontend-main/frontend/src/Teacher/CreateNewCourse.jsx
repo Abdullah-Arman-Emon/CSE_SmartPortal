@@ -62,6 +62,49 @@ const CreateNewCourse = () => {
     image_url: "",
   });
 
+  // DU curriculum catalog for the selected semester ("" = custom course)
+  const [catalog, setCatalog] = useState([]);
+  const [selectedCode, setSelectedCode] = useState("");
+
+  useEffect(() => {
+    if (!formData.semester) {
+      setCatalog([]);
+      setSelectedCode("");
+      return;
+    }
+    const fetchCatalog = async () => {
+      try {
+        const res = await axios.get(`${BACKEND_URL}/v1/curriculum`, {
+          params: { semester: formData.semester, program: "bsc" },
+        });
+        setCatalog(res.data || []);
+      } catch (error) {
+        console.error("Failed to fetch curriculum catalog:", error);
+        setCatalog([]);
+      }
+    };
+    fetchCatalog();
+    setSelectedCode("");
+  }, [formData.semester]);
+
+  const selectedCatalogCourse = catalog.find((c) => c.course_code === selectedCode);
+
+  const handleCatalogSelect = (e) => {
+    const code = e.target.value;
+    setSelectedCode(code);
+    const course = catalog.find((c) => c.course_code === code);
+    if (course) {
+      setFormData((prev) => ({
+        ...prev,
+        title: `${course.course_code}: ${course.title}`,
+        type: course.is_lab ? "Lab" : "Theory",
+      }));
+      setErrors((prev) => ({ ...prev, title: "" }));
+    } else {
+      setFormData((prev) => ({ ...prev, title: "" }));
+    }
+  };
+
   const [schedules, setSchedules] = useState([
     { day: "Sunday", start_time: "09:00" }
   ]);
@@ -137,6 +180,8 @@ const CreateNewCourse = () => {
 
     const payload = {
       title: formData.title.trim(),
+      course_code: selectedCode || null, // null = custom course
+      credit: selectedCatalogCourse ? selectedCatalogCourse.credit : null,
       description: formData.description.trim() || null,
       other_links: formData.other_links.trim() || null,
       semester: formData.semester,
@@ -166,6 +211,7 @@ const CreateNewCourse = () => {
         image_url: "",
       });
       setSchedules([{ day: "Sunday", start_time: "09:00" }]);
+      setSelectedCode("");
     } catch (err) {
       console.error("Failed to create course:", err);
       const errorMessage = err.response?.data?.detail || "Failed to create course";
@@ -183,6 +229,34 @@ const CreateNewCourse = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Catalog Course (DU curriculum) */}
+          {formData.semester && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Curriculum Course ({formData.semester})
+              </label>
+              <select
+                value={selectedCode}
+                onChange={handleCatalogSelect}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              >
+                <option value="">Custom course (type title manually)</option>
+                {catalog.map((c) => (
+                  <option key={c.course_code} value={c.course_code}>
+                    {c.course_code} — {c.title} ({c.credit} cr{c.is_lab ? ", Lab" : ""})
+                  </option>
+                ))}
+              </select>
+              {selectedCatalogCourse && (
+                <p className="text-sm text-gray-500 mt-1">
+                  Credit: {selectedCatalogCourse.credit} · Type:{" "}
+                  {selectedCatalogCourse.is_lab ? "Lab" : "Theory"} · Category:{" "}
+                  {selectedCatalogCourse.category} (auto-filled from DU curriculum)
+                </p>
+              )}
+            </div>
+          )}
+
           {/* Course Title */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -191,12 +265,17 @@ const CreateNewCourse = () => {
             <input
               type="text"
               name="title"
-              placeholder="Enter course title"
+              placeholder={
+                formData.semester
+                  ? "Enter course title (or pick from curriculum above)"
+                  : "Select a semester first to pick from the DU curriculum"
+              }
               value={formData.title}
               onChange={handleChange}
+              readOnly={!!selectedCatalogCourse}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                 errors.title ? "border-red-500" : "border-gray-300"
-              }`}
+              } ${selectedCatalogCourse ? "bg-gray-100 text-gray-600" : ""}`}
             />
             {errors.title && (
               <p className="text-red-500 text-sm mt-1">{errors.title}</p>
@@ -276,7 +355,10 @@ const CreateNewCourse = () => {
               name="type"
               value={formData.type}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              disabled={!!selectedCatalogCourse}
+              className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                selectedCatalogCourse ? "bg-gray-100 text-gray-600" : ""
+              }`}
             >
               <option value="Theory">Theory</option>
               <option value="Lab">Lab</option>

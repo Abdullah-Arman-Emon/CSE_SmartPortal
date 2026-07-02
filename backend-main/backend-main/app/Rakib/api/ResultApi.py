@@ -84,7 +84,7 @@ def course_students_with_results(course_id: int, db: Session = Depends(get_db)):
     return {
         "course_id": course.id,
         "course_title": course.title,
-        "course_code": course.code,
+        "course_code": course.course_code or course.code,
         "credit": course.credit,
         "students": out,
     }
@@ -165,7 +165,8 @@ def student_results(student_id: int, db: Session = Depends(get_db)):
         out.append({
             "course_id": course.id,
             "course_title": course.title,
-            "course_code": course.code,
+            "course_code": course.course_code or course.code,
+            "catalog_code": course.course_code,  # NULL for custom courses
             "credit": course.credit,
             "semester": course.semester,
             "batch": course.batch,

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Text, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 from sqlalchemy import Enum
@@ -17,6 +17,7 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), nullable=False)
     code = Column(String(255), nullable=False, unique=True)  # Code = passcode
+    course_code = Column(String(20), nullable=True, index=True)  # catalog code, e.g. "CSE 1101" (NULL = custom course)
     description = Column(Text)
     other_links = Column(Text)
     
@@ -27,7 +28,7 @@ class Course(Base):
     
     
     image_url = Column(String(255))  # Optional image
-    credit = Column(Integer, default=3)  # credit hours (for CGPA weighting)
+    credit = Column(Float, default=3.0)  # credit hours, fractional for labs (for CGPA weighting)
     teacher_id = Column(Integer, ForeignKey("teachers.id"), nullable=False)
     running = Column(Boolean, default=True)
 

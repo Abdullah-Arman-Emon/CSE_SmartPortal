@@ -199,6 +199,9 @@ def get_student_using_userId(user_id:int = Query(...), db: Session = Depends(get
         phone=student.phone or "",
         bio=student.bio or "",
         batch=student.batch,
+        current_semester=student.current_semester,
+        program=student.program or "bsc",
+        msc_group=student.msc_group,
         profile_image=student.profile_image or ""
     )
     

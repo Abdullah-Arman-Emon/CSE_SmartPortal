@@ -64,6 +64,7 @@ from app.Rakib.model.announcement import Announcement
 from app.Rakib.model.notification import Notification
 from app.Rakib.model.message import Message
 from app.Rakib.model.result import Result
+from app.Emon.model.curriculum import CurriculumCourse
 
 
 
@@ -80,12 +81,14 @@ from app.Emon.api import teacherProfileApi
 from app.Emon.api import courseApi
 from app.Emon.api import meetingApi
 from app.Emon.api import financeApi
+from app.Emon.api import curriculumApi
 app.include_router(userApi.router)
 app.include_router(teacherDashboardApi.router)
 app.include_router(teacherProfileApi.router)
 app.include_router(courseApi.router)
 app.include_router(meetingApi.router)
 app.include_router(financeApi.router)
+app.include_router(curriculumApi.router)
 
 from app.Rakib.api import StudentDashboardApi, StudentSettingsApi, StudentAssignmentApi, StudentMyClassesApi, TeacherMyClassesApi, AdminEquipmentApi, AdminEventApi
 from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi, StudentExamApi, AttendanceApi, AnnouncementApi, NotificationApi, ChatApi, ResultApi

@@ -6,6 +6,7 @@ import shutil, random
 from app.core.database import get_db
 from app.Emon.model.course import Course
 from app.Emon.model.schedule import Schedule
+from app.Emon.model.curriculum import CurriculumCourse
 from app.Emon.schema.course import CourseResponse, CourseCreate
 
 
@@ -42,23 +43,36 @@ def create_course(courseCreate: CourseCreate, db: Session = Depends(get_db)):
     #     image_url = file_path
     
     print(courseCreate)
-    
+
+    # Catalog-linked course: autofill title/credit/type from the curriculum catalog
+    if courseCreate.course_code:
+        catalog = db.query(CurriculumCourse).filter(
+            CurriculumCourse.course_code == courseCreate.course_code
+        ).first()
+        if not catalog:
+            raise HTTPException(status_code=404, detail=f"{courseCreate.course_code} not in curriculum catalog")
+        courseCreate.title = f"{catalog.course_code}: {catalog.title}"
+        courseCreate.credit = catalog.credit
+        courseCreate.type = "Lab" if catalog.is_lab else "Theory"
+
     if courseCreate.type not in ["Theory", "Lab"]:
         raise HTTPException(status_code=404, detail=f"invalid coursetype {courseCreate.type}")
-    
+
     if len(courseCreate.schedules)==0 or courseCreate.schedules is None:
         raise HTTPException(status_code=404, detail=f"provide schedules")
-    
+
     if courseCreate.image_url is None:
         #randomly choose one from the covers used by google classrooms
         courseCreate.image_url = random.choice(default_covers)
-        
-    #a 10 char lenght value that can be used just like google classroom 
+
+    #a 10 char lenght value that can be used just like google classroom
     pass_code = generate_pass_code()
 
     course = Course(
         title=courseCreate.title,
         code = pass_code,
+        course_code=courseCreate.course_code,
+        credit=courseCreate.credit or 3.0,
         description=courseCreate.description,
         other_links=courseCreate.other_links,
         semester=courseCreate.semester,

@@ -38,10 +38,13 @@ def get_student_profile(student_id: int, db: Session = Depends(get_db)):
         phone=student.phone,
         bio=student.bio,
         batch=student.batch,
+        current_semester=student.current_semester,
+        program=student.program,
+        msc_group=student.msc_group,
         profile_image=student.profile_image
     )
-    
-    
+
+
 @router.put("/update_profile/{student_id}", response_model=StudentSchema)
 def update_student_profile(student_id: int, student_data: UpdateStudentSchema, db: Session = Depends(get_db)):
     """
@@ -62,6 +65,12 @@ def update_student_profile(student_id: int, student_data: UpdateStudentSchema, d
         student.bio = student_data.bio
     if student_data.batch is not None:
         student.batch = student_data.batch
+    if student_data.current_semester is not None:
+        student.current_semester = student_data.current_semester
+    if student_data.program is not None:
+        student.program = student_data.program
+    if student_data.msc_group is not None:
+        student.msc_group = student_data.msc_group
     if student_data.profile_image is not None:
         student.profile_image = student_data.profile_image
         
@@ -77,5 +86,8 @@ def update_student_profile(student_id: int, student_data: UpdateStudentSchema, d
         phone=student.phone,
         bio=student.bio,
         batch=student.batch,
+        current_semester=student.current_semester,
+        program=student.program,
+        msc_group=student.msc_group,
         profile_image=student.profile_image
     )
