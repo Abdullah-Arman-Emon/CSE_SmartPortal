@@ -7,6 +7,7 @@ import SettingsPage from "./Settings";
 import Enroll from "./Enroll";
 import MyCourses from "./MyCourses";
 import StudentCGPA from "./StudentCGPA";
+import StudentResults from "./StudentResults";
 import ChatPanel from "../components/ChatPanel";
 import Finance from "./Finance";
 import ResourceHub from "./ResourceHub";
@@ -29,6 +30,8 @@ const StudentDashboard = () => {
         return <MyCourses />;
       case "Finance":
         return <Finance />;
+      case "Results":
+        return <StudentResults />;
       case "CGPA Calculator":
         return <StudentCGPA />;
       case "Messages":
@@ -73,6 +76,12 @@ const StudentDashboard = () => {
           onClick={() => setActivePage("Finance")}
         >
           Finance
+        </button>
+        <button
+          className="w-full text-left hover:bg-slate-700 p-2 rounded"
+          onClick={() => setActivePage("Results")}
+        >
+          Results
         </button>
         <button
           className="w-full text-left hover:bg-slate-700 p-2 rounded"

@@ -1,5 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useContext } from "react";
+import axios from "axios";
 import { Calculator, Plus, Trash2, Target, GraduationCap } from "lucide-react";
+import { AuthContext } from "../context/AuthContext";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // University of Dhaka standard 4.00 grading scale.
 const GRADES = [
@@ -17,6 +21,31 @@ const GRADES = [
 const pointOf = (g) => GRADES.find((x) => x.g === g)?.p ?? 0;
 
 function StudentCGPA() {
+  const { user } = useContext(AuthContext);
+  // Real published results, grouped by semester (pre-filled, read-only)
+  const [publishedBySemester, setPublishedBySemester] = useState({});
+
+  useEffect(() => {
+    if (!user?.id) return;
+    axios
+      .get(`${BACKEND_URL}/v1/auth/get/student`, { params: { user_id: user.id } })
+      .then((res) => res.data?.id)
+      .then((studentId) => {
+        if (!studentId) return;
+        return axios.get(`${BACKEND_URL}/v1/results/student/${studentId}`);
+      })
+      .then((res) => {
+        if (!res) return;
+        const grouped = {};
+        (res.data || []).forEach((r) => {
+          const key = `Batch ${r.batch} · ${r.semester}`;
+          (grouped[key] = grouped[key] || []).push(r);
+        });
+        setPublishedBySemester(grouped);
+      })
+      .catch(() => {});
+  }, [user]);
+
   // Current semester courses
   const [rows, setRows] = useState([
     { id: 1, name: "", credit: 3, grade: "A" },
@@ -80,6 +109,29 @@ function StudentCGPA() {
           <p className="text-slate-500 text-sm">University of Dhaka 4.00 grading scale.</p>
         </div>
       </div>
+
+      {Object.keys(publishedBySemester).length > 0 && (
+        <div className={card}>
+          <h2 className="font-semibold text-slate-800 mb-4">My Published Results</h2>
+          <div className="space-y-4">
+            {Object.entries(publishedBySemester).map(([sem, courses]) => {
+              const cr = courses.reduce((s, c) => s + (c.credit || 0), 0);
+              const qp = courses.reduce((s, c) => s + (c.credit || 0) * (c.grade_point || 0), 0);
+              const gpa = cr ? qp / cr : 0;
+              return (
+                <div key={sem} className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100 last:border-0 last:pb-0">
+                  <div>
+                    <p className="font-medium text-slate-700">{sem}</p>
+                    <p className="text-xs text-slate-400">{courses.map((c) => c.course_code).join(", ")} · {cr} credits</p>
+                  </div>
+                  <span className={`text-lg font-bold ${badge(gpa)}`}>{gpa.toFixed(2)}</span>
+                </div>
+              );
+            })}
+          </div>
+          <p className="text-xs text-slate-400 mt-3">Add these as "past semesters" below to roll them into your what-if CGPA planner.</p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Current semester */}
