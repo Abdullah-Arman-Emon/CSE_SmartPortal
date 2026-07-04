@@ -36,8 +36,9 @@ function HomePage() {
     const [eventsLoading, setEventsLoading] = useState(true);
     const [eventsError, setEventsError] = useState(null);
 
-    // Image gallery slider state
-    const galleryImages = [
+    // Image gallery slider state — admin-managed (Admin Dashboard → Website → Gallery);
+    // the static list stays as a fallback so the landing page never renders empty.
+    const [galleryImages, setGalleryImages] = useState([
         "/1.jpg",
         "/3.jpg",
         "/4.jpg",
@@ -45,9 +46,41 @@ function HomePage() {
         "/6.jpg",
         "/7.jpg",
         "/8.jpg",
-    ];
+    ]);
 
     const [currentGalleryImage, setCurrentGalleryImage] = useState(0);
+
+    // Campus Life section content — admin-managed, with static fallback
+    const [campusContent, setCampusContent] = useState({
+        campus_life_text:
+            "Experience the vibrant academic environment and student activities at the Department of Computer Science & Engineering",
+        campus_life_video: "/homevid.mp4",
+        campus_life_caption_title: "Department of CSE, University of Dhaka",
+        campus_life_caption_sub: "Where innovation meets excellence",
+    });
+
+    useEffect(() => {
+        axios
+            .get(`${BACKEND_URL}/guest/site/gallery`)
+            .then((res) => {
+                if (Array.isArray(res.data) && res.data.length > 0) {
+                    setGalleryImages(res.data.map((g) => g.image_url));
+                    setCurrentGalleryImage(0);
+                }
+            })
+            .catch(() => {});
+        axios
+            .get(
+                `${BACKEND_URL}/guest/site/content?keys=campus_life_text,campus_life_video,campus_life_caption_title,campus_life_caption_sub`
+            )
+            .then((res) => {
+                const filled = Object.fromEntries(
+                    Object.entries(res.data || {}).filter(([, v]) => v)
+                );
+                setCampusContent((prev) => ({ ...prev, ...filled }));
+            })
+            .catch(() => {});
+    }, []);
 
     const studentResources = [
         {
@@ -975,9 +1008,7 @@ function HomePage() {
                             Campus Life
                         </h2>
                         <p className="text-slate-600 text-lg max-w-3xl mx-auto">
-                            Experience the vibrant academic environment and
-                            student activities at the Department of Computer
-                            Science & Engineering
+                            {campusContent.campus_life_text}
                         </p>
                     </div>
 
@@ -986,6 +1017,7 @@ function HomePage() {
                             {" "}
                             {/* 16:9 Aspect Ratio */}
                             <video
+                                key={campusContent.campus_life_video}
                                 className="absolute top-0 left-0 w-full h-full object-cover"
                                 autoPlay
                                 muted
@@ -993,7 +1025,7 @@ function HomePage() {
                                 playsInline
                             >
                                 <source
-                                    src="/homevid.mp4"
+                                    src={campusContent.campus_life_video}
                                     type="video/mp4"
                                 />
                                 Your browser does not support the video tag.
@@ -1001,10 +1033,10 @@ function HomePage() {
                             {/* Optional overlay with caption */}
                             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-white">
                                 <h3 className="text-xl md:text-2xl font-bold">
-                                    Department of CSE, University of Dhaka
+                                    {campusContent.campus_life_caption_title}
                                 </h3>
                                 <p className="text-sm md:text-base opacity-90">
-                                    Where innovation meets excellence
+                                    {campusContent.campus_life_caption_sub}
                                 </p>
                             </div>
                         </div>

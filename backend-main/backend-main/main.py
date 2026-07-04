@@ -65,6 +65,7 @@ from app.Rakib.model.notification import Notification
 from app.Rakib.model.message import Message
 from app.Rakib.model.result import Result
 from app.Emon.model.curriculum import CurriculumCourse
+from app.Rakib.model.publicsite import Person, SiteContent, AdmissionProgram, ProgramCourse, GalleryImage
 
 
 
@@ -74,6 +75,13 @@ Base.metadata.create_all(bind=engine)
 # Apply idempotent ALTERs that create_all() cannot (schema drift guard)
 from app.core.migrations import run_migrations
 run_migrations(engine)
+
+# Seed public-site content (people/chairman/programs/gallery) if tables are empty
+try:
+    from seed_public_site import seed_if_empty
+    seed_if_empty()
+except Exception as e:
+    print(f"seed_public_site failed (continuing startup): {e}")
 
 @app.get('/')
 def read_root():
@@ -118,6 +126,10 @@ app.include_router(NotificationApi.router)
 app.include_router(ChatApi.router)
 app.include_router(ResultApi.router)
 app.include_router(ChatbotApi.router)
+
+from app.Rakib.api import PublicSiteApi
+app.include_router(PublicSiteApi.guest_router)
+app.include_router(PublicSiteApi.admin_router)
 
 app.include_router(UtilityApi.router)
 

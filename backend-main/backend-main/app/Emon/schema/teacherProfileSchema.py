@@ -47,6 +47,10 @@ class TeacherProfileUpdate(BaseModel):
 
 class TeacherProfileResponse(TeacherProfileUpdate):
     id: int
+    # NULL in DB for freshly-created teachers — must not 500 the GET
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    phone: Optional[str] = None
 
     class Config:
         orm_mode = True

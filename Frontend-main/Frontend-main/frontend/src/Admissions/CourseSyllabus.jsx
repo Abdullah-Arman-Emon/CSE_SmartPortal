@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import syllabusData from "../assets/CourseSyllabus.json";
+import axios from "axios";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 function CourseSyllabus() {
     const { courseId } = useParams();
     const [syllabus, setSyllabus] = useState(null);
     const [loading, setLoading] = useState(true);
-    // console.log(courseId);
 
     useEffect(() => {
-        if (courseId && syllabusData[courseId]) {
-            setSyllabus(syllabusData[courseId]);
-        }
-        setLoading(false);
+        // Syllabus is admin-managed (Admin Dashboard → Website → Programs → course)
+        axios.get(`${BACKEND_URL}/guest/site/courses/${courseId}`)
+            .then((res) => {
+                if (res.data && res.data.weeks && res.data.weeks.length > 0) {
+                    setSyllabus(res.data);
+                }
+            })
+            .catch(() => setSyllabus(null))
+            .finally(() => setLoading(false));
     }, [courseId]);
 
     if (loading) {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import programsData from "../assets/ProgramDetails.json";
+import axios from "axios";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 function ProgramDetails() {
     const { id } = useParams();
@@ -9,19 +11,29 @@ function ProgramDetails() {
     const [activeTab, setActiveTab] = useState("overview");
 
     useEffect(() => {
-        // Simulate API call with dynamic data loading
+        // Program + department info + faculty are all admin-managed
         const fetchProgram = async () => {
             setLoading(true);
             try {
-                // Find the program with the matching ID from JSON data
-                const foundProgram = programsData.find(
-                    (p) => p.id === parseInt(id)
-                );
-
-                // Simulate network delay
-                await new Promise((resolve) => setTimeout(resolve, 500));
-
-                setProgram(foundProgram);
+                const [progRes, contentRes, peopleRes] = await Promise.all([
+                    axios.get(`${BACKEND_URL}/guest/site/programs/${id}`),
+                    axios.get(`${BACKEND_URL}/guest/site/content?keys=department_info`),
+                    axios.get(`${BACKEND_URL}/guest/site/people`).catch(() => ({ data: [] })),
+                ]);
+                const prog = progRes.data;
+                try {
+                    prog.departmentInfo = JSON.parse(contentRes.data.department_info);
+                } catch {
+                    prog.departmentInfo = null;
+                }
+                // Faculty tab shows the real people directory (Admin → Website → People)
+                prog.faculty = (peopleRes.data || []).slice(0, 6).map((p) => ({
+                    name: p.name,
+                    position: p.role,
+                    expertise: (p.expertise || []).join(", "),
+                    imageUrl: p.image,
+                }));
+                setProgram(prog);
             } catch (error) {
                 console.error("Error loading program data:", error);
                 setProgram(null);
@@ -390,9 +402,11 @@ function ProgramDetails() {
                                             Admission Requirements
                                         </h3>
                                         <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
-                                            <p className="text-gray-700 mb-4 text-sm sm:text-base">
-                                                {program?.admissionRequirements}
-                                            </p>
+                                            <ul className="list-disc pl-4 sm:pl-5 text-gray-700 mb-4 text-sm sm:text-base space-y-1">
+                                                {(program?.admissionRequirements || []).map((req, i) => (
+                                                    <li key={i}>{req}</li>
+                                                ))}
+                                            </ul>
 
                                             <h4 className="font-bold text-base sm:text-lg text-slate-700 mt-4 sm:mt-6 mb-2 sm:mb-3">
                                                 Application Process
@@ -480,9 +494,11 @@ function ProgramDetails() {
                                         <h3 className="text-xl sm:text-2xl font-bold text-slate-700 mb-3 sm:mb-4">
                                             Career Opportunities
                                         </h3>
-                                        <p className="text-gray-700 mb-4 sm:mb-6 text-sm sm:text-base">
-                                            {program?.careerProspects}
-                                        </p>
+                                        <ul className="list-disc pl-4 sm:pl-5 text-gray-700 mb-4 sm:mb-6 text-sm sm:text-base space-y-1">
+                                            {(program?.careerProspects || []).map((c, i) => (
+                                                <li key={i}>{c}</li>
+                                            ))}
+                                        </ul>
 
                                         <h4 className="font-bold text-base sm:text-lg text-slate-700 mb-2 sm:mb-3">
                                             Common Career Paths

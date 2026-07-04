@@ -19,6 +19,7 @@ import {
     Home,
     Menu,
     X,
+    Globe,
 } from "lucide-react";
 import axios from "axios";
 import {
@@ -44,6 +45,7 @@ import AdminFinance from "./AdminFinance";
 import AdminAttendance from "./AdminAttendance";
 import AdminUsers from "./AdminUsers";
 import AdminCurriculum from "./AdminCurriculum";
+import AdminWebsite from "./AdminWebsite";
 import NotificationBell from "../components/NotificationBell";
 
 
@@ -309,6 +311,7 @@ function AdminDashboard() {
         { id: "attendance", label: "Attendance", icon: UserCheck },
         { id: "users", label: "Users", icon: Users },
         { id: "curriculum", label: "Curriculum", icon: BookOpen },
+        { id: "website", label: "Website", icon: Globe },
     ];
 
     const statsCards = [
@@ -1020,6 +1023,8 @@ function AdminDashboard() {
                     {activeTab === "users" && <AdminUsers />}
 
                     {activeTab === "curriculum" && <AdminCurriculum />}
+
+                    {activeTab === "website" && <AdminWebsite />}
                 </main>
             </div>
         </div>

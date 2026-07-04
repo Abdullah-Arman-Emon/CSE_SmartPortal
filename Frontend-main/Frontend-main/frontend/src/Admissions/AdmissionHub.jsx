@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import Navbar from "../components/Navbar";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 function AdmissionHub() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -8,129 +11,21 @@ function AdmissionHub() {
     const [currentPage, setCurrentPage] = useState(1);
     const programsPerPage = 6;
 
-    // Updated program data with more programs and relevant descriptions
-    const programs = [
-        {
-            id: 1,
-            title: "Bachelor of Science in Computer Science",
-            level: "Bachelor",
-            description:
-                "A comprehensive program covering software development, algorithms, data structures, and fundamental computing principles for future tech innovators.",
-            image: "/images/computer-science-bs.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-        },
-        {
-            id: 2,
-            title: "Masters of Science in Computer Science and Engineering",
-            level: "Masters",
-            description:
-                "An advanced program focusing on cutting-edge research areas including distributed systems, machine learning, and high-performance computing for specialized tech careers.",
-            image: "/images/computer-science-ms.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80",
-        },
-        {
-            id: 3,
-            title: "Professional Masters in Cybersecurity",
-            level: "Masters",
-            description:
-                "Develop expertise in network security, ethical hacking, cryptography, and security governance to protect organizations from evolving cyber threats.",
-            image: "/images/cybersecurity-ms.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-        },
-        {
-            id: 4,
-            title: "PhD in Computer Science and Engineering",
-            level: "Doctorate",
-            description:
-                "A research-intensive program for scholars pursuing groundbreaking innovations in areas such as artificial intelligence, quantum computing, and computational theory.",
-            image: "/images/computer-science-phd.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1620825937374-87fc7d6bddc2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1451&q=80",
-        },
-        {
-            id: 5,
-            title: "Bachelor of Science in Data Science",
-            level: "Bachelor",
-            description:
-                "Prepare for the data-driven world with courses in statistical analysis, machine learning, data visualization, and big data processing technologies.",
-            image: "/images/data-science-bs.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-        },
-        {
-            id: 6,
-            title: "Master of Science in Artificial Intelligence",
-            level: "Masters",
-            description:
-                "Explore the frontier of AI with specialized training in deep learning, natural language processing, computer vision, and robotics applications.",
-            image: "/images/ai-ms.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1677442135132-198ca30c7285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
-        },
-        {
-            id: 7,
-            title: "Bachelor of Engineering in Robotics",
-            level: "Bachelor",
-            description:
-                "Blend mechanical engineering, electronics, and computer science to design and build the next generation of autonomous systems and intelligent machines.",
-            image: "/images/robotics-be.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1561557944-6c7202a042b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-        },
-        {
-            id: 8,
-            title: "Doctor of Philosophy in Biotechnology",
-            level: "Doctorate",
-            description:
-                "Conduct pioneering research at the intersection of biology and technology, developing innovations in genomics, pharmaceuticals, and medical devices.",
-            image: "/images/biotechnology-phd.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-        },
-        {
-            id: 9,
-            title: "Masters in Information Technology Management",
-            level: "Masters",
-            description:
-                "Bridge the gap between technology and business with specialized training in IT strategy, project management, and digital transformation leadership.",
-            image: "/images/it-management-ms.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-        },
-        {
-            id: 10,
-            title: "Bachelor of Arts in Digital Media",
-            level: "Bachelor",
-            description:
-                "Combine creative arts with digital technology to develop skills in multimedia production, web design, animation, and interactive storytelling.",
-            image: "/images/digital-media-ba.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
-        },
-        {
-            id: 11,
-            title: "Doctor of Science in Quantum Computing",
-            level: "Doctorate",
-            description:
-                "Push the boundaries of computing with advanced research in quantum algorithms, quantum error correction, and applications in cryptography and optimization.",
-            image: "/images/quantum-computing-phd.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-        },
-        {
-            id: 12,
-            title: "Master of Engineering in Blockchain Technology",
-            level: "Masters",
-            description:
-                "Develop expertise in distributed ledger technologies, smart contracts, cryptocurrency systems, and secure applications for various industries.",
-            image: "/images/blockchain-me.jpg",
-            imageUrl:
-                "https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1432&q=80",
-        },
-    ];
+    // Programs are admin-managed (Admin Dashboard → Website → Programs)
+    const [programs, setPrograms] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState(null);
+
+    useEffect(() => {
+        axios.get(`${BACKEND_URL}/guest/site/programs`)
+            .then((res) => {
+                setPrograms(res.data);
+                setLoadError(null);
+            })
+            .catch(() => setLoadError("Could not load programs. Please try again later."))
+            .finally(() => setLoading(false));
+    }, []);
+
 
     // Filter programs based on search and selected filter
     const filteredPrograms = programs.filter(
@@ -245,6 +140,14 @@ function AdmissionHub() {
                         )
                     )}
                 </div>
+
+                {/* Loading / error states */}
+                {loading && (
+                    <div className="text-center py-12 text-gray-500">Loading programs…</div>
+                )}
+                {loadError && (
+                    <div className="text-center py-12 text-red-600">{loadError}</div>
+                )}
 
                 {/* Program cards grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

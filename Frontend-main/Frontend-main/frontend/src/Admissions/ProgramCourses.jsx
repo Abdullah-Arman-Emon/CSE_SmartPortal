@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import coursesData from "../assets/ProgramCourses.json";
+import axios from "axios";
 
-// Get program titles for breadcrumb
-const programTitles = {
-    1: "Bachelor of Science in Computer Science",
-    2: "Masters of Science in Computer Science and Engineering",
-    3: "Doctor of Philosophy in Physics",
-    4: "Bachelor of Arts in History",
-    5: "Master of Science in Biology",
-    6: "Doctor of Education in Leadership",
-};
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+const semesterPrefix = (course) => (course.semester || "").split(" ")[0];
 
 function ProgramCourses() {
     const { programId } = useParams();
@@ -18,22 +12,42 @@ function ProgramCourses() {
     const [loading, setLoading] = useState(true);
     const [programTitle, setProgramTitle] = useState("");
 
-    // Filters state
-    const [yearFilters, setYearFilters] = useState([1, 2, 3, 4]);
-    const [semesterFilters, setSmesterFilters] = useState(["Fall", "Spring"]);
-    const [creditFilters, setCreditFilters] = useState([3, 4, 6]);
+    // Filters state (populated from the fetched data)
+    const [yearFilters, setYearFilters] = useState([]);
+    const [semesterFilters, setSmesterFilters] = useState([]);
+    const [creditFilters, setCreditFilters] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
+    // Filter options derived from the admin-managed course data
+    const yearOptions = [...new Set(courses.map((c) => c.year).filter((y) => y != null))].sort((a, b) => a - b);
+    const semesterOptions = [...new Set(courses.map(semesterPrefix).filter(Boolean))];
+    const creditOptions = [...new Set(courses.map((c) => c.credits).filter((c) => c != null))].sort((a, b) => a - b);
+
+    const resetFilters = (courseList) => {
+        setYearFilters([...new Set(courseList.map((c) => c.year).filter((y) => y != null))]);
+        setSmesterFilters([...new Set(courseList.map(semesterPrefix).filter(Boolean))]);
+        setCreditFilters([...new Set(courseList.map((c) => c.credits).filter((c) => c != null))]);
+        setSearchTerm("");
+    };
+
     useEffect(() => {
-        // Fetch courses from JSON file
-        const fetchCourses = () => {
+        // Courses + program title are admin-managed (Admin Dashboard → Website → Programs)
+        const fetchCourses = async () => {
             setLoading(true);
-            setTimeout(() => {
-                const programCourses = coursesData[programId] || [];
-                setCourses(programCourses);
-                setProgramTitle(programTitles[programId] || "Program");
+            try {
+                const [coursesRes, progRes] = await Promise.all([
+                    axios.get(`${BACKEND_URL}/guest/site/programs/${programId}/courses`),
+                    axios.get(`${BACKEND_URL}/guest/site/programs/${programId}`).catch(() => null),
+                ]);
+                setCourses(coursesRes.data);
+                setProgramTitle(progRes?.data?.title || "Program");
+                resetFilters(coursesRes.data);
+            } catch (error) {
+                console.error("Error loading courses:", error);
+                setCourses([]);
+            } finally {
                 setLoading(false);
-            }, 500); // Simulate loading
+            }
         };
 
         fetchCourses();
@@ -54,7 +68,7 @@ function ProgramCourses() {
         if (!yearFilters.includes(course.year)) return false;
 
         // Apply semester filter (check if semester starts with any of the filter values)
-        if (!semesterFilters.some((sem) => course.semester.startsWith(sem)))
+        if (!semesterFilters.some((sem) => (course.semester || "").startsWith(sem)))
             return false;
 
         // Apply credits filter
@@ -63,8 +77,8 @@ function ProgramCourses() {
         // Apply search filter
         if (
             searchTerm &&
-            !course.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-            !course.code.toLowerCase().includes(searchTerm.toLowerCase())
+            !(course.title || "").toLowerCase().includes(searchTerm.toLowerCase()) &&
+            !(course.code || "").toLowerCase().includes(searchTerm.toLowerCase())
         ) {
             return false;
         }
@@ -215,7 +229,7 @@ function ProgramCourses() {
                                     By Year
                                 </h3>
                                 <div className="space-y-2 mt-3">
-                                    {[1, 2, 3, 4].map((year) => (
+                                    {yearOptions.map((year) => (
                                         <label
                                             key={year}
                                             className="flex items-center"
@@ -247,7 +261,7 @@ function ProgramCourses() {
                                     By Semester
                                 </h3>
                                 <div className="space-y-2 mt-3">
-                                    {["Fall", "Spring"].map((semester) => (
+                                    {semesterOptions.map((semester) => (
                                         <label
                                             key={semester}
                                             className="flex items-center"
@@ -279,7 +293,7 @@ function ProgramCourses() {
                                     By Credits
                                 </h3>
                                 <div className="space-y-2 mt-3">
-                                    {[3, 4, 6].map((credit) => (
+                                    {creditOptions.map((credit) => (
                                         <label
                                             key={credit}
                                             className="flex items-center"
@@ -307,12 +321,7 @@ function ProgramCourses() {
                             </div>
 
                             <button
-                                onClick={() => {
-                                    setYearFilters([1, 2, 3, 4]);
-                                    setSmesterFilters(["Fall", "Spring"]);
-                                    setCreditFilters([3, 4, 6]);
-                                    setSearchTerm("");
-                                }}
+                                onClick={() => resetFilters(courses)}
                                 className="w-full mt-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
                             >
                                 Reset Filters
@@ -364,12 +373,7 @@ function ProgramCourses() {
                                     you're looking for.
                                 </p>
                                 <button
-                                    onClick={() => {
-                                        setYearFilters([1, 2, 3, 4]);
-                                        setSmesterFilters(["Fall", "Spring"]);
-                                        setCreditFilters([3, 4, 6]);
-                                        setSearchTerm("");
-                                    }}
+                                    onClick={() => resetFilters(courses)}
                                     className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-slate-600 hover:bg-slate-700"
                                 >
                                     Reset All Filters

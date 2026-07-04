@@ -1,30 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Phone, MapPin, Calendar, Award, BookOpen, Users, GraduationCap, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Mail, Phone, MapPin, Calendar, Award, BookOpen, Users, GraduationCap } from 'lucide-react';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 
-// Import content as bundled assets so it works in production build too.
-// (fetch('/src/assets/..') only works in the vite dev server, not the built app.)
-import aboutText from '../assets/about.txt?raw';
-import historyText from '../assets/history.txt?raw';
-import missionText from '../assets/mission.txt?raw';
-import chairmanText from '../assets/chairman.txt?raw';
-import chairmanImg from '../assets/chairman.jpg';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+const parseList = (raw, fallback = []) => {
+  try {
+    const v = JSON.parse(raw);
+    return Array.isArray(v) ? v : fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+const STAT_ICONS = [Users, GraduationCap, BookOpen];
 
 const AboutChairman = () => {
   const [activeSection, setActiveSection] = useState('about');
+  const [content, setContent] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/guest/site/content`)
+      .then((res) => {
+        setContent(res.data);
+        setLoadError(null);
+      })
+      .catch(() => setLoadError('Could not load page content. Please try again later.'))
+      .finally(() => setLoading(false));
+  }, []);
+
   const sectionContent = {
-    about: aboutText,
-    history: historyText,
-    mission: missionText,
-    chairman: chairmanText
+    about: content.about_text || '',
+    history: content.history_text || '',
+    mission: content.mission_text || '',
+    chairman: content.chairman_message || ''
   };
+
+  const researchAreas = parseList(content.research_areas);
+  const achievements = parseList(content.achievements);
+  const deptStats = parseList(content.dept_stats);
+  const officeHours = parseList(content.office_hours);
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
-      
-      {/* Hero Section - Removed circular image */}
+
+      {/* Hero Section */}
       <div className="bg-gradient-to-r from-slate-800 to-gray-800 text-white">
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col lg:flex-row items-center gap-8">
@@ -44,52 +68,33 @@ const AboutChairman = () => {
       <div className="bg-white shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-2 py-4">
-            <button 
-              onClick={() => setActiveSection('about')}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                activeSection === 'about' 
-                  ? 'bg-slate-800 text-white' 
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-              }`}
-            >
-              About Department
-            </button>
-            <button 
-              onClick={() => setActiveSection('history')}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                activeSection === 'history' 
-                  ? 'bg-slate-800 text-white' 
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-              }`}
-            >
-              Our History
-            </button>
-            <button 
-              onClick={() => setActiveSection('mission')}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                activeSection === 'mission' 
-                  ? 'bg-slate-800 text-white' 
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-              }`}
-            >
-              Mission & Values
-            </button>
-            <button 
-              onClick={() => setActiveSection('chairman')}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                activeSection === 'chairman' 
-                  ? 'bg-slate-800 text-white' 
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-              }`}
-            >
-              About Chairman
-            </button>
+            {[
+              ['about', 'About Department'],
+              ['history', 'Our History'],
+              ['mission', 'Mission & Values'],
+              ['chairman', 'About Chairman'],
+            ].map(([id, label]) => (
+              <button
+                key={id}
+                onClick={() => setActiveSection(id)}
+                className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                  activeSection === id
+                    ? 'bg-slate-800 text-white'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
+        {loading && <div className="text-center py-12 text-slate-500">Loading…</div>}
+        {loadError && <div className="text-center py-12 text-red-600">{loadError}</div>}
+        {!loading && !loadError && (
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Profile Info */}
           <div className="lg:col-span-2">
@@ -100,79 +105,46 @@ const AboutChairman = () => {
                 {activeSection === 'mission' && 'Our Mission & Values'}
                 {activeSection === 'chairman' && 'Message from the Chairman'}
               </h2>
-              
-              {/* Added Chairman image in the chairman section */}
-              {activeSection === 'chairman' && (
+
+              {activeSection === 'chairman' && content.chairman_photo && (
                 <div className="float-right ml-6 mb-4">
                   <img
-                    src={chairmanImg}
+                    src={content.chairman_photo}
                     alt="Chairman"
                     className="w-64 rounded-lg shadow-md"
                   />
                 </div>
               )}
-              
+
               <div className="prose max-w-none text-slate-600">
-                {activeSection === 'about' && (
-                  <div className="whitespace-pre-wrap">
-                    {sectionContent.about.split('\n').map((paragraph, i) => (
-                      paragraph.trim() ? <p key={i} className="text-lg leading-relaxed mb-6">{paragraph}</p> : null
-                    ))}
-                  </div>
-                )}
-                
-                {activeSection === 'history' && (
-                  <div className="whitespace-pre-wrap">
-                    {sectionContent.history.split('\n').map((paragraph, i) => (
-                      paragraph.trim() ? <p key={i} className="text-lg leading-relaxed mb-6">{paragraph}</p> : null
-                    ))}
-                  </div>
-                )}
-                
-                {activeSection === 'mission' && (
-                  <div className="whitespace-pre-wrap">
-                    {sectionContent.mission.split('\n').map((paragraph, i) => (
-                      paragraph.trim() ? <p key={i} className="text-lg leading-relaxed mb-6">{paragraph}</p> : null
-                    ))}
-                  </div>
-                )}
-                
-                {activeSection === 'chairman' && (
-                  <div className="whitespace-pre-wrap">
-                    {sectionContent.chairman.split('\n').map((paragraph, i) => (
-                      paragraph.trim() ? <p key={i} className="text-lg leading-relaxed mb-6">{paragraph}</p> : null
-                    ))}
-                  </div>
-                )}
+                <div className="whitespace-pre-wrap">
+                  {(sectionContent[activeSection] || '').split('\n').map((paragraph, i) => (
+                    paragraph.trim() ? <p key={i} className="text-lg leading-relaxed mb-6">{paragraph}</p> : null
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Additional Information Section - Only shown for Chairman */}
-            {activeSection === 'chairman' && (
+            {/* Research & Achievements - Only shown for Chairman */}
+            {activeSection === 'chairman' && (researchAreas.length > 0 || achievements.length > 0) && (
               <div className="bg-white rounded-xl shadow-lg p-8">
                 <h3 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
                   <Award className="text-slate-600" />
                   Research & Achievements
                 </h3>
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <h4 className="font-semibold text-slate-700">Research Areas</h4>
                     <ul className="space-y-2 text-slate-600">
-                      <li>• Artificial Intelligence & Machine Learning</li>
-                      <li>• Data Science & Analytics</li>
-                      <li>• Software Engineering</li>
-                      <li>• Cybersecurity</li>
+                      {researchAreas.map((r, i) => <li key={i}>• {r}</li>)}
                     </ul>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <h4 className="font-semibold text-slate-700">Key Achievements</h4>
                     <ul className="space-y-2 text-slate-600">
-                      <li>• 50+ Research Publications</li>
-                      <li>• 15+ Years Department Leadership</li>
-                      <li>• Multiple Research Awards</li>
-                      <li>• Industry Collaboration Expert</li>
+                      {achievements.map((a, i) => <li key={i}>• {a}</li>)}
                     </ul>
                   </div>
                 </div>
@@ -185,93 +157,93 @@ const AboutChairman = () => {
             {/* Contact Info */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-slate-800 mb-4">Contact Information</h3>
-              
+
               <div className="space-y-4">
-                <div className="flex items-center gap-3 text-slate-600">
-                  <Mail className="text-slate-500" size={20} />
-                  <span>chairman@cse.du.ac.bd</span>
-                </div>
-                
-                <div className="flex items-center gap-3 text-slate-600">
-                  <Phone className="text-slate-500" size={20} />
-                  <span>+880-2-9670734</span>
-                </div>
-                
-                <div className="flex items-center gap-3 text-slate-600">
-                  <MapPin className="text-slate-500" size={20} />
-                  <span>Department of CSE, University of Dhaka</span>
-                </div>
-                
-                <div className="flex items-center gap-3 text-slate-600">
-                  <Calendar className="text-slate-500" size={20} />
-                  <span>Sun-Thu, 9:00 AM - 5:00 PM</span>
-                </div>
+                {content.contact_email && (
+                  <div className="flex items-center gap-3 text-slate-600">
+                    <Mail className="text-slate-500" size={20} />
+                    <span>{content.contact_email}</span>
+                  </div>
+                )}
+                {content.contact_phone && (
+                  <div className="flex items-center gap-3 text-slate-600">
+                    <Phone className="text-slate-500" size={20} />
+                    <span>{content.contact_phone}</span>
+                  </div>
+                )}
+                {content.contact_address && (
+                  <div className="flex items-center gap-3 text-slate-600">
+                    <MapPin className="text-slate-500" size={20} />
+                    <span>{content.contact_address}</span>
+                  </div>
+                )}
+                {content.contact_hours && (
+                  <div className="flex items-center gap-3 text-slate-600">
+                    <Calendar className="text-slate-500" size={20} />
+                    <span>{content.contact_hours}</span>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-slate-800 mb-4">Department Stats</h3>
-              
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Users className="text-slate-500" size={16} />
-                    <span className="text-slate-600">Faculty Members</span>
-                  </div>
-                  <span className="font-bold text-slate-800">25+</span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <GraduationCap className="text-slate-500" size={16} />
-                    <span className="text-slate-600">Students</span>
-                  </div>
-                  <span className="font-bold text-slate-800">800+</span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="text-slate-500" size={16} />
-                    <span className="text-slate-600">Research Projects</span>
-                  </div>
-                  <span className="font-bold text-slate-800">30+</span>
+            {deptStats.length > 0 && (
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-bold text-slate-800 mb-4">Department Stats</h3>
+
+                <div className="space-y-4">
+                  {deptStats.map((s, i) => {
+                    const Icon = STAT_ICONS[i % STAT_ICONS.length];
+                    return (
+                      <div key={i} className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Icon className="text-slate-500" size={16} />
+                          <span className="text-slate-600">{s.label}</span>
+                        </div>
+                        <span className="font-bold text-slate-800">{s.value}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Office Hours */}
-            <div className="bg-slate-100 rounded-xl p-6">
-              <h3 className="text-xl font-bold text-slate-800 mb-4">Office Hours</h3>
-              
-              <div className="space-y-3 text-slate-600">
-                <div className="flex justify-between">
-                  <span>Monday - Wednesday</span>
-                  <span className="font-medium">10:00 AM - 12:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Thursday - Friday</span>
-                  <span className="font-medium">2:00 PM - 4:00 PM</span>
-                </div>
-                <div className="text-sm text-slate-500 mt-4">
-                  * Appointments can be scheduled via email
+            {officeHours.length > 0 && (
+              <div className="bg-slate-100 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-slate-800 mb-4">Office Hours</h3>
+
+                <div className="space-y-3 text-slate-600">
+                  {officeHours.map((o, i) => (
+                    <div key={i} className="flex justify-between">
+                      <span>{o.days}</span>
+                      <span className="font-medium">{o.time}</span>
+                    </div>
+                  ))}
+                  {content.office_hours_note && (
+                    <div className="text-sm text-slate-500 mt-4">
+                      {content.office_hours_note}
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
+        )}
       </div>
 
       {/* Vision Section */}
-      <div className="bg-slate-800 text-white py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Connect With Us</h2>
-          <p className="text-xl text-slate-200 max-w-4xl mx-auto leading-relaxed">
-            We welcome intelligent and creative minds willing to take the challenges of 21st century workplaces 
-            and have strong enthusiasm to work in building a smart Bangladesh.
-          </p>
+      {content.connect_text && (
+        <div className="bg-slate-800 text-white py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-6">{content.connect_heading || 'Connect With Us'}</h2>
+            <p className="text-xl text-slate-200 max-w-4xl mx-auto leading-relaxed">
+              {content.connect_text}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

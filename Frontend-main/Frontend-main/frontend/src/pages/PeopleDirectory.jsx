@@ -1,8 +1,10 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter, Mail, Phone, MapPin, Calendar, FileText, ExternalLink, X, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
-import peopleData from '../data/people.json';
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const PeopleDirectory = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,12 +14,23 @@ const PeopleDirectory = () => {
   });
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [people, setPeople] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
 
-  // Data imported from JSON file
-  const people = peopleData;
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/guest/site/people`)
+      .then((res) => {
+        setPeople(res.data);
+        setLoadError(null);
+      })
+      .catch(() => setLoadError('Could not load the people directory. Please try again later.'))
+      .finally(() => setLoading(false));
+  }, []);
 
-  const roles = ["Professor", "Associate Professor", "Assistant Professor", "Lecturer"];
-  const expertiseAreas = ["AI", "Machine Learning", "Data Science", "Analytics", "Cybersecurity", "Network Security", "Software Engineering"];
+  // Filter chips derived from the (admin-managed) data itself
+  const roles = [...new Set(people.map(p => p.role).filter(Boolean))];
+  const expertiseAreas = [...new Set(people.flatMap(p => p.expertise || []))].slice(0, 12);
 
   const filteredPeople = people.filter(person => {
     const matchesSearch = person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -142,6 +155,12 @@ const PeopleDirectory = () => {
         </div>
 
         {/* Results */}
+        {loading && (
+          <div className="text-center py-12 text-slate-500">Loading directory…</div>
+        )}
+        {loadError && (
+          <div className="text-center py-12 text-red-600">{loadError}</div>
+        )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPeople.map(person => (
             <div key={person.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
@@ -201,7 +220,7 @@ const PeopleDirectory = () => {
           ))}
         </div>
 
-        {filteredPeople.length === 0 && (
+        {!loading && !loadError && filteredPeople.length === 0 && (
           <div className="text-center py-12">
             <p className="text-slate-600 text-lg">No people found matching your criteria.</p>
           </div>
