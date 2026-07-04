@@ -65,6 +65,7 @@ from app.Rakib.model.notification import Notification
 from app.Rakib.model.message import Message
 from app.Rakib.model.result import Result
 from app.Emon.model.curriculum import CurriculumCourse
+from app.Emon.model.allowedEmail import AllowedEmail
 from app.Rakib.model.publicsite import Person, SiteContent, AdmissionProgram, ProgramCourse, GalleryImage
 
 

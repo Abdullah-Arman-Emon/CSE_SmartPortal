@@ -110,8 +110,10 @@ const SignUp = () => {
             >
               <option value="student">Student</option>
               <option value="teacher">Teacher</option>
-              <option value="admin">Admin</option>
             </select>
+            <p className="mt-1.5 text-xs text-slate-500">
+              Sign-up is limited to CSE DU emails pre-approved by the department admin.
+            </p>
           </div>
         </div>
 

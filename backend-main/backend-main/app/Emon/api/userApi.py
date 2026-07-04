@@ -10,7 +10,11 @@ from jose import JWTError, jwt
 
 from app.Emon.model.userModel import User
 from app.Emon.model.teacher import Teacher
+from app.Emon.model.allowedEmail import AllowedEmail
 from app.Rakib.model.student import Student
+from sqlalchemy import func
+from pydantic import BaseModel
+from typing import List, Optional
 
 
 from app.Emon.schema.userSchema import UserCreate, UserLogin, UserResponse, UserPasswordChange
@@ -54,19 +58,38 @@ def change_password(user_req: UserPasswordChange, db: Session = Depends(get_db))
 
 @router.post("/register", response_model=UserResponse)
 def register(user: UserCreate, db: Session = Depends(get_db)):
-    
+
     print("Registering user:", user.email, "with role:", user.role)
-    
-    if db.query(User).filter(User.email == user.email).first():
-        raise HTTPException(status_code=400, detail="Email already registered")
-    hashed_password = pwd_context.hash(user.password[:72])
-    
+
+    email_norm = user.email.strip().lower()
     user.role = user.role.lower()
-    
+
+    if db.query(User).filter(func.lower(User.email) == email_norm).first():
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    # Sign-up is restricted to pre-approved CSE DU students/teachers.
+    # Admin accounts are never created from public sign-up.
+    if user.role not in ("student", "teacher"):
+        raise HTTPException(status_code=403, detail="Only student and teacher accounts can sign up")
+    allowed = db.query(AllowedEmail).filter(AllowedEmail.email == email_norm).first()
+    if not allowed:
+        raise HTTPException(
+            status_code=403,
+            detail="This email is not approved for sign-up. Only pre-approved CSE DU "
+                   "students and teachers can register — contact the department admin.",
+        )
+    if allowed.role and allowed.role != user.role:
+        raise HTTPException(
+            status_code=400,
+            detail=f"This email is approved as a {allowed.role} — please select the '{allowed.role}' role.",
+        )
+
+    hashed_password = pwd_context.hash(user.password[:72])
+
     new_user = User(
-        email=user.email,
+        email=email_norm,
         hashed_password=hashed_password,
-        role=user.role 
+        role=user.role
     )
     db.add(new_user)
     db.commit()
@@ -208,6 +231,73 @@ def get_student_using_userId(user_id:int = Query(...), db: Session = Depends(get
     print(return_student)
     
     return return_student
+
+
+# ---------------- Admin: Sign-up allowlist ----------------
+
+def require_admin(user_id: int, db: Session):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user or user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admin can manage the sign-up allowlist")
+    return user
+
+
+class AllowedEmailsAdd(BaseModel):
+    emails: List[str]                 # one or many (paste a whole batch at once)
+    role: str = "student"             # student | teacher
+
+
+@router.get("/allowed-emails")
+def list_allowed_emails(user_id: int = Query(...), db: Session = Depends(get_db)):
+    require_admin(user_id, db)
+    registered = {e for (e,) in db.query(func.lower(User.email)).all()}
+    rows = db.query(AllowedEmail).order_by(AllowedEmail.id.desc()).all()
+    return [
+        {
+            "id": r.id,
+            "email": r.email,
+            "role": r.role,
+            "registered": r.email in registered,
+            "created_at": r.created_at.isoformat() if r.created_at else None,
+        }
+        for r in rows
+    ]
+
+
+@router.post("/allowed-emails")
+def add_allowed_emails(data: AllowedEmailsAdd, user_id: int = Query(...), db: Session = Depends(get_db)):
+    require_admin(user_id, db)
+    role = data.role.strip().lower()
+    if role not in ("student", "teacher"):
+        raise HTTPException(status_code=400, detail="role must be student or teacher")
+    added, skipped, invalid = 0, [], []
+    existing = {e for (e,) in db.query(AllowedEmail.email).all()}
+    for raw in data.emails:
+        email = raw.strip().lower()
+        if not email:
+            continue
+        if "@" not in email or " " in email:
+            invalid.append(email)
+            continue
+        if email in existing:
+            skipped.append(email)
+            continue
+        db.add(AllowedEmail(email=email, role=role))
+        existing.add(email)
+        added += 1
+    db.commit()
+    return {"added": added, "skipped": skipped, "invalid": invalid}
+
+
+@router.delete("/allowed-emails/{allowed_id}")
+def delete_allowed_email(allowed_id: int, user_id: int = Query(...), db: Session = Depends(get_db)):
+    require_admin(user_id, db)
+    row = db.query(AllowedEmail).filter(AllowedEmail.id == allowed_id).first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Entry not found")
+    db.delete(row)
+    db.commit()
+    return {"message": "Removed from allowlist"}
 
 
 # ---------------- Admin: User Management ----------------

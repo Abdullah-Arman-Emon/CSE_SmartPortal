@@ -96,21 +96,39 @@ function TeacherAttendance({ teacherProfile }) {
     }
   };
 
-  const loadReport = async (from = fromDate, to = toDate) => {
+  const loadReport = async (from = fromDate, to = toDate, attempt = 0) => {
     if (!courseId) return flash("error", "Select a course first.");
     setView("report");
     const params = {};
     if (from) params.from_date = from;
     if (to) params.to_date = to;
     try {
-      const [rep, mat] = await Promise.all([
-        axios.get(`${BACKEND_URL}/v1/attendance/course/${courseId}/report`, { params }),
-        axios.get(`${BACKEND_URL}/v1/attendance/course/${courseId}/matrix`, { params }),
-      ]);
+      const rep = await axios.get(
+        `${BACKEND_URL}/v1/attendance/course/${courseId}/report`,
+        { params }
+      );
       setReport(rep.data);
-      setMatrix(mat.data);
     } catch (e) {
-      flash("error", "Failed to load report.");
+      // one silent retry — covers server restarts / flaky connections
+      if (attempt < 1) {
+        setTimeout(() => loadReport(from, to, attempt + 1), 1500);
+        return;
+      }
+      const why = e.response
+        ? `${e.response.status}: ${e.response.data?.detail || e.response.statusText || "server error"}`
+        : "network error — check your connection";
+      flash("error", `Failed to load report (${why}).`);
+      return;
+    }
+    // Register matrix is secondary — its failure must not block the summary
+    try {
+      const mat = await axios.get(
+        `${BACKEND_URL}/v1/attendance/course/${courseId}/matrix`,
+        { params }
+      );
+      setMatrix(mat.data);
+    } catch {
+      setMatrix(null);
     }
   };
 
