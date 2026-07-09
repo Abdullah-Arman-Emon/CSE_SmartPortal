@@ -67,6 +67,7 @@ from app.Rakib.model.result import Result
 from app.Emon.model.curriculum import CurriculumCourse
 from app.Emon.model.allowedEmail import AllowedEmail
 from app.Rakib.model.publicsite import Person, SiteContent, AdmissionProgram, ProgramCourse, GalleryImage
+from app.Rakib.model.routine import RoutinePeriod, Routine, RoutineSlot, SlotChangeRequest, AcademicHoliday
 
 
 
@@ -83,6 +84,13 @@ try:
     seed_if_empty()
 except Exception as e:
     print(f"seed_public_site failed (continuing startup): {e}")
+
+# Seed routine periods + official Batch 27 (4-1) routine + academic calendar if empty
+try:
+    from seed_routine import seed_if_empty as seed_routine_if_empty
+    seed_routine_if_empty()
+except Exception as e:
+    print(f"seed_routine failed (continuing startup): {e}")
 
 @app.get('/')
 def read_root():
@@ -131,6 +139,9 @@ app.include_router(ChatbotApi.router)
 from app.Rakib.api import PublicSiteApi
 app.include_router(PublicSiteApi.guest_router)
 app.include_router(PublicSiteApi.admin_router)
+
+from app.Rakib.api import RoutineApi
+app.include_router(RoutineApi.router)
 
 app.include_router(UtilityApi.router)
 

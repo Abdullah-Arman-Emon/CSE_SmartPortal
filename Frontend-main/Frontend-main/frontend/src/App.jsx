@@ -34,6 +34,7 @@ import NotFound from './pages/NotFound'
 import ChatPanel from './components/ChatPanel'
 import StudentResults from './Student/StudentResults'
 import StudentCGPA from './Student/StudentCGPA'
+import StudentRoutine from './Student/StudentRoutine'
 import StudentPageShell from './Student/StudentPageShell'
 
 function App() {
@@ -112,6 +113,14 @@ function App() {
           element={
             <RequireAuth allowedRole="student">
               <StudentPageShell><StudentResults /></StudentPageShell>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/routine"
+          element={
+            <RequireAuth allowedRole="student">
+              <StudentPageShell><StudentRoutine /></StudentPageShell>
             </RequireAuth>
           }
         />

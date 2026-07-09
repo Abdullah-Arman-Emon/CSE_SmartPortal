@@ -60,6 +60,7 @@ export default function Dashboard() {
     num_quizzes_today: 0,
   });
   const [todaysClasses, setTodaysClasses] = useState([]);
+  const [routineToday, setRoutineToday] = useState(null); // published routine's view of today
   const [upcomingTests, setUpcomingTests] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(false);
   const [loadingTests, setLoadingTests] = useState(false);
@@ -184,6 +185,14 @@ export default function Dashboard() {
     if (studentProfile && studentProfile?.id) {
       fetchStudentInfo(studentProfile?.id);
       fetchTodaysClasses(studentProfile?.id);
+      // Prefer the published batch routine for today's classes (room + times);
+      // the enrolled-course list above stays as fallback.
+      if (studentProfile?.batch && studentProfile?.current_semester) {
+        axios
+          .get(`${BACKEND_URL}/v1/routine/today?batch=${studentProfile.batch}&semester=${studentProfile.current_semester}`)
+          .then((r) => setRoutineToday(r.data))
+          .catch(() => setRoutineToday(null));
+      }
       fetchUpcomingTests(studentProfile?.id);
       fetchAttendance(studentProfile?.id);
       fetchAnnouncements(studentProfile?.id);
@@ -285,6 +294,14 @@ export default function Dashboard() {
             <span className="hidden sm:inline">Finance</span>
           </button>
           <button
+            onClick={() => navigate("/routine")}
+            className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700
+              hover:bg-slate-50 hover:scale-105 transform transition-all duration-300 whitespace-nowrap"
+          >
+            <Calendar size={16} />
+            <span className="hidden sm:inline">Routine</span>
+          </button>
+          <button
             onClick={() => navigate("/results")}
             className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700
               hover:bg-slate-50 hover:scale-105 transform transition-all duration-300 whitespace-nowrap"
@@ -370,7 +387,55 @@ export default function Dashboard() {
               )}
             </div>
 
-            {loadingClasses ? (
+            {routineToday?.holiday ? (
+              <div className="text-center py-12">
+                <Calendar className="mx-auto text-amber-400 mb-4" size={48} />
+                <h3 className="text-lg font-medium text-slate-600 mb-2">
+                  Today is off — {routineToday.holiday.title}
+                </h3>
+                <p className="text-slate-500">No classes today. Enjoy the break!</p>
+              </div>
+            ) : routineToday?.classes?.length > 0 ? (
+              <div className="space-y-4">
+                {routineToday.classes.map((c) => (
+                  <div key={c.id} className="flex items-center gap-4 p-4 rounded-lg border border-slate-200
+                    hover:border-blue-300 hover:shadow-md transition-all duration-300 bg-gradient-to-r from-slate-50 to-white">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <BookOpen className="text-blue-600" size={20} />
+                      </div>
+                    </div>
+                    <div className="flex-grow">
+                      <h3 className="font-semibold text-slate-800">
+                        {c.course_code}{c.course_title ? ` — ${c.course_title}` : ""}
+                      </h3>
+                      <p className="text-sm text-slate-600">
+                        {c.teacher_names?.length ? c.teacher_names.join(", ") : c.teacher_initials || ""}
+                      </p>
+                      <div className="flex items-center gap-4 mt-2 text-sm text-slate-500">
+                        <span className="flex items-center gap-1">
+                          <Clock size={14} />
+                          {c.period_label}
+                        </span>
+                        {c.room && (
+                          <span className="flex items-center gap-1">
+                            <MapPin size={14} />
+                            Room {c.room}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {c.group_label && (
+                      <div className="flex-shrink-0">
+                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                          {c.group_label}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : loadingClasses ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="animate-pulse">

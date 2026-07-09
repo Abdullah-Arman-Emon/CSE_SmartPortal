@@ -20,6 +20,7 @@ import {
     Menu,
     X,
     Globe,
+    CalendarClock,
 } from "lucide-react";
 import axios from "axios";
 import {
@@ -46,6 +47,7 @@ import AdminAttendance from "./AdminAttendance";
 import AdminUsers from "./AdminUsers";
 import AdminCurriculum from "./AdminCurriculum";
 import AdminWebsite from "./AdminWebsite";
+import AdminRoutine from "./AdminRoutine";
 import NotificationBell from "../components/NotificationBell";
 
 
@@ -311,6 +313,7 @@ function AdminDashboard() {
         { id: "attendance", label: "Attendance", icon: UserCheck },
         { id: "users", label: "Users", icon: Users },
         { id: "curriculum", label: "Curriculum", icon: BookOpen },
+        { id: "routine", label: "Routine", icon: CalendarClock },
         { id: "website", label: "Website", icon: Globe },
     ];
 
@@ -1023,6 +1026,8 @@ function AdminDashboard() {
                     {activeTab === "users" && <AdminUsers />}
 
                     {activeTab === "curriculum" && <AdminCurriculum />}
+
+                    {activeTab === "routine" && <AdminRoutine />}
 
                     {activeTab === "website" && <AdminWebsite />}
                 </main>
