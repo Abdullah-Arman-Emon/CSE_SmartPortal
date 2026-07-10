@@ -6,7 +6,7 @@
 **/assets/*.jpg
 **/assets/*.png
 
-# Generated / vendored
+# Generated / vendored (⚠️ node_modules is tracked in this repo — skip it)
 **/package-lock.json
 **/node_modules/
 **/dist/

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey , String, Text
+from sqlalchemy import Column, Integer, ForeignKey , String, Text, Enum
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 
@@ -16,6 +16,9 @@ class Student(Base):
     phone = Column(String(20))
     bio = Column(Text)
     batch = Column(Integer, nullable=False)  # e.g., "27"
+    current_semester = Column(String(10), nullable=True)  # e.g., "3-1" (admin/student editable)
+    program = Column(Enum("bsc", "msc", name="student_program"), nullable=False, default="bsc")
+    msc_group = Column(Enum("thesis", "project", name="msc_group"), nullable=True)  # only for program="msc"
     profile_image = Column(String(255))  # image URL or file path
     
 

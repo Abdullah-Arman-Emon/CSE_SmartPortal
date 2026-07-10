@@ -1,0 +1,98 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# PyCharm/JetBrains settings
+.idea/
+
+# MyPy cache
+.mypy_cache/
+
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# Logs and local secrets
+*.log
+.env
+.env.*
+.secret
+
+# SQLite and database
+*.sqlite3
+*.db
+
+# MacOS & system files
+.DS_Store
+Thumbs.db
+
+# Node (if mixing JS)
+node_modules/
+
+# Pip cache
+pip-log.txt
+pip-delete-this-directory.txt
+*.pip-cache/
+
+# IDE additional
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+
+# OS files
+*.swp
+*.swo
+*~
+*.bak
+.AppleDouble/
+.LSOverride/
+
+# Python compiled extensions
+*.so
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local configuration
+.env.local
+.env.*.local
+local_settings.py
+
+# Docker volumes (local)
+mysql_data/
+
+Credentials/
+
+RESOURCES/
