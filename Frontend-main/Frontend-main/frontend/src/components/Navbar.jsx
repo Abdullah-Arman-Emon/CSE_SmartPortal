@@ -50,6 +50,7 @@ const Navbar = () => {
             </div>
             <div className="hidden md:flex items-center space-x-1">
               <Link to="/people" className="py-4 px-2 hover:text-slate-300 transition duration-300">People Directory</Link>
+              <Link to="/beginner-guide" className="py-4 px-2 hover:text-slate-300 transition duration-300">Beginner Guide</Link>
               <Link to="/chairman" className="py-4 px-2 hover:text-slate-300 transition duration-300">About</Link>
               <Link to="/admission-hub" className="py-4 px-2 hover:text-slate-300 transition duration-300">Admission Hub</Link>
               <Link to="/apply" className="py-4 px-2 hover:text-slate-300 transition duration-300">Apply Now</Link>
@@ -120,6 +121,13 @@ const Navbar = () => {
             onClick={() => setIsMobileMenuOpen(false)}
           >
             People Directory
+          </Link>
+          <Link 
+            to="/beginner-guide" 
+            className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-slate-700"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Beginner Guide
           </Link>
           <Link 
             to="/chairman" 

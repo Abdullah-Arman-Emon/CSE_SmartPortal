@@ -36,6 +36,7 @@ import StudentResults from './Student/StudentResults'
 import StudentCGPA from './Student/StudentCGPA'
 import StudentRoutine from './Student/StudentRoutine'
 import StudentPageShell from './Student/StudentPageShell'
+import BeginnerGuide from './pages/BeginnerGuide'
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/beginner-guide" element={<BeginnerGuide />} />
         <Route path="/admission-hub" element={<AdmissionHub />} />
         <Route path="/program/:id" element={<ProgramDetails />} />
         <Route path="/program/:programId/courses" element={<ProgramCourses />} />
