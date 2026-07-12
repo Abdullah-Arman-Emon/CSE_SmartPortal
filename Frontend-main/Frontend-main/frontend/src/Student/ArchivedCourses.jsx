@@ -8,7 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const ArchivedCourses = () => {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, loading: authLoading } = useContext(AuthContext);
   const [archivedCourses, setArchivedCourses] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -27,13 +27,10 @@ const ArchivedCourses = () => {
   ];
 
   useEffect(() => {
-    
-    if (!user?.isAuthenticated) {
+    if (!authLoading && !user?.isAuthenticated) {
       navigate('/login');
-      return;
     }
-    
-  }, [navigate]);
+  }, [navigate, user, authLoading]);
 
   const handleUnarchive = (courseId) => {
     setArchivedCourses(archivedCourses.filter(course => course.id !== courseId));

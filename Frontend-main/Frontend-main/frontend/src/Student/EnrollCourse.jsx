@@ -10,7 +10,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const EnrollCourse = () => {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, loading: authLoading } = useContext(AuthContext);
   const [studentProfile, setStudentProfile] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
@@ -21,11 +21,10 @@ const EnrollCourse = () => {
 
   // Authentication check
     useEffect(() => {
-      if (!user?.isAuthenticated) {
+      if (!authLoading && !user?.isAuthenticated) {
         navigate("/login");
-        return;
       }
-    }, [navigate]);
+    }, [navigate, user, authLoading]);
 
   useEffect(() => {
     const fetchStudent = async (userId) => {
