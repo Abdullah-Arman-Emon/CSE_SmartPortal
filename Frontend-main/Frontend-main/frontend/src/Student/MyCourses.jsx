@@ -183,7 +183,6 @@ const MyCourses = () => {
             },
           }
         );
-        console.log(`Successfully uploaded ${file.name}:`, response.data.url);
         return response.data.url;
       } catch (error) {
         console.error(`Failed to upload ${file.name}:`, error);
@@ -199,7 +198,6 @@ const MyCourses = () => {
       new URL(url);
       return true;
     } catch (error) {
-      console.log(error);
       return false;
     }
   };
@@ -284,7 +282,6 @@ const MyCourses = () => {
       setFileLinks("");
       setSelectedFiles((prev) => ({ ...prev, [assignmentId]: [] }));
       // setMessage({ type: 'success', text: 'Submission uploaded successfully!' });
-      console.log("Submission successful:", response.data);
     } catch (error) {
       const errorMessage =
         error.response?.data?.detail ||

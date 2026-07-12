@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 
 import {
@@ -21,6 +21,7 @@ import {
     X,
     Globe,
     CalendarClock,
+    MessageSquare,
 } from "lucide-react";
 import axios from "axios";
 import {
@@ -48,6 +49,7 @@ import AdminUsers from "./AdminUsers";
 import AdminCurriculum from "./AdminCurriculum";
 import AdminWebsite from "./AdminWebsite";
 import AdminRoutine from "./AdminRoutine";
+import Messenger from "../components/Messenger";
 import NotificationBell from "../components/NotificationBell";
 
 
@@ -57,7 +59,12 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 function AdminDashboard() {
-    const [activeTab, setActiveTab] = useState("dashboard");
+    // Tab is driven by the URL (?tab=...) so every admin feature is deep-linkable
+    // and the browser Back/Forward buttons move between sections.
+    const [searchParams, setSearchParams] = useSearchParams();
+    const activeTab = searchParams.get("tab") || "dashboard";
+    const setActiveTab = (id) =>
+        setSearchParams(id === "dashboard" ? {} : { tab: id }, { replace: false });
     const { user, setUser } = useContext(AuthContext);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [dashboardData, setDashboardData] = useState({
@@ -89,7 +96,8 @@ function AdminDashboard() {
             try {
                 // Fetch upcoming meetings
                 const meetingsResponse = await axios.get(
-                    `${BACKEND_URL}/v1/meetings/upcoming`
+                    `${BACKEND_URL}/v1/meetings/upcoming`,
+                    { params: { user_id: user?.id } }
                 );
                 const meetings = meetingsResponse.data;
                 setRecentMeetings(meetings.slice(0, 3)); // Show only first 3
@@ -312,6 +320,7 @@ function AdminDashboard() {
         { id: "finance", label: "Finance", icon: DollarSign },
         { id: "attendance", label: "Attendance", icon: UserCheck },
         { id: "users", label: "Users", icon: Users },
+        { id: "messages", label: "Messages", icon: MessageSquare },
         { id: "curriculum", label: "Curriculum", icon: BookOpen },
         { id: "routine", label: "Routine", icon: CalendarClock },
         { id: "website", label: "Website", icon: Globe },
@@ -324,6 +333,7 @@ function AdminDashboard() {
             icon: Users,
             color: "bg-blue-500",
             bgColor: "bg-blue-50",
+            tab: "users",
         },
         {
             title: "Total Teachers",
@@ -331,6 +341,7 @@ function AdminDashboard() {
             icon: GraduationCap,
             color: "bg-purple-500",
             bgColor: "bg-purple-50",
+            tab: "users",
         },
         {
             title: "Total Courses",
@@ -338,6 +349,7 @@ function AdminDashboard() {
             icon: BookOpen,
             color: "bg-teal-500",
             bgColor: "bg-teal-50",
+            tab: "curriculum",
         },
         {
             title: "Upcoming Meetings",
@@ -345,6 +357,7 @@ function AdminDashboard() {
             icon: Calendar,
             color: "bg-orange-500",
             bgColor: "bg-orange-50",
+            tab: "meetings",
         },
         {
             title: "Total Applications",
@@ -352,6 +365,7 @@ function AdminDashboard() {
             icon: FileText,
             color: "bg-indigo-500",
             bgColor: "bg-indigo-50",
+            tab: "admissions",
         },
         {
             title: "Recent Applications",
@@ -359,6 +373,7 @@ function AdminDashboard() {
             icon: FileText,
             color: "bg-pink-500",
             bgColor: "bg-pink-50",
+            tab: "admissions",
         },
         {
             title: "Total Equipment",
@@ -366,6 +381,7 @@ function AdminDashboard() {
             icon: Package,
             color: "bg-teal-500",
             bgColor: "bg-teal-50",
+            tab: "equipment",
         },
         {
             title: "Equipment In Use",
@@ -373,6 +389,7 @@ function AdminDashboard() {
             icon: Package,
             color: "bg-amber-500",
             bgColor: "bg-amber-50",
+            tab: "equipment",
         },
         {
             title: "Total Exams",
@@ -380,6 +397,7 @@ function AdminDashboard() {
             icon: GraduationCap,
             color: "bg-violet-500",
             bgColor: "bg-violet-50",
+            tab: "exams",
         },
         {
             title: "Exams Soon",
@@ -387,6 +405,7 @@ function AdminDashboard() {
             icon: GraduationCap,
             color: "bg-rose-500",
             bgColor: "bg-rose-50",
+            tab: "exams",
         },
         {
             title: "Total Events",
@@ -394,6 +413,7 @@ function AdminDashboard() {
             icon: CalendarDays,
             color: "bg-cyan-500",
             bgColor: "bg-cyan-50",
+            tab: "events",
         },
         {
             title: "Upcoming Events",
@@ -401,6 +421,7 @@ function AdminDashboard() {
             icon: CalendarDays,
             color: "bg-emerald-500",
             bgColor: "bg-emerald-50",
+            tab: "events",
         },
         {
             title: "Running Events",
@@ -408,6 +429,7 @@ function AdminDashboard() {
             icon: CalendarDays,
             color: "bg-lime-500",
             bgColor: "bg-lime-50",
+            tab: "events",
         },
         {
             title: "Total Notices",
@@ -415,6 +437,7 @@ function AdminDashboard() {
             icon: Bell,
             color: "bg-yellow-500",
             bgColor: "bg-yellow-50",
+            tab: "notices",
         },
         {
             title: "Urgent Notices",
@@ -422,6 +445,7 @@ function AdminDashboard() {
             icon: Bell,
             color: "bg-red-500",
             bgColor: "bg-red-50",
+            tab: "notices",
         },
         {
             title: "Finance Events",
@@ -429,6 +453,7 @@ function AdminDashboard() {
             icon: DollarSign,
             color: "bg-green-500",
             bgColor: "bg-green-50",
+            tab: "finance",
         },
         {
             title: "Pending Payments",
@@ -436,6 +461,7 @@ function AdminDashboard() {
             icon: Clock,
             color: "bg-orange-500",
             bgColor: "bg-orange-50",
+            tab: "finance",
         },
         {
             title: "Total Revenue",
@@ -443,6 +469,7 @@ function AdminDashboard() {
             icon: DollarSign,
             color: "bg-emerald-500",
             bgColor: "bg-emerald-50",
+            tab: "finance",
         },
     ];
 
@@ -581,7 +608,7 @@ function AdminDashboard() {
 
 
                 {/* Main Content */}
-                <main className="flex-1 p-4 sm:p-6">
+                <main className="flex-1 min-w-0 p-4 sm:p-6">
                     {activeTab === "dashboard" && (
                         <motion.div
                             className="space-y-6"
@@ -603,14 +630,16 @@ function AdminDashboard() {
                                         card.title === "Total Events";
 
                                     return (
-                                        <motion.div
+                                        <motion.button
                                             key={index}
                                             variants={itemVariants}
-                                            className={`${
+                                            onClick={() => card.tab && setActiveTab(card.tab)}
+                                            title={card.tab ? `Manage ${card.title}` : undefined}
+                                            className={`group text-left w-full ${
                                                 isEventCard
                                                     ? "bg-orange-50 border-orange-200"
                                                     : card.bgColor
-                                            } rounded-lg p-4 sm:p-6 border shadow-sm hover:shadow-md transition-shadow`}
+                                            } rounded-lg p-4 sm:p-6 border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-400`}
                                         >
                                             <div className="flex items-center justify-between">
                                                 <div>
@@ -634,7 +663,10 @@ function AdminDashboard() {
                                                     />
                                                 </div>
                                             </div>
-                                        </motion.div>
+                                            <p className="mt-3 text-xs font-medium text-gray-400 group-hover:text-orange-600 transition-colors">
+                                                Click to manage →
+                                            </p>
+                                        </motion.button>
                                     );
                                 })}
                             </motion.div>
@@ -1024,6 +1056,8 @@ function AdminDashboard() {
                     {activeTab === "attendance" && <AdminAttendance />}
 
                     {activeTab === "users" && <AdminUsers />}
+
+                    {activeTab === "messages" && <Messenger />}
 
                     {activeTab === "curriculum" && <AdminCurriculum />}
 

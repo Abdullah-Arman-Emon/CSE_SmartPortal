@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from "../components/ui/toast";
 
 function ApplicationFormStep4() {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ function ApplicationFormStep4() {
       } catch (error) {
         console.error("Error submitting application:", error);
         setIsSubmitting(false);
-        alert("There was an error submitting your application. Please try again.");
+        toast.error("There was an error submitting your application. Please try again.");
       }
     }, 2000);
   };

@@ -15,6 +15,7 @@ const SignUp = () => {
     password: "",
     role: "student",
     batch: "",
+    registration_number: "",
   });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -36,6 +37,7 @@ const SignUp = () => {
       };
       if (user.role === "student") {
         user.batch = formData.batch ? parseInt(formData.batch) : null;
+        user.registration_number = formData.registration_number.trim();
       }
       await axios.post(`${BACKEND_URL}/v1/auth/register`, user);
       navigate("/login");
@@ -118,17 +120,33 @@ const SignUp = () => {
         </div>
 
         {formData.role === "student" && (
-          <div>
-            <label htmlFor="batch" className="block text-slate-400 text-sm mb-2">Batch</label>
-            <div className="relative">
-              <Hash size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
-              <input
-                type="number" id="batch" name="batch"
-                value={formData.batch} onChange={handleChange} required
-                placeholder="e.g., 27" className={inputCls}
-              />
+          <>
+            <div>
+              <label htmlFor="registration_number" className="block text-slate-400 text-sm mb-2">Registration number</label>
+              <div className="relative">
+                <Hash size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <input
+                  type="text" id="registration_number" name="registration_number"
+                  value={formData.registration_number} onChange={handleChange} required
+                  placeholder="e.g., 2022-715-876" className={inputCls}
+                />
+              </div>
+              <p className="mt-1.5 flex items-center gap-1 text-xs text-slate-500">
+                <CheckCircle2 size={12} /> Must match the registration number on record for your email.
+              </p>
             </div>
-          </div>
+            <div>
+              <label htmlFor="batch" className="block text-slate-400 text-sm mb-2">Batch</label>
+              <div className="relative">
+                <Hash size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <input
+                  type="number" id="batch" name="batch"
+                  value={formData.batch} onChange={handleChange} required
+                  placeholder="e.g., 29" className={inputCls}
+                />
+              </div>
+            </div>
+          </>
         )}
 
         <button

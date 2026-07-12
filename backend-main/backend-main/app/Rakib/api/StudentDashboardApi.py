@@ -48,6 +48,8 @@ def list_all_students(db: Session = Depends(get_db)):
             "id": s.id,
             "name": f"{s.first_name or ''} {s.last_name or ''}".strip() or "Student",
             "batch": s.batch,
+            "current_semester": s.current_semester,
+            "status": s.status,
         }
         for s in students
     ]

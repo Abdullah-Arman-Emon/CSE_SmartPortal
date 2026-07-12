@@ -196,4 +196,7 @@ mysql_data/
 
 Credentials/
 
-RESOURCES/
+# Ignore uploaded files, but ship the curated faculty photos (real DU CSE
+# portraits used by the public site) so fresh deploys have working images.
+RESOURCES/*
+!RESOURCES/faculty/

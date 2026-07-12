@@ -60,14 +60,20 @@ from app.Emon.model.finance_event import FinanceEvent
 from app.Emon.model.student_payment import StudentPayment
 from app.Rakib.model.admissionform import AdmissionForm
 from app.Rakib.model.attendance import Attendance
+from app.Rakib.model.class_session import ClassSession
 from app.Rakib.model.announcement import Announcement
 from app.Rakib.model.notification import Notification
 from app.Rakib.model.message import Message
+from app.Rakib.model.direct_message import DirectMessage
 from app.Rakib.model.result import Result
 from app.Emon.model.curriculum import CurriculumCourse
 from app.Emon.model.allowedEmail import AllowedEmail
 from app.Rakib.model.publicsite import Person, SiteContent, AdmissionProgram, ProgramCourse, GalleryImage
 from app.Rakib.model.routine import RoutinePeriod, Routine, RoutineSlot, SlotChangeRequest, AcademicHoliday
+from app.Rakib.model.batch_term import BatchTerm
+from app.Rakib.model.batch import Batch
+from app.Rakib.model.semester_result import SemesterResult
+from app.Rakib.model.batch_change import BatchChangeRequest
 
 
 
@@ -92,6 +98,31 @@ try:
 except Exception as e:
     print(f"seed_routine failed (continuing startup): {e}")
 
+# Seed all real published routines (every batch/semester) with teacher accounts,
+# course links and batch-term spine — runs after periods exist.
+try:
+    from seed_full_routines import seed_if_empty as seed_full_routines_if_empty
+    seed_full_routines_if_empty()
+except Exception as e:
+    print(f"seed_full_routines failed (continuing startup): {e}")
+
+# Seed realistic academic-lifecycle demo data (class_sessions with teacher/topic
+# binding + historical per-semester attendance correlated to earned grades) so
+# every account reads as a believable full 1st→4th year cycle. Runs once.
+try:
+    from seed_demo_lifecycle import seed_if_empty as seed_demo_lifecycle_if_empty
+    seed_demo_lifecycle_if_empty()
+except Exception as e:
+    print(f"seed_demo_lifecycle failed (continuing startup): {e}")
+
+# Give every account a profile picture (real DU faculty photos for teachers,
+# realistic portraits for students) so faces show across messages/dashboards.
+try:
+    from seed_profile_images import seed_if_empty as seed_profile_images_if_empty
+    seed_profile_images_if_empty()
+except Exception as e:
+    print(f"seed_profile_images failed (continuing startup): {e}")
+
 @app.get('/')
 def read_root():
     return {'message': 'CSEDU Backend is running'}
@@ -112,7 +143,7 @@ app.include_router(financeApi.router)
 app.include_router(curriculumApi.router)
 
 from app.Rakib.api import StudentDashboardApi, StudentSettingsApi, StudentAssignmentApi, StudentMyClassesApi, TeacherMyClassesApi, AdminEquipmentApi, AdminEventApi
-from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi, StudentExamApi, AttendanceApi, AnnouncementApi, NotificationApi, ChatApi, ResultApi, ChatbotApi
+from app.Rakib.api import AdminNoticeApi, StudentEquipmentApi, StudentEventApi, UtilityApi, AdminAdmissionHubApi, AdminExamApi, GuestAdmissionHubApi, StudentNoticeApi, StudentExamApi, AttendanceApi, AnnouncementApi, NotificationApi, ChatApi, DirectChatApi, ResultApi, ChatbotApi
 
 app.include_router(StudentDashboardApi.router)
 app.include_router(StudentEquipmentApi.router)
@@ -133,6 +164,7 @@ app.include_router(AttendanceApi.router)
 app.include_router(AnnouncementApi.router)
 app.include_router(NotificationApi.router)
 app.include_router(ChatApi.router)
+app.include_router(DirectChatApi.router)
 app.include_router(ResultApi.router)
 app.include_router(ChatbotApi.router)
 
@@ -140,8 +172,20 @@ from app.Rakib.api import PublicSiteApi
 app.include_router(PublicSiteApi.guest_router)
 app.include_router(PublicSiteApi.admin_router)
 
+from app.Rakib.api import GuestNoticeApi
+app.include_router(GuestNoticeApi.router)
+
 from app.Rakib.api import RoutineApi
 app.include_router(RoutineApi.router)
+
+from app.Rakib.api import BatchTermApi
+app.include_router(BatchTermApi.router)
+
+from app.Rakib.api import BatchChangeApi
+app.include_router(BatchChangeApi.router)
+
+from app.Rakib.api import BatchApi
+app.include_router(BatchApi.router)
 
 app.include_router(UtilityApi.router)
 

@@ -114,8 +114,6 @@ export default function Dashboard() {
   }, [user]);
 
   useEffect(() => {
-    console.log("student profile : ");
-    console.log(studentProfile);
 
     async function fetchStudentInfo(studentId) {
       try {
@@ -200,12 +198,18 @@ export default function Dashboard() {
   }, [studentProfile]);
 
   useEffect(() => {
-    console.log("student info: ");
-    console.log(studentInfo);
   }, [studentInfo]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-900">
+      {/* Alumni banner — graduated students keep read-only access to results/transcript */}
+      {studentProfile?.status === "graduated" && (
+        <div className="bg-indigo-600 text-white text-sm px-4 sm:px-6 py-2.5 text-center font-medium">
+          🎓 Congratulations, graduate! Your batch has completed the programme. Your
+          results, CGPA and transcript remain available — new classes and enrolment are closed.
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:p-6 bg-white shadow-sm border-b border-slate-200">
         <div className="flex items-center gap-4 mb-4 sm:mb-0">
@@ -302,6 +306,14 @@ export default function Dashboard() {
             <span className="hidden sm:inline">Routine</span>
           </button>
           <button
+            onClick={() => navigate("/attendance")}
+            className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700
+              hover:bg-slate-50 hover:scale-105 transform transition-all duration-300 whitespace-nowrap"
+          >
+            <TrendingUp size={16} />
+            <span className="hidden sm:inline">Attendance</span>
+          </button>
+          <button
             onClick={() => navigate("/results")}
             className="flex items-center gap-2 px-3 py-4 text-slate-500 hover:text-slate-700
               hover:bg-slate-50 hover:scale-105 transform transition-all duration-300 whitespace-nowrap"
@@ -382,9 +394,18 @@ export default function Dashboard() {
                 <Calendar className="text-blue-600" size={20} />
               </div>
               <h2 className="text-xl font-bold text-slate-800">Today's Classes</h2>
+              {routineToday?.day && (
+                <span className="text-sm text-slate-400">· {routineToday.day}</span>
+              )}
               {loadingClasses && (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
               )}
+              <button
+                onClick={() => navigate("/routine")}
+                className="ml-auto text-xs font-medium text-blue-600 hover:text-blue-700"
+              >
+                Weekly routine →
+              </button>
             </div>
 
             {routineToday?.holiday ? (
@@ -443,11 +464,24 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
+            ) : !studentProfile?.batch || !studentProfile?.current_semester ? (
+              <div className="text-center py-12">
+                <Calendar className="mx-auto text-amber-400 mb-4" size={48} />
+                <h3 className="text-lg font-medium text-slate-600 mb-2">Batch &amp; semester not set</h3>
+                <p className="text-slate-500 max-w-md mx-auto">
+                  Your routine appears once your batch and current semester are assigned.
+                  Please ask an admin to set them on your student profile.
+                </p>
+              </div>
             ) : todaysClasses.length === 0 ? (
               <div className="text-center py-12">
                 <Calendar className="mx-auto text-slate-400 mb-4" size={48} />
                 <h3 className="text-lg font-medium text-slate-600 mb-2">No Classes Today</h3>
-                <p className="text-slate-500">Enjoy your free day! Check back tomorrow for your schedule.</p>
+                <p className="text-slate-500">
+                  {routineToday
+                    ? `No classes scheduled for ${routineToday.day}. Enjoy your free day!`
+                    : "Enjoy your free day! Check back tomorrow for your schedule."}
+                </p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -603,6 +637,12 @@ export default function Dashboard() {
               {loadingAttendance && (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-600"></div>
               )}
+              <button
+                onClick={() => navigate("/attendance")}
+                className="ml-auto text-xs font-medium text-emerald-600 hover:text-emerald-700"
+              >
+                View full →
+              </button>
             </div>
 
             {loadingAttendance ? (

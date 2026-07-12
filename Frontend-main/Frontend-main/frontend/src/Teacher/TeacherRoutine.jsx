@@ -17,6 +17,7 @@ function TeacherRoutine({ teacherProfile }) {
     const teacherId = teacherProfile?.id;
 
     const [slots, setSlots] = useState([]);
+    const [timeline, setTimeline] = useState([]); // terms this teacher taught in
     const [periods, setPeriods] = useState([]);
     const [teachers, setTeachers] = useState([]);
     const [requests, setRequests] = useState([]);
@@ -34,19 +35,40 @@ function TeacherRoutine({ teacherProfile }) {
 
     const load = useCallback(async () => {
         if (!teacherId) return;
-        try {
-            const [s, p, t, r] = await Promise.all([
-                axios.get(`${BACKEND_URL}/v1/routine/teacher/${teacherId}/slots`),
-                axios.get(`${BACKEND_URL}/v1/routine/periods`),
-                axios.get(`${BACKEND_URL}/v1/routine/teachers`),
-                axios.get(`${BACKEND_URL}/v1/routine/requests?teacher_id=${teacherId}`),
-            ]);
-            setSlots(s.data);
-            setPeriods(p.data);
-            setTeachers(t.data.filter((x) => x.teacher_id !== teacherId));
-            setRequests(r.data);
-        } catch {
-            flash("error", "Could not load your routine");
+        // Resilient load: each part is independent, so one failing call never
+        // blanks the whole page — and the flash names exactly which call + status
+        // failed instead of a useless "Could not load your routine".
+        const calls = {
+            slots: `/v1/routine/teacher/${teacherId}/slots`,
+            periods: `/v1/routine/periods`,
+            teachers: `/v1/routine/teachers`,
+            requests: `/v1/routine/requests?teacher_id=${teacherId}`,
+            timeline: `/v1/routine/teacher/timeline?teacher_id=${teacherId}`,
+        };
+        const keys = Object.keys(calls);
+        const results = await Promise.allSettled(
+            keys.map((k) => axios.get(`${BACKEND_URL}${calls[k]}`))
+        );
+        const failed = [];
+        results.forEach((res, i) => {
+            const key = keys[i];
+            if (res.status === "fulfilled") {
+                const d = res.value.data;
+                if (key === "slots") setSlots(Array.isArray(d) ? d : []);
+                else if (key === "periods") setPeriods(Array.isArray(d) ? d : []);
+                else if (key === "teachers") setTeachers((Array.isArray(d) ? d : []).filter((x) => x.teacher_id !== teacherId));
+                else if (key === "requests") setRequests(Array.isArray(d) ? d : []);
+                else if (key === "timeline") setTimeline(d?.terms || []);
+            } else {
+                const st = res.reason?.response?.status;
+                failed.push(`${key}${st ? ` (${st})` : " (network)"}`);
+            }
+        });
+        if (failed.length) {
+            flash("error", `Routine partly failed to load — ${failed.join(", ")}. `
+                + (failed.some((f) => f.includes("404"))
+                    ? "The backend may be running old code — restart it."
+                    : "Check the backend logs for that request."));
         }
     }, [teacherId]);
 
@@ -152,6 +174,41 @@ function TeacherRoutine({ teacherProfile }) {
                 </p>
             </div>
 
+            {/* Terms you have taught in — past & current, derived from your courses */}
+            {timeline.length > 0 && (
+                <div className="mb-4">
+                    <span className="text-xs text-slate-400">Your teaching terms:</span>
+                    <div className="flex flex-wrap items-center gap-2 mt-1">
+                        {timeline.map((t) => (
+                            <span key={`${t.batch}-${t.semester}`}
+                                className={`text-xs rounded-full px-2.5 py-1 border ${
+                                    t.is_current ? "bg-green-50 text-green-700 border-green-200"
+                                    : "bg-slate-50 text-slate-500 border-slate-200"}`}>
+                                Batch {t.batch} · {t.semester}
+                                {t.is_current ? " · current" : ""}
+                                {" · "}{t.course_count} course{t.course_count !== 1 ? "s" : ""}
+                                {!t.published && " · no routine"}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Batches you have classes in — quick orientation */}
+            {slots.length > 0 && (
+                <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <span className="text-xs text-slate-400">Your batches:</span>
+                    {[...new Set(slots.map((s) => s.batch))].sort((a, b) => b - a).map((b) => {
+                        const n = slots.filter((s) => s.batch === b).length;
+                        return (
+                            <span key={b} className="text-xs bg-amber-50 text-amber-700 border border-amber-200 rounded-full px-2.5 py-1">
+                                Batch {b} · {n} class{n !== 1 ? "es" : ""}
+                            </span>
+                        );
+                    })}
+                </div>
+            )}
+
             {message.text && (
                 <div className={`mb-4 px-4 py-2 rounded-lg text-sm ${message.type === "error" ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
                     {message.text}
@@ -200,9 +257,15 @@ function TeacherRoutine({ teacherProfile }) {
                                     <td key={p.id} className="px-2 py-2 border-l min-w-[130px]">
                                         {slotsAt(day, p.id).map((s) => (
                                             <div key={s.id} className="bg-amber-50 border border-amber-100 rounded-lg px-2 py-1 mb-1 text-left">
-                                                <p className="font-semibold text-slate-800">{s.course_code || s.course_title}</p>
+                                                <p className="font-semibold text-slate-800 flex items-center gap-1">
+                                                    {s.course_code || s.course_title}
+                                                    {s.you_teach && <span title="Your course" className="w-1.5 h-1.5 rounded-full bg-green-500" />}
+                                                </p>
+                                                {s.course_title && s.course_code && (
+                                                    <p className="text-[11px] text-slate-600 truncate">{s.course_title}</p>
+                                                )}
                                                 <p className="text-[11px] text-slate-500">
-                                                    Batch {s.batch} · {s.semester}
+                                                    <span className="font-medium text-amber-700">Batch {s.batch}</span> · {s.semester}
                                                     {s.group_label && ` · ${s.group_label}`}
                                                     {s.room && ` · R# ${s.room}`}
                                                 </p>

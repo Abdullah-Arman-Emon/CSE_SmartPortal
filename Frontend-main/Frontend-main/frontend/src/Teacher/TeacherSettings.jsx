@@ -6,6 +6,8 @@ import axios from "axios";
 
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "../components/ui/toast";
+import ImageInput from "../components/ui/ImageInput";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -203,7 +205,7 @@ const TeacherSettings = () => {
         payload
       );
 
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
       setHasUnsavedChanges(false);
       setPreview(null);
 
@@ -211,7 +213,7 @@ const TeacherSettings = () => {
       window.location.reload();
     } catch (err) {
       console.error("Update failed:", err);
-      alert("Failed to update profile.");
+      toast.error("Failed to update profile.");
     }
   };
 
@@ -221,7 +223,7 @@ const TeacherSettings = () => {
     if (!user?.email || !oldPass || !newPass) return;
 
     if (newPass !== confirmPass) {
-      alert("New passwords don't match");
+      toast.error("New passwords don't match");
       return;
     }
 
@@ -236,12 +238,12 @@ const TeacherSettings = () => {
         `${BACKEND_URL}/v1/auth/password_change`,
         payload
       );
-      alert(res.data.message || "Password changed successfully!");
+      toast.success(res.data.message || "Password changed successfully!");
       setOldPass("");
       setNewPass("");
       setConfirmPass("");
     } catch (err) {
-      alert(err.response?.data?.detail || "Failed to change password");
+      toast.error(err.response?.data?.detail || "Failed to change password");
     }
   };
 
@@ -251,7 +253,7 @@ const TeacherSettings = () => {
 
     // Validate file size (1MB limit)
     // if (file.size > 1024 * 1024) {
-    //   alert("File size must be under 1MB");
+    //   toast.success("File size must be under 1MB");
     //   return;
     // }
 
@@ -285,7 +287,7 @@ const TeacherSettings = () => {
       reader.readAsDataURL(file);
     } catch (error) {
       console.error("Image upload failed:", error);
-      alert("Failed to upload image. Please try again.");
+      toast.error("Failed to upload image. Please try again.");
     } finally {
       setUploadingImage(false);
     }
@@ -347,6 +349,20 @@ const TeacherSettings = () => {
               <p className="mt-2 text-sm text-gray-500 text-center">
                 Under 1MB • 1:1 Ratio
               </p>
+
+              <div className="mt-4 w-full">
+                <ImageInput
+                  label="…or paste a photo link"
+                  value={profileImgPath}
+                  onChange={(v) => {
+                    setProfileImgPath(v);
+                    setProfileImg(v);
+                    setPreview(null);
+                  }}
+                  placeholder="https://…/photo.jpg"
+                  previewClass="h-20 w-20 rounded-full"
+                />
+              </div>
             </div>
 
             {/* Right column: Form */}

@@ -15,4 +15,9 @@ class AllowedEmail(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)  # stored lowercase
     role = Column(String(20), nullable=False, default="student")           # student | teacher
+    # Students are pre-provisioned by admin with their admission registration
+    # number; sign-up must present a matching (email, registration_number) pair.
+    registration_number = Column(String(30), index=True, nullable=True)
+    full_name = Column(String(150), nullable=True)   # pre-filled onto the profile at sign-up
+    batch = Column(Integer, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)

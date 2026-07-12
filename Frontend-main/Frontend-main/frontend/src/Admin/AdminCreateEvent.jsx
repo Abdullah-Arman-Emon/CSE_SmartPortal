@@ -347,6 +347,13 @@ export default function AdminCreateEvent() {
                                 </span>
                             </div>
                         </div>
+                        <input
+                            type="text"
+                            value={form.image_url || ""}
+                            onChange={(e) => setForm({ ...form, image_url: e.target.value })}
+                            placeholder="…or paste an image link (https://…)"
+                            className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        />
                         {form.image_url && (
                             <div className="mt-2 rounded-lg overflow-hidden border border-slate-200 relative group">
                                 <img

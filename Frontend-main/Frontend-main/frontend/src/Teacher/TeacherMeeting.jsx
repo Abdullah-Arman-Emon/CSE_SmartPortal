@@ -11,7 +11,9 @@ const TeacherMeeting = ({ user, teacherProfile }) => {
   // Fetch upcoming meetings
   const fetchMeetings = async () => {
     try {
-      const res = await axios.get(`${BACKEND_URL}/v1/meetings/upcoming`);
+      const res = await axios.get(`${BACKEND_URL}/v1/meetings/upcoming`, {
+        params: { user_id: user?.id },
+      });
       setMeetings(res.data);
     } catch (err) {
       console.error("Error fetching meetings", err);

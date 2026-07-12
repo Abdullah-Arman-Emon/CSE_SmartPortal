@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Check } from "lucide-react";
+import PageHero from "../components/public/PageHero";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 function ApplicationForm() {
     const navigate = useNavigate();
+    const reduce = useReducedMotion();
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState("");
@@ -727,222 +730,188 @@ function ApplicationForm() {
         }
     };
 
+    const STEP_LABELS = [
+        "Personal Information",
+        "Academic Information",
+        "Documents",
+        "Review & Submit",
+    ];
+
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Add Navbar */}
-            <Navbar />
+        <div className="min-h-screen bg-slate-50">
+            <PageHero
+                eyebrow="Admissions"
+                title="New Application"
+                sub="Your progress is saved automatically — you can leave and pick up where you stopped."
+                crumbs={[{ label: "Admission Hub", href: "/admission-hub" }, { label: "Apply" }]}
+            />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                {/* <div className="flex text-sm text-gray-500 mb-4">
-                    <Link to="/" className="hover:text-gray-700">
-                        Admissions
-                    </Link>
-                    <span className="mx-2">/</span>
-                    <span>New Application</span>
-                </div> */}
-
-                <h1 className="text-3xl font-bold text-gray-800 mb-6">
-                    New Application
-                </h1>
-
-                {/* Step Indicator */}
-                <div className="mb-8">
-                    <div className="relative">
-                        <div className="overflow-hidden h-2 mb-2 text-xs flex rounded bg-gray-200">
-                            <div
-                                style={{ width: `${(currentStep / 4) * 100}%` }}
-                                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500 transition-all duration-300"
-                            ></div>
-                        </div>
-                        <div className="flex text-xs text-gray-600 mt-1">
-                            <span
-                                className={`flex-1 text-center ${
-                                    currentStep >= 1
-                                        ? "font-semibold text-orange-500"
-                                        : ""
-                                }`}
-                            >
-                                Step 1 of 4
-                            </span>
-                            <span
-                                className={`flex-1 text-center ${
-                                    currentStep >= 2
-                                        ? "font-semibold text-orange-500"
-                                        : ""
-                                }`}
-                            >
-                                Step 2 of 4
-                            </span>
-                            <span
-                                className={`flex-1 text-center ${
-                                    currentStep >= 3
-                                        ? "font-semibold text-orange-500"
-                                        : ""
-                                }`}
-                            >
-                                Step 3 of 4
-                            </span>
-                            <span
-                                className={`flex-1 text-center ${
-                                    currentStep >= 4
-                                        ? "font-semibold text-orange-500"
-                                        : ""
-                                }`}
-                            >
-                                Step 4 of 4
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Navigation tabs for steps - make more responsive */}
-                <div className="border-b border-gray-200 mb-6 overflow-x-auto">
-                    <nav className="-mb-px flex space-x-4 sm:space-x-8">
-                        <button
-                            onClick={() => setCurrentStep(1)}
-                            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-xs sm:text-sm ${
-                                currentStep === 1
-                                    ? "border-orange-500 text-orange-600"
-                                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                            }`}
-                        >
-                            Personal Information
-                        </button>
-                        <button
-                            onClick={() => setCurrentStep(2)}
-                            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-xs sm:text-sm ${
-                                currentStep === 2
-                                    ? "border-orange-500 text-orange-600"
-                                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                            }`}
-                        >
-                            Academic Information
-                        </button>
-                        <button
-                            onClick={() => setCurrentStep(3)}
-                            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-xs sm:text-sm ${
-                                currentStep === 3
-                                    ? "border-orange-500 text-orange-600"
-                                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                            }`}
-                        >
-                            Documents Submission
-                        </button>
-                        <button
-                            onClick={() => setCurrentStep(4)}
-                            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-xs sm:text-sm ${
-                                currentStep === 4
-                                    ? "border-orange-500 text-orange-600"
-                                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                            }`}
-                        >
-                            Review & Submit
-                        </button>
-                    </nav>
-                </div>
-
-                {/* Form Content - make responsive layout */}
-                <div className="flex flex-col lg:flex-row">
-                    {/* Form Area */}
-                    <div className="flex-1 lg:mr-8 mb-8 lg:mb-0">
-                        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-                            <h2 className="text-xl font-bold text-gray-800 mb-4">
-                                {getStepTitle()}
-                            </h2>
-
-                            <form
-                                onSubmit={
-                                    currentStep === 4
-                                        ? handleSubmit
-                                        : (e) => {
-                                              e.preventDefault();
-                                              handleNext();
-                                          }
-                                }
-                            >
-                                {renderStepContent()}
-
-                                {/* Navigation Buttons */}
-                                <div className="flex flex-col sm:flex-row justify-between pt-6 gap-4">
-                                    <button
-                                        type="button"
-                                        onClick={handlePrevious}
-                                        disabled={currentStep === 1}
-                                        className={`inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm ${
-                                            currentStep === 1
-                                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                                : "text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+                {/* Animated stepper */}
+                <ol className="mb-10 flex items-center">
+                    {STEP_LABELS.map((label, i) => {
+                        const step = i + 1;
+                        const done = currentStep > step;
+                        const active = currentStep === step;
+                        return (
+                            <li key={label} className={`flex items-center ${i > 0 ? "flex-1" : ""}`}>
+                                {i > 0 && (
+                                    <div className="relative mx-2 h-0.5 flex-1 rounded bg-slate-200 sm:mx-3">
+                                        <motion.div
+                                            className="absolute inset-y-0 left-0 rounded bg-gradient-to-r from-brand-500 to-accent-500"
+                                            initial={false}
+                                            animate={{ width: currentStep > i ? "100%" : "0%" }}
+                                            transition={{ duration: reduce ? 0 : 0.4, ease: "easeOut" }}
+                                        />
+                                    </div>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => setCurrentStep(step)}
+                                    className="group flex flex-col items-center gap-1.5"
+                                    aria-current={active ? "step" : undefined}
+                                >
+                                    <motion.span
+                                        initial={false}
+                                        animate={{ scale: active && !reduce ? 1.1 : 1 }}
+                                        className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold transition-colors ${
+                                            done
+                                                ? "bg-gradient-to-br from-brand-500 to-accent-500 text-white"
+                                                : active
+                                                ? "bg-slate-900 text-white ring-4 ring-slate-900/10"
+                                                : "border border-slate-300 bg-white text-slate-400 group-hover:border-slate-400"
                                         }`}
                                     >
-                                        Previous
-                                    </button>
+                                        {done ? <Check className="h-4 w-4" /> : step}
+                                    </motion.span>
+                                    <span
+                                        className={`hidden whitespace-nowrap text-[11px] font-medium sm:block ${
+                                            active ? "text-slate-900" : "text-slate-400"
+                                        }`}
+                                    >
+                                        {label}
+                                    </span>
+                                </button>
+                            </li>
+                        );
+                    })}
+                </ol>
 
-                                    {currentStep === 4 ? (
-                                        <div className="flex flex-col items-center sm:items-end space-y-2">
-                                            {submitError && (
-                                                <div className="text-red-600 text-sm bg-red-50 px-3 py-2 rounded-md w-full">
-                                                    {submitError}
-                                                </div>
-                                            )}
-                                            <button
-                                                type="submit"
-                                                disabled={
-                                                    !formData.termsAccepted ||
-                                                    !formData.privacyAccepted ||
-                                                    isSubmitting
-                                                }
-                                                className={`inline-flex w-full sm:w-auto items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm ${
-                                                    !formData.termsAccepted ||
-                                                    !formData.privacyAccepted ||
-                                                    isSubmitting
-                                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                                        : "text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                                                }`}
-                                            >
-                                                {isSubmitting ? (
-                                                    <>
-                                                        <svg
-                                                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <circle
-                                                                className="opacity-25"
-                                                                cx="12"
-                                                                cy="12"
-                                                                r="10"
-                                                                stroke="currentColor"
-                                                                strokeWidth="4"
-                                                            ></circle>
-                                                            <path
-                                                                className="opacity-75"
-                                                                fill="currentColor"
-                                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                                            ></path>
-                                                        </svg>
-                                                        Submitting...
-                                                    </>
-                                                ) : (
-                                                    "Submit Application"
-                                                )}
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <button
-                                            type="submit"
-                                            className="inline-flex w-full sm:w-auto items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                                        >
-                                            Next
-                                        </button>
-                                    )}
-                                </div>
-                            </form>
-                        </div>
+                {/* Form card with step transitions */}
+                <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
+                    <div className="border-b border-slate-100 px-6 py-5 sm:px-8">
+                        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-600">
+                            Step {currentStep} of 4
+                        </p>
+                        <h2 className="font-display mt-1 text-xl font-bold text-slate-900">
+                            {getStepTitle()}
+                        </h2>
                     </div>
 
-                    {/* Sidebar - Key Deadlines */}
-                    
+                    <form
+                        onSubmit={
+                            currentStep === 4
+                                ? handleSubmit
+                                : (e) => {
+                                      e.preventDefault();
+                                      handleNext();
+                                  }
+                        }
+                        className="p-6 sm:p-8"
+                    >
+                        <AnimatePresence mode="wait" initial={false}>
+                            <motion.div
+                                key={currentStep}
+                                initial={reduce ? false : { opacity: 0, x: 24 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={reduce ? undefined : { opacity: 0, x: -24 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                            >
+                                {renderStepContent()}
+                            </motion.div>
+                        </AnimatePresence>
+
+                        {/* Navigation Buttons */}
+                        <div className="mt-8 flex flex-col justify-between gap-4 border-t border-slate-100 pt-6 sm:flex-row">
+                            <button
+                                type="button"
+                                onClick={handlePrevious}
+                                disabled={currentStep === 1}
+                                className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-base font-medium ${
+                                    currentStep === 1
+                                        ? "cursor-not-allowed bg-slate-100 text-slate-400"
+                                        : "border border-slate-300 text-slate-700 hover:bg-slate-50"
+                                }`}
+                            >
+                                Previous
+                            </button>
+
+                            {currentStep === 4 ? (
+                                <div className="flex flex-col items-center space-y-2 sm:items-end">
+                                    {submitError && (
+                                        <motion.div
+                                            initial={reduce ? false : { x: 0 }}
+                                            animate={reduce ? undefined : { x: [0, -6, 6, -4, 4, 0] }}
+                                            transition={{ duration: 0.4 }}
+                                            className="w-full rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600"
+                                        >
+                                            {submitError}
+                                        </motion.div>
+                                    )}
+                                    <button
+                                        type="submit"
+                                        disabled={
+                                            !formData.termsAccepted ||
+                                            !formData.privacyAccepted ||
+                                            isSubmitting
+                                        }
+                                        className={`inline-flex w-full items-center justify-center rounded-full px-7 py-3 text-base font-semibold shadow-lg sm:w-auto ${
+                                            !formData.termsAccepted ||
+                                            !formData.privacyAccepted ||
+                                            isSubmitting
+                                                ? "cursor-not-allowed bg-slate-200 text-slate-400 shadow-none"
+                                                : "bg-amber-500 text-slate-900 shadow-amber-500/25 hover:bg-amber-400"
+                                        }`}
+                                    >
+                                        {isSubmitting ? (
+                                            <>
+                                                <svg
+                                                    className="-ml-1 mr-3 h-5 w-5 animate-spin"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <circle
+                                                        className="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        strokeWidth="4"
+                                                    ></circle>
+                                                    <path
+                                                        className="opacity-75"
+                                                        fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                                    ></path>
+                                                </svg>
+                                                Submitting...
+                                            </>
+                                        ) : (
+                                            "Submit Application"
+                                        )}
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    type="submit"
+                                    className="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-7 py-3 text-base font-semibold text-white hover:bg-slate-800 sm:w-auto"
+                                >
+                                    Next
+                                </button>
+                            )}
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

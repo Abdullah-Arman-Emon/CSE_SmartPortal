@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from "../components/ui/toast";
 import {
     CheckCircle,
     Clock,
@@ -74,10 +75,10 @@ const AdminPaymentVerification = () => {
         try {
             await axios.post(`${BACKEND_URL}/v1/finance/payments/verify/${paymentId}`);
             await fetchPaymentData(); // Refresh data
-            alert('Payment verified successfully!');
+            toast.success('Payment verified successfully!');
         } catch (error) {
             console.error('Failed to verify payment:', error);
-            alert('Failed to verify payment. Please try again.');
+            toast.error('Failed to verify payment. Please try again.');
         } finally {
             setVerifying(false);
         }

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import ImageInput from "../components/ui/ImageInput";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -41,8 +42,6 @@ const CreateNewCourse = () => {
   }, [user]);
 
   useEffect(() => {
-    console.log("teacher profile");
-    console.log(teacherProfile);
 
     if (teacherProfile) {
       setFormData((prev) => ({
@@ -365,18 +364,13 @@ const CreateNewCourse = () => {
             </select>
           </div>
 
-          {/* Image URL */}
+          {/* Image — paste a link OR upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Course Image URL (Optional)
-            </label>
-            <input
-              type="url"
-              name="image_url"
-              placeholder="Enter image URL"
+            <ImageInput
+              label="Course Image (Optional)"
               value={formData.image_url}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              onChange={(v) => setFormData((p) => ({ ...p, image_url: v }))}
+              previewClass="h-28 w-full max-w-xs"
             />
             <p className="text-sm text-gray-500 mt-1">
               Leave empty to use a random default image

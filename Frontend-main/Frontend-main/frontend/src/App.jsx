@@ -4,7 +4,18 @@ import HomePage from './HomePage'
 import Login from './Auth/Login'
 import SignUp from './Auth/SignUp'
 import StudentDashboard from './Student/StudentDashboard'
-import TeacherDashboard from './Teacher/TeacherDashboard'
+import TeacherDashboard, {
+  TeacherHome,
+  TeacherCoursesPage,
+  TeacherCreateCoursePage,
+  TeacherMeetingPage,
+  TeacherAttendancePage,
+  TeacherRoutinePage,
+  TeacherStudentsPage,
+  TeacherGradebookPage,
+  TeacherMessagesPage,
+  TeacherProfilePage,
+} from './Teacher/TeacherDashboard'
 import AdminDashboard from './Admin/AdminDashboard'
 import RequireAuth from './RequireAuth'
 import AdmissionHub from './Admissions/AdmissionHub'
@@ -31,31 +42,37 @@ import AdminFinance from './Admin/AdminFinance'
 import NoticeBoard from './pages/NoticeBoard'
 import StudentEventShow from './Student/StudentEventShow'
 import NotFound from './pages/NotFound'
-import ChatPanel from './components/ChatPanel'
+import Messenger from './components/Messenger'
 import StudentResults from './Student/StudentResults'
 import StudentCGPA from './Student/StudentCGPA'
 import StudentRoutine from './Student/StudentRoutine'
+import StudentAttendance from './Student/StudentAttendance'
 import StudentPageShell from './Student/StudentPageShell'
+import PublicLayout from './components/public/PublicLayout'
+import { Toaster } from './components/ui/toast'
 
 function App() {
   return (
     <Router>
+      <Toaster />
       <Routes>
-        {/* Public pages */}
-        <Route path="/" element={<HomePage />} />
+        {/* Public pages — shared navbar/footer via PublicLayout */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/admission-hub" element={<AdmissionHub />} />
+          <Route path="/program/:id" element={<ProgramDetails />} />
+          <Route path="/program/:programId/courses" element={<ProgramCourses />} />
+          <Route path="/course/:courseId/syllabus" element={<CourseSyllabus />} />
+          <Route path="/course/:courseId" element={<CourseDetails />} />
+          <Route path="/apply" element={<ApplicationForm />} />
+          <Route path="/application-submitted" element={<ApplicationSubmitted />} />
+          <Route path="/people" element={<PeopleDirectory />} />
+          <Route path="/chairman" element={<AboutChairman />} />
+          <Route path="/meetings" element={<DepartmentalMeetings />} />
+          <Route path="/notice-board" element={<NoticeBoard />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/admission-hub" element={<AdmissionHub />} />
-        <Route path="/program/:id" element={<ProgramDetails />} />
-        <Route path="/program/:programId/courses" element={<ProgramCourses />} />
-        <Route path="/course/:courseId/syllabus" element={<CourseSyllabus />} />
-        <Route path="/course/:courseId" element={<CourseDetails />} />
-        <Route path="/apply" element={<ApplicationForm />} />
-        <Route path="/application-submitted" element={<ApplicationSubmitted />} />
-        <Route path="/people" element={<PeopleDirectory />} />
-        <Route path="/chairman" element={<AboutChairman />} />
-        <Route path="/meetings" element={<DepartmentalMeetings />} />
-        <Route path="/notice-board" element={<NoticeBoard />} />
         <Route path="/studentEventShow" element={<StudentEventShow />} />
 
         {/* Protected pages */}
@@ -74,7 +91,18 @@ function App() {
               <TeacherDashboard />
             </RequireAuth>
           }
-        />
+        >
+          <Route index element={<TeacherHome />} />
+          <Route path="courses" element={<TeacherCoursesPage />} />
+          <Route path="create-course" element={<TeacherCreateCoursePage />} />
+          <Route path="meetings" element={<TeacherMeetingPage />} />
+          <Route path="attendance" element={<TeacherAttendancePage />} />
+          <Route path="routine" element={<TeacherRoutinePage />} />
+          <Route path="students" element={<TeacherStudentsPage />} />
+          <Route path="gradebook" element={<TeacherGradebookPage />} />
+          <Route path="messages" element={<TeacherMessagesPage />} />
+          <Route path="profile" element={<TeacherProfilePage />} />
+        </Route>
         <Route path="/teacher/classroom/:course_id" element={<TeacherClassroom />} />
         <Route path="/assignments/:assignmentId/submissions" element={<SubmissionList />} />
         <Route
@@ -104,7 +132,7 @@ function App() {
           path="/messages"
           element={
             <RequireAuth allowedRole="student">
-              <StudentPageShell><ChatPanel role="student" /></StudentPageShell>
+              <StudentPageShell><Messenger /></StudentPageShell>
             </RequireAuth>
           }
         />
@@ -121,6 +149,14 @@ function App() {
           element={
             <RequireAuth allowedRole="student">
               <StudentPageShell><StudentRoutine /></StudentPageShell>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/attendance"
+          element={
+            <RequireAuth allowedRole="student">
+              <StudentPageShell><StudentAttendance /></StudentPageShell>
             </RequireAuth>
           }
         />

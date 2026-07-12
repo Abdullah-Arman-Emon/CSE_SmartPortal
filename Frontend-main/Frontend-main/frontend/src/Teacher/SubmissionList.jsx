@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, FileText, User, Calendar, Award, ExternalLink, Download, AlertTriangle } from "lucide-react";
+import { toast } from "../components/ui/toast";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -49,13 +50,13 @@ export default function SubmissionList() {
     const marks = marksMap[submissionId];
 
     if (marks === undefined || marks === "") {
-      alert("Please enter marks");
+      toast.error("Please enter marks");
       return;
     }
 
     // Validate marks against max_marks
     if (assignment.max_marks && parseInt(marks) > assignment.max_marks) {
-      alert(`Marks cannot exceed maximum marks (${assignment.max_marks})`);
+      toast.error(`Marks cannot exceed maximum marks (${assignment.max_marks})`);
       return;
     }
 
@@ -68,7 +69,7 @@ export default function SubmissionList() {
         }
       );
 
-      alert("Marked successfully!");
+      toast.success("Marked successfully!");
 
       // Update the submission in the local state
       setSubmissions((prev) =>
@@ -81,7 +82,7 @@ export default function SubmissionList() {
       setMarksMap((prev) => ({ ...prev, [submissionId]: "" }));
     } catch (err) {
       console.error("Failed to mark submission", err);
-      alert("Failed to mark submission");
+      toast.error("Failed to mark submission");
     }
   };
 

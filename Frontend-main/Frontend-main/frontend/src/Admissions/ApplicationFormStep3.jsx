@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from "../components/ui/toast";
 
 function ApplicationFormStep3() {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ function ApplicationFormStep3() {
     
     // Validate if all uploads are complete
     if (!isFormComplete()) {
-      alert("Please upload all required documents before proceeding.");
+      toast.error("Please upload all required documents before proceeding.");
       return;
     }
     

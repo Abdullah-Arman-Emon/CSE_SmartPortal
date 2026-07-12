@@ -10,6 +10,7 @@ class User(Base):
     hashed_password = Column(String(255), nullable=False)
     role = Column(String(50), default="student")
     is_active = Column(Boolean, default=True)
+    last_seen = Column(DateTime, nullable=True)  # presence: online / last-seen
 
     teacher = relationship("Teacher", back_populates="user", uselist=False)
     student = relationship("Student", back_populates="user", uselist=False)

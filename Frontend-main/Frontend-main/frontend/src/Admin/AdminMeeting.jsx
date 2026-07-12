@@ -38,7 +38,9 @@ function AdminMeeting() {
   const fetchUpcomingMeetings = async () => {
     try {
       setLoading(true)
-      const response = await axios.get(`${BACKEND_URL}/v1/meetings/upcoming`)
+      const response = await axios.get(`${BACKEND_URL}/v1/meetings/upcoming`, {
+        params: { user_id: user?.id },
+      })
       setMeetings(response.data)
       
       // Fetch accepted teachers for each meeting

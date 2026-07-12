@@ -25,8 +25,11 @@ function AdminAdmission() {
   const [success, setSuccess] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [filterProgram, setFilterProgram] = useState('all')
+  const [filterStatus, setFilterStatus] = useState('all')
   const [selectedApplication, setSelectedApplication] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [page, setPage] = useState(1)
+  const PAGE_SIZE = 10
 
   useEffect(() => {
     fetchApplications()
@@ -34,7 +37,12 @@ function AdminAdmission() {
 
   useEffect(() => {
     filterApplications()
-  }, [applications, searchTerm, filterProgram]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [applications, searchTerm, filterProgram, filterStatus]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Any filter change returns to the first page
+  useEffect(() => {
+    setPage(1)
+  }, [searchTerm, filterProgram, filterStatus])
 
   const fetchApplications = async () => {
     try {
@@ -67,7 +75,21 @@ function AdminAdmission() {
       filtered = filtered.filter(app => app.program === filterProgram)
     }
 
+    // Filter by status
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(app => (app.status || 'pending') === filterStatus)
+    }
+
     setFilteredApplications(filtered)
+  }
+
+  const statusCounts = () => {
+    const counts = { all: applications.length, pending: 0, shortlisted: 0, accepted: 0, rejected: 0 }
+    applications.forEach((a) => {
+      const s = a.status || 'pending'
+      counts[s] = (counts[s] || 0) + 1
+    })
+    return counts
   }
 
   const handleDeleteApplication = async (applicationId) => {
@@ -170,12 +192,12 @@ function AdminAdmission() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Admission Management</h1>
           <p className="text-gray-600 mt-1">Manage and review admission applications</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="text-sm text-gray-500">
             {filteredApplications.length} of {applications.length} applications
           </span>
@@ -249,7 +271,7 @@ function AdminAdmission() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 space-y-4">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
@@ -264,11 +286,11 @@ function AdminAdmission() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Filter size={20} className="text-gray-400" />
+            <Filter size={20} className="text-gray-400 shrink-0" />
             <select
               value={filterProgram}
               onChange={(e) => setFilterProgram(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full sm:w-auto border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Programs</option>
               {getUniquePrograms().map(program => (
@@ -276,6 +298,40 @@ function AdminAdmission() {
               ))}
             </select>
           </div>
+        </div>
+
+        {/* Status quick-filter chips */}
+        <div className="flex flex-wrap gap-2">
+          {[
+            { key: 'all', label: 'All', cls: 'bg-gray-900 text-white' },
+            { key: 'pending', label: 'Pending', cls: 'bg-amber-500 text-white' },
+            { key: 'shortlisted', label: 'Shortlisted', cls: 'bg-blue-600 text-white' },
+            { key: 'accepted', label: 'Accepted', cls: 'bg-green-600 text-white' },
+            { key: 'rejected', label: 'Rejected', cls: 'bg-red-600 text-white' },
+          ].map((s) => {
+            const active = filterStatus === s.key
+            const count = statusCounts()[s.key] || 0
+            return (
+              <button
+                key={s.key}
+                onClick={() => setFilterStatus(s.key)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  active ? s.cls : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {s.label}
+                <span className={`text-xs rounded-full px-1.5 ${active ? 'bg-white/25' : 'bg-white'}`}>{count}</span>
+              </button>
+            )
+          })}
+          {(searchTerm || filterProgram !== 'all' || filterStatus !== 'all') && (
+            <button
+              onClick={() => { setSearchTerm(''); setFilterProgram('all'); setFilterStatus('all') }}
+              className="ml-auto text-sm px-3 py-1.5 rounded-lg text-gray-500 hover:bg-gray-100"
+            >
+              Clear all
+            </button>
+          )}
         </div>
       </div>
 
@@ -312,7 +368,9 @@ function AdminAdmission() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredApplications.map((application) => (
+                {filteredApplications
+                  .slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+                  .map((application) => (
                   <tr key={application.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -392,6 +450,53 @@ function AdminAdmission() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {filteredApplications.length > PAGE_SIZE && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 sm:px-6 py-4 border-t border-gray-200">
+            <p className="text-sm text-gray-500">
+              Showing{' '}
+              <span className="font-medium text-gray-700">
+                {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filteredApplications.length)}
+              </span>{' '}
+              of <span className="font-medium text-gray-700">{filteredApplications.length}</span>
+            </p>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-600 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Previous
+              </button>
+              {Array.from({ length: Math.ceil(filteredApplications.length / PAGE_SIZE) }, (_, i) => i + 1)
+                .filter((p) => {
+                  const total = Math.ceil(filteredApplications.length / PAGE_SIZE)
+                  return p === 1 || p === total || Math.abs(p - page) <= 1
+                })
+                .map((p, idx, arr) => (
+                  <span key={p} className="flex items-center">
+                    {idx > 0 && p - arr[idx - 1] > 1 && <span className="px-1 text-gray-400">…</span>}
+                    <button
+                      onClick={() => setPage(p)}
+                      className={`min-w-[36px] px-3 py-1.5 rounded-lg text-sm ${
+                        p === page ? 'bg-orange-500 text-white' : 'border border-gray-300 text-gray-600 hover:bg-gray-50'
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  </span>
+                ))}
+              <button
+                onClick={() => setPage((p) => Math.min(Math.ceil(filteredApplications.length / PAGE_SIZE), p + 1))}
+                disabled={page >= Math.ceil(filteredApplications.length / PAGE_SIZE)}
+                className="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-600 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
       </div>

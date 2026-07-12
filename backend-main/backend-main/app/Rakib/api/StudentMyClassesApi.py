@@ -166,7 +166,11 @@ def get_student_all_my_classes(student_id: int, db: Session = Depends(get_db)):
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
-    courses = student.courses
+    # active/current courses on top, completed at the bottom; newest first within
+    courses = sorted(
+        student.courses,
+        key=lambda c: ((c.status == "completed") or (c.status is None and not c.running), -c.id),
+    )
 
     return [
         MyCourse(
@@ -179,6 +183,7 @@ def get_student_all_my_classes(student_id: int, db: Session = Depends(get_db)):
             semester=course.semester,
             batch=course.batch,
             running=course.running,
+            status=course.status or ("active" if course.running else "completed"),
             schedules=[
                 MySchedule(
                     day=s.day,

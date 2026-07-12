@@ -1,1681 +1,1926 @@
 {
- "people": [
-  {
-   "name": "Dr. Md. Abdur Razzaque",
-   "role": "Professor & Chairman",
-   "category": "Faculty",
-   "expertise": [
-    "AI and ML in UAV Networks",
-    "Edge Intelligence",
-    "AI for Internet of Things",
-    "Green Networking and Sustainable Internet",
-    "Energy Optimization"
-   ],
-   "email": "razzaque@du.ac.bd",
-   "phone": "01841066390",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1768_new.jpg",
-   "bio": "Md. Abdur Razzaque (M'08, SM'12)is a Professor of the Dept. of Computer Science and Engineering, University of Dhaka and he is the current chairman of the Department. He chaired 2021 and 2020 Executive Committees for IEEE Computer Society Bangladesh Chapter. He received his BS in Applied Physics and Electronics and MS in Computer Science from University of Dhaka, Bangladesh in 1995 and 1996, respectively. He obtained a PhD in Computer Engineering from Kyung Hee University, South Korea in 2009. He worked for Green University of Bangladesh for different periods as Pro Vice Chancellor, Dean of Faculty of Science and Engineering and Chairperson, Dept of CSE during 2016-2021. He was a research professor at Kyung Hee University, South Korea during 2010-2011. He worked as a visiting professor in Stratford University, Virginia, USA in 2017. He is the director of Green Networking Research Group (http://cse.du.ac.bd/gnr) of the Dept. of CSE, DU. He has been promoting Outcome Based Education for Science and Engineering Faculties of leading universities of the country. He lead many national and international funded research projects. His research interest is in the area of modeling, analysis and optimization of wireless networking protocols and architectures, Mobile Crowdsourcing, Sensor Data Clouds, Internet of Things, Edge Computing, etc. He has published 190+ research papers in peer-reviewed conferences and journals. He is offering editorial services to reputed journals and contributing to numerous international conferences at different capacities. He is a senior member of IEEE, member of IEEE Computer Society, Internet Society (ISOC), etc.",
-   "status": null,
-   "publications": [],
-   "display_order": 0
-  },
-  {
-   "name": "Dr. Suraiya Pervin",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Natural Language Processing",
-    "Digital Signal Processing"
-   ],
-   "email": "suraiya@du.ac.bd",
-   "phone": "+880-2-8650143",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_suraiya.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 1
-  },
-  {
-   "name": "Dr. Md. Haider Ali",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Computer Graphics and Image Processing"
-   ],
-   "email": "haider@du.ac.bd",
-   "phone": "+880244865057",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1762_new.jpg",
-   "bio": "Md. Haider Ali (also Mohammad Haider Ali) has completed his Doctor of Engineering from the dept. of Electronics and Information Engineering, Toyohashi University of Technology, Japan in the field of Computer Graphics. His research interest includes Computer Graphics and Image Processing. He is currently working as a professor in the dept. of Computer Science and Engineering, University of Dhaka. Dr. Mohammad Haider Ali is the fellow of Bangladesh Computer Society, and former Student Member of Institute of Electronics, Information and Communication Engineering (IEICE), Japan.",
-   "status": null,
-   "publications": [],
-   "display_order": 2
-  },
-  {
-   "name": "Dr. Hafiz Md. Hasan Babu",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "hafizbabu@du.ac.bd",
-   "phone": "+88-01711351055",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1930_new.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 3
-  },
-  {
-   "name": "Dr. Md. Rezaul Karim",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Graph Drawing Algorithms",
-    "Dataminig",
-    "Digital Forensic",
-    "Project Management",
-    "Information Security"
-   ],
-   "email": "rkarim@du.ac.bd",
-   "phone": "880-2-9661900",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_rkarim.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 4
-  },
-  {
-   "name": "Dr. Md. Hasanuzzaman",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "hzaman@du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2555.jpg",
-   "bio": "",
-   "status": "On Leave",
-   "publications": [],
-   "display_order": 5
-  },
-  {
-   "name": "Dr. Shabbir Ahmed",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Delay Tolerant Networks, IoT"
-   ],
-   "email": "sumaiyarafia@gmail.com",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1759.jpg",
-   "bio": "Current research includes protocol designs of Delay Tolerant Networks (DTN), AdHoc routings, and security of IoT and embedded devices.",
-   "status": null,
-   "publications": [],
-   "display_order": 6
-  },
-  {
-   "name": "Dr. Md. Mustafizur Rahman",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "mustafiz@du.ac.bd",
-   "phone": "+880-1927-199-301",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1766.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 7
-  },
-  {
-   "name": "Dr. Saifuddin Md. Tareeq",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Humanoid Robot Behavior Generation (for social skill development of Autistic Children)",
-    "Bioinformatics",
-    "Data Analysis (big data)",
-    "Human Robot Interaction",
-    "Machine Learning",
-    "Regulatory Elements Finding in Genome for Stress Tolerance (salt, drought etc)"
-   ],
-   "email": "smtareeq@du.ac.bd",
-   "phone": "880-2-9661900",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1767.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 8
-  },
-  {
-   "name": "Dr. Chowdhury Farhan Ahmed",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Knowledge Discovery",
-    "Machine Learning",
-    "Data Mining"
-   ],
-   "email": "farhan@du.ac.bd",
-   "phone": "880-2-9661900",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://duap.du.ac.bd/upload/img/cse_farhan.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 9
-  },
-  {
-   "name": "Dr. Md. Mamun-Or-Rashid",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "mamun@cse.du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/1769_mamun_academic.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 10
-  },
-  {
-   "name": "Dr. Mosaddek Hossain Kamal",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Intelligent system for Electric Vehicle Cloud Charging Infrastructure",
-    "Embedded System for Industry"
-   ],
-   "email": "tushar@du.ac.bd",
-   "phone": "01700766184",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_1764.JPG",
-   "bio": "The Postdoctoral Fellowships (PDF) program provides support to a core of the most promising researchers at a pivotal time in their careers. The fellowships are also intended to secure a supply of highly qualified Canadians with leading-edge scientific and research skills for Canadian industry, government, and academic institutions. for more: https://www.nserc-crsng.gc.ca/students-etudiants/pd-np/pdf-bp_eng.asp",
-   "status": null,
-   "publications": [],
-   "display_order": 11
-  },
-  {
-   "name": "Dr. Muhammad Asif Hossain Khan",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Natural Language Processing",
-    "Developing Efficient Feature Selection Algorithms, Deep Learning Algorithms, Attention Modules",
-    "Mechine Learning",
-    "Text Mining"
-   ],
-   "email": "asif@du.ac.bd",
-   "phone": "01793593098",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_asif.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 12
-  },
-  {
-   "name": "Dr. Upama Kabir",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "upama2@gmail.com",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/1765_UK.jpg",
-   "bio": "A prestigious recognition for a student who secure the highest marks among all four faculties (science, biological science, pharmacy and law) of University of Dhaka in M.Sc. Exam",
-   "status": null,
-   "publications": [],
-   "display_order": 13
-  },
-  {
-   "name": "Dr. Moinul Islam Zaber",
-   "role": "Professor",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "zaber@du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/1782_MoinulZaber-COLOUR.jpg",
-   "bio": "Moinul Zaberis a data and computational social scientist. His research focus is Artificial Intelligence and Telecommunication Technology for public policy. He uses machine learning, statistical inference, econometrics, techno-ethnographic analysis, and design thinking to harness data for policy insights and intervention design. Dr. Zaber is an expert on Ai for Development, Data Science,  Data Governance, and Public Policy. He is a co-founder and director of the Data and Design Lab (dndlab.org) at CSEDU- the first AI for development and computational social science lab in Bangladesh.",
-   "status": "On Leave",
-   "publications": [],
-   "display_order": 14
-  },
-  {
-   "name": "Abu Ahmed Ferdaus",
-   "role": "Associate Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Data Science",
-    "Machine Learning",
-    "Data Mining"
-   ],
-   "email": "ferdaus@du.ac.bd",
-   "phone": "+88029670734",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_ferdaus.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 15
-  },
-  {
-   "name": "Dr. Mosarrat Jahan",
-   "role": "Associate Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Applying blockchain to handle performance and data security issues.",
-    "VANET security",
-    "IoT security",
-    "Developing lightweight solutions for handling security issues of the Internet of Things (IoT).",
-    "Analyzing various security issues of Vehicular Ad Hoc Networks (VANETs) and proposing solutions.",
-    "Blockchain",
-    "Cloud security",
-    "Analysis of various cloud security issues and proposing solutions to protect users' data.",
-    "Applied Cryptography"
-   ],
-   "email": "mosarratjahan@cse.du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/cse_mosarratjahan.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 16
-  },
-  {
-   "name": "Dr. Ismat Rahman",
-   "role": "Associate Professor",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "ismat@cse.du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_4669_new.jpeg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 17
-  },
-  {
-   "name": "Dr. Sarker Tanveer Ahmed Rumee",
-   "role": "Associate Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Operating Systems",
-    "Program Analysis",
-    "Information Security"
-   ],
-   "email": "rumee@cse.du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2585.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 18
-  },
-  {
-   "name": "Dr. Md. Mosaddek Khan",
-   "role": "Associate Professor",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "mosaddek@du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2557.png",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 19
-  },
-  {
-   "name": "Dr. Muhammad Ibrahim",
-   "role": "Associate Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Metaheuristic Optimization Algorithms",
-    "Information Retrieval",
-    "Artificial Intelligence",
-    "Machine Learning"
-   ],
-   "email": "ibrahim313@du.ac.bd",
-   "phone": "+880 2 9661920",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/4167_Me_photo_2020_b.jpg",
-   "bio": "MGS and MIPRS Scholarships from Monash University, Australia. Covered the entire duration of the PhD study.",
-   "status": null,
-   "publications": [],
-   "display_order": 20
-  },
-  {
-   "name": "Hasnain Heickal",
-   "role": "Assistant Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Machine Learning, Natural Language Processing.",
-    "Artificial Intelligence"
-   ],
-   "email": "hasnain@cse.univdhaka.edu",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.edu.bd/fontView/assets/faculty_image/image_2556.jpg",
-   "bio": "",
-   "status": "On Study Leave",
-   "publications": [],
-   "display_order": 21
-  },
-  {
-   "name": "Md. Mahmudur Rahman",
-   "role": "Assistant Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Knowledge Discovery",
-    "Pattern Mining",
-    "Machine Learning"
-   ],
-   "email": "mrr.rana13@gmail.com",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2562.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 22
-  },
-  {
-   "name": "Md. Ashraful Islam",
-   "role": "Assistant Professor",
-   "category": "Faculty",
-   "expertise": [
-    "Pattern Mining",
-    "Graph mining, Weighted Pattern Mining, Sequential Pattern Mining, Data Stream Mining",
-    "Incremental Learning",
-    "Speech Recognition, Speech Synthesizer, Seq2Seq Models, Lemmatiation, POS Tagger",
-    "Machine Learning",
-    "Natural Language Processing"
-   ],
-   "email": "ashraful@du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_4168.JPG",
-   "bio": "",
-   "status": "On Study Leave",
-   "publications": [],
-   "display_order": 23
-  },
-  {
-   "name": "Md. Fahim Arefin",
-   "role": "Lecturer",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "fahim@cse.du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_61068_new.png",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 24
-  },
-  {
-   "name": "Redwan Ahmed Rizvee",
-   "role": "Lecturer",
-   "category": "Faculty",
-   "expertise": [
-    "Deep Learning",
-    "Programming Systems",
-    "Data Mining",
-    "High Performance Computing"
-   ],
-   "email": "rizvee@cse.du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_61070_new.jpg",
-   "bio": "From the Department of Computer Science and Engineering, University of Dhaka for acquiring the first position in the batch in B.Sc",
-   "status": "On Leave",
-   "publications": [],
-   "display_order": 25
-  },
-  {
-   "name": "Md. Tanvir Alam",
-   "role": "Lecturer",
-   "category": "Faculty",
-   "expertise": [
-    "Machine learning on graphs",
-    "Graph Neural Networks"
-   ],
-   "email": "tanvir@cse.du.ac.bd",
-   "phone": "01551225972",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_61083_new.JPG",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 26
-  },
-  {
-   "name": "Jargis Ahmed",
-   "role": "Lecturer",
-   "category": "Faculty",
-   "expertise": [
-    "Computer Networking",
-    "Mobile Edge ComputingInternet of Things (IoT)Cloud Computing"
-   ],
-   "email": "jargis@cse.du.ac.bd",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/76908_315534097_3288402398090050_8467021205814801729_n.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 27
-  },
-  {
-   "name": "Palash Roy",
-   "role": "Lecturer",
-   "category": "Faculty",
-   "expertise": [
-    "Edge and Cloud Computing",
-    "Network Intelligence",
-    "Federated Learning",
-    "Unmanned Aerial Vehicles",
-    "AI for Internet of Things"
-   ],
-   "email": "palash@cse.du.ac.bd",
-   "phone": "01846869580",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/76909_Palash_Roy_Formal.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 28
-  },
-  {
-   "name": "Md. Ahasanul Alam",
-   "role": "Lecturer",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/83796_Ahasan_photo.jpeg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 29
-  },
-  {
-   "name": "Md. Aminul Kader Bulbul",
-   "role": "Lecturer",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/83861_CGPT-Me-2.png",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 30
-  },
-  {
-   "name": "Shabab Murshed",
-   "role": "Lecturer",
-   "category": "Faculty",
-   "expertise": [],
-   "email": "",
-   "phone": "",
-   "office": "",
-   "office_hours": "",
-   "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_83860_new.jpg",
-   "bio": "",
-   "status": null,
-   "publications": [],
-   "display_order": 31
-  }
- ],
- "programs": [
-  {
-   "id": 1,
-   "title": "Bachelor of Science in Computer Science",
-   "level": "Bachelor",
-   "description": "The BS in Computer Science program at the Department of CSE provides a comprehensive foundation in computer science principles, software development, algorithms, and data structures. Students gain hands-on experience through projects and internships, preparing them for careers in software engineering, systems analysis, and research.",
-   "image_url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "credits": "140",
-   "duration": "4 years",
-   "students_enrolled": "325",
-   "application_deadline": "May 15, 2023",
-   "tuition_fee": "$8,500 per year",
-   "admission_requirements": [
-    "High school diploma with strong background in mathematics and science. Minimum GPA of 3.0 required. SAT score of at least 1200 or equivalent ACT score."
-   ],
-   "career_prospects": [
-    "Graduates find employment as software engineers, systems analysts, database administrators, and IT consultants in both public and private sectors. Average starting salary is $72,000 per year."
-   ],
-   "display_order": 1
-  },
-  {
-   "id": 2,
-   "title": "Masters of Science in Computer Science and Engineering",
-   "level": "Masters",
-   "description": "The MS in Computer Science and Engineering program is designed for students seeking advanced knowledge in computer science theory and applications. The curriculum emphasizes research methodology and specialized topics in emerging technologies such as artificial intelligence, cloud computing, and cybersecurity.",
-   "image_url": "https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80",
-   "credits": "36",
-   "duration": "2 years",
-   "students_enrolled": "120",
-   "application_deadline": "April 1, 2023",
-   "tuition_fee": "$12,800 per year",
-   "admission_requirements": [
-    "Bachelor's degree in Computer Science or related field with minimum GPA of 3.2. GRE scores required. Statement of purpose and three letters of recommendation."
-   ],
-   "career_prospects": [
-    "Graduates are prepared for roles in research and development, advanced software engineering, data science, and academia. Average salary range is $90,000-$120,000 depending on specialization."
-   ],
-   "display_order": 2
-  },
-  {
-   "id": 3,
-   "title": "Professional Masters in Cybersecurity",
-   "level": "Masters",
-   "description": "The PhD in Physics program prepares students for research careers in physics, focusing on theoretical and experimental methodologies. Students conduct original research in various specializations including quantum mechanics, astrophysics, and condensed matter physics.",
-   "image_url": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "credits": "72",
-   "duration": "4-6 years",
-   "students_enrolled": "45",
-   "application_deadline": "March 1, 2023",
-   "tuition_fee": "$15,000 per year",
-   "admission_requirements": [
-    "Master's degree in Physics or related field. Research experience and strong recommendation letters required."
-   ],
-   "career_prospects": [
-    "Graduates pursue careers in academic research, national laboratories, aerospace industry, and technology research centers."
-   ],
-   "display_order": 3
-  },
-  {
-   "id": 4,
-   "title": "PhD in Computer Science and Engineering",
-   "level": "Doctorate",
-   "description": "A research-intensive program for scholars pursuing groundbreaking innovations in areas such as artificial intelligence, quantum computing, and computational theory.",
-   "image_url": "https://images.unsplash.com/photo-1620825937374-87fc7d6bddc2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1451&q=80",
-   "credits": "By research",
-   "duration": "3-5 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 4
-  },
-  {
-   "id": 5,
-   "title": "Bachelor of Science in Data Science",
-   "level": "Bachelor",
-   "description": "Prepare for the data-driven world with courses in statistical analysis, machine learning, data visualization, and big data processing technologies.",
-   "image_url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "credits": "150",
-   "duration": "4 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 5
-  },
-  {
-   "id": 6,
-   "title": "Master of Science in Artificial Intelligence",
-   "level": "Masters",
-   "description": "Explore the frontier of AI with specialized training in deep learning, natural language processing, computer vision, and robotics applications.",
-   "image_url": "https://images.unsplash.com/photo-1677442135132-198ca30c7285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
-   "credits": "36",
-   "duration": "1.5 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 6
-  },
-  {
-   "id": 7,
-   "title": "Bachelor of Engineering in Robotics",
-   "level": "Bachelor",
-   "description": "Blend mechanical engineering, electronics, and computer science to design and build the next generation of autonomous systems and intelligent machines.",
-   "image_url": "https://images.unsplash.com/photo-1561557944-6c7202a042b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-   "credits": "150",
-   "duration": "4 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 7
-  },
-  {
-   "id": 8,
-   "title": "Doctor of Philosophy in Biotechnology",
-   "level": "Doctorate",
-   "description": "Conduct pioneering research at the intersection of biology and technology, developing innovations in genomics, pharmaceuticals, and medical devices.",
-   "image_url": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "credits": "By research",
-   "duration": "3-5 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 8
-  },
-  {
-   "id": 9,
-   "title": "Masters in Information Technology Management",
-   "level": "Masters",
-   "description": "Bridge the gap between technology and business with specialized training in IT strategy, project management, and digital transformation leadership.",
-   "image_url": "https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-   "credits": "36",
-   "duration": "1.5 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 9
-  },
-  {
-   "id": 10,
-   "title": "Bachelor of Arts in Digital Media",
-   "level": "Bachelor",
-   "description": "Combine creative arts with digital technology to develop skills in multimedia production, web design, animation, and interactive storytelling.",
-   "image_url": "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
-   "credits": "150",
-   "duration": "4 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 10
-  },
-  {
-   "id": 11,
-   "title": "Doctor of Science in Quantum Computing",
-   "level": "Doctorate",
-   "description": "Push the boundaries of computing with advanced research in quantum algorithms, quantum error correction, and applications in cryptography and optimization.",
-   "image_url": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "credits": "By research",
-   "duration": "3-5 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 11
-  },
-  {
-   "id": 12,
-   "title": "Master of Engineering in Blockchain Technology",
-   "level": "Masters",
-   "description": "Develop expertise in distributed ledger technologies, smart contracts, cryptocurrency systems, and secure applications for various industries.",
-   "image_url": "https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1432&q=80",
-   "credits": "36",
-   "duration": "1.5 Years",
-   "students_enrolled": "",
-   "application_deadline": "Rolling admissions",
-   "tuition_fee": "Contact admissions office",
-   "admission_requirements": [],
-   "career_prospects": [],
-   "display_order": 12
-  }
- ],
- "content": {
-  "about_text": "The Department of Computer Science and Engineering of University of Dhaka (CSEDU) under the Faculty of Engineering and Technology (FoET) fosters quality education and research endeavors in diverse fields of computing. The CSEDU offers a 4 years Bachelor of Science, 1.5 years Master of Science, 2 years M.Phil, and Ph.D degree programs in Computer Science and Engineering. We also offer a Professional Masters in Information and Cyber Security (PMICS) degree program of 1.5 years duration. The CSEDU has become the finest and strongest academic department in the region for education and research in computing fields. We are proud to be the home of consecutive champion teams for regional and national level competitive programming contests.\n\nOur undergraduate degree program attracts the most meritorious students of the country, intakes only 60 students in a year, and produces graduates who have gone on to great success in industry and academia at home and abroad. The students are offered opportunities to engage in complex problem solving, conducting cutting-edge researches, experiential learning, and depth of study within the discipline, alongside dedicated faculty and a strong team of student-centered advisors and staff. The graduate degree programs, supported by various scholarships and administered by the Faculty of Engineering and Technology (FoET), allow students the opportunity to work with experienced faculty members to expand their knowledge in a variety of CSE areas including Artificial Intelligence, Internet of Things, Cloud Computing, Image Intelligence, Networking, Crowdsourcing, Knowledge Engineering, etc.\n\nWe are also highly privileged to work with a large network of alumni, and a prospective advisory board that includes members from Amazon, Google, Microsoft, and Meta along with other leading technical companies and high-profile universities. This enables us to maintain a relevant curriculum and strong network for our new graduates, leading to a job placement rate of over 95%. Our research profile is also strong and growing, with several million Takas of grants awarded in the last five years, and five faculty members with excellent academic and research profiles joined recently. Active research areas within the department include algorithms, artificial intelligence, cloud computing, computer networking, crowdsourcing applications, data science, distributed systems, graphics and visualization, internet of things, machine learning and pattern mining, etc. The research groups are regularly publishing top-notch journal articles and peer-reviewed ranked conference papers. Our faculty members are dedicated to teaching and providing an engaging, rigorous, outcome based and welcoming classroom environment.\n\nGiven that AI, ML, IoT, Cloud Computing, Big Data Analytics, Cybersecurity, and other Fifth Industrial Revolution (5IR) technologies are playing a major role in building smart city applications as well as a smart society at large, our presence remains strong in the community as we fulfill our mission of research-driven education, industrial and public outreach, and service to the profession. We invite you to browse our website at www.du.ac.bd/body/CSE where you will find detailed information on our academic programs at the undergraduate and graduate levels, research and teaching profiles of our faculty, and student societies. We are confident that you will find a topic that sparks your interest.",
-  "history_text": "The journey of the Department of Computer Science and Engineering started in a bright morning of September 1992. It was a brainchild of Dr. M. Lutfar Rahman, a visionary Professor of the Department of Applied Physics and Electronics, University of Dhaka, who felt the urge to come up with an academic department to tackle the snowballing necessity for computer scientists and IT specialists. In spite of a humble beginning, the department, then known as Department of Computer Science, attracted the very best minds of the nation and soon accumulated a star studded faculty roster as well as the brightest of the students.\n\nThe department started with a single classroom offering M.Sc. degree in Computer Science under the Faculty of Science. In 1994, three year B.Sc. Honors program was introduced which was upgraded to four year B.Sc. Honors program in 1997. It is the first department in the Faculty of Science to introduce the four year BSc. program in the University of Dhaka. In 2004, the name of the department was changed to Computer Science and Engineering, leading to its inclusion in the freshly formed Faculty of Engineering and Technology in 2008. In 2010, the four point grading system was introduced in the Faculty of Engineering and Technology.\n\nInitially, the department started with 20 students in the M.Sc. program in 1992, and then started B.Sc. (Hons) program from 1995 with 21 students. With the increasing demand of Computer Science graduates for the nation, University of Dhaka increased the number of seats for B.Sc. (Hons) program to 60 in 1995. So far, 25 batches have completed their undergraduate studies and 5 batches are currently pursuing their degrees from the department. In addition, 31 batches have completed the graduate study (MSc/ MS) programs and currently 1 batch is continuing their MS coursework/ research. Although only 11 researchers completed PhD from this department, currently there are 4 PhD students pursuing towards their degrees in addition to 1 MPhil students.\n\nIn total, the department has 39 active teachers, 19 of whom have already earned their PhD degrees. Currently,14 faculty members are on leave for pursuing their PhDs from different universities of the world.\n\nA summary of the faculty members are tinted in the following table:\n\nIn Total\tIn Service\tOn Study Leave\tOn Leave\nProfessor\t14\t13\t0\t1\nAssociate Professor\t6\t5\t0\t1\nAssistant Professor\t6\t3\t2\t1\nLecturer\t13\t3\t10\t0\nTotal\t39\t24\t12\t3\nCurrently, Professor Dr. Md. Abdur Razzaque is working as the 12th chairperson of the department and leading the progress of the department after successful completion of 11 ancestors:\n\nDept. of Computer Science\nName of the Chairperson\tStarting Date\tEnding Date\n1.\tProf. Dr. M. Lutfar Rahman\t01-09-1992\t31-08-1995\n2.\tProf. Dr. Md. Abdul Mottalib\t01-09-1995\t31-08-1998\n3.\tDr. Md. Alamgir Hossain\t01-09-1998\t30-09-2000\n4.\tMd. Rezaul Karim\t01-10-2000\t10-02-2003\n5.\tDr. Hafiz Md. Hasan Babu\t19-02-2003\t–\nDept. of Computer Science and Engineering\n\n5.\tDr. Hafiz Md. Hasan Babu\t–\t18-02-2006\n6.\tDr. Md. Haider Ali\t19-02-2006\t18-02-2009\n7.\tProf. Dr. Suraiya Pervin\t19-02-2009\t18-02-2012\n8.\tDr. Md. Hasanuzzaman\t19-02-2012\t19-02-2015\n9.\tProf. Dr. Shabbir Ahmed\t19-02-2015\t18-02-2018\n10.\tProf. Dr. Md. Mustafizur Rahman\t19-02-2018\t18-02-2021\n11.\tProf. Dr. Saifuddin Md Tareeq\t19-02-2021\t18-02-2024\n12.\tProf. Dr. Md. Abdur Razzaque\t19-02-2024\tTo date\nFurther, there are 15 dedicated officers and staffs who are working graciously in order to maintain smooth functioning of the administrative, technical and daily support activities of the department.\n\nFrom its very inception, the Department of Computer Science and Engineering has been a symbol of endurance and excellence in both education as well as administrative sector. The department’s pioneering stride towards better education and standard operational procedures have been spearheaded by the faculties, staffs and students of similar mentality. Today, CSEDU is deemed as one of the leading academic departments in the country fostering quality education, cutting-edge research and development industrial collaboration and student engagement in complex problem solving.",
-  "mission_text": "The Department of Computer Science and Engineering has been one of the pioneering organizations in the education sector of Bangladesh since its inception in 1992. The department is keen on pushing the boundaries of traditional education system and vigilant to face the challenges that the ever changing field of research brings forth. It is the optimum combination of knowledge generation and application that makes the distinctive feature of the department.\n\nThe department focuses on four major perceptions:\n\nExcellence in Education. From the very beginning, the department is dedicated to provide the best education in the field of Computer Science and Engineering. Armed with a group of experienced faculty and the brightest of students, the department has made exemplary improvement in this field of education. The reflection of this effort can be found amongst the top researchers, programmers, or IT specialists working in top level universities and companies in Bangladesh and all over the world, who graduated from the department.\n\nReputation through Research. The department focuses heavily on the quality and impact of the researches done in the field of Computer Science and Engineering as well as in multidisciplinary researches conducted in the department. The researches have been focused towards responding to local and global real world crises as well as crossing the frontiers of traditional methods to create new knowledge.\n\nSteps towards Society. The department is always ready to take the responsibility of taking the necessary steps to deploy ICT in social development. The department is keen to fulfill its social responsibility by taking up projects to automate institutional processes at the university and national levels, educate and train people, especially the young people of the country, through workshops on programming, software design, and other ICT training programs.\n\nEquality for Everyone. Everyone in the Department of Computer Science and Engineering is treated and considered as equal. People’s past, gender, financial background, ethnicity, religion are not at all considered in the assessment of their present performance. This place gives everyone the opportunity to make a name for themselves and stand out as a member of the CSEDU family. It creates a new identity for the students, one which will be remembered by their department and respected by all.\n\nConcoction of Culture. The department opens its doors towards diversity. People from all over the country, from different cultural backgrounds come to the department and become a part of the same culture that is practised in the department. It’s a place for mutual respect and admiration for everyone. This combination of variety ensures an accessible and tolerant environment in the department. An average of 24.59% women out of all students have already pursued degrees from the department which is a reflection of advancement for women in technology in Bangladesh.",
-  "chairman_message": "Welcome to CSEDU\nIt's my immense pleasure to welcome you all to the Department of Computer Science and Engineering (CSE) at the University of Dhaka (also known as CSEDU). The CSEDU is a place where the brightest minds from home and abroad assemble to build their future careers at highly reputed organizations at home and abroad. The department has been inspiring the best and brightest for more than three decades in fostering the frontier technologies of Computer Science and Engineering.\n\nOur curriculum is world standard blended with the theories of computer science, practical engineering design, analysis, and development of solutions to complex engineering problems. Starting from fundamental hardware, software, and network technologies, we cover Artificial Intelligence (AI), Cybersecurity, Cloud Computing, Machine Learning, Blockchain, Human-Computer Interaction and Internet of Things (IoT). We render special focus on competitive programming, innovative design principles, creation of new knowledge, inter-disciplinary education, and enhancing the soft skills of the students. We keep Monday afternoon free in the student timetable, enabling them to pursue their passion outside the classroom activities. You may join any of the hundreds of clubs of the University and feel the genuineness and camaraderie of the student members.\n\nWe nurture you to be future-ready, and tackle multifaceted issues of our society powered by emerging technologies to enhance human living quality. We consider all members of the community as catalysts of evolution and inspire them to break away from traditional learning and doing mentality to create new knowledge and instigate others to do the same. Our credibility and efficacy of the methods of education are reflected by the outstanding performances of our current students in national and international competitive events. Feathers of success have been augmented by our alumni who have been performing with excellence in their respective fields; in the top ranking universities as teachers and researchers and in the top companies all around the globe including Google, Microsoft, Meta, Amazon, Intel, etc. as software engineers and IT specialists. Our students are well-equipped to take the challenge to stand out as the leaders of tomorrow. We welcome intelligent and creative minds willing to take the challenges of 21st century workplaces and have strong enthusiasm to work in building a smart Bangladesh.",
-  "chairman_photo": "/chairman.jpg",
-  "contact_email": "chairman@cse.du.ac.bd",
-  "contact_phone": "+880-2-9670734",
-  "contact_address": "Department of CSE, University of Dhaka",
-  "contact_hours": "Sun-Thu, 9:00 AM - 5:00 PM",
-  "dept_stats": "[{\"label\": \"Faculty Members\", \"value\": \"25+\"}, {\"label\": \"Students\", \"value\": \"800+\"}, {\"label\": \"Research Projects\", \"value\": \"30+\"}]",
-  "research_areas": "[\"Artificial Intelligence & Machine Learning\", \"Data Science & Analytics\", \"Software Engineering\", \"Cybersecurity\"]",
-  "achievements": "[\"50+ Research Publications\", \"15+ Years Department Leadership\", \"Multiple Research Awards\", \"Industry Collaboration Expert\"]",
-  "office_hours": "[{\"days\": \"Monday - Wednesday\", \"time\": \"10:00 AM - 12:00 PM\"}, {\"days\": \"Thursday - Friday\", \"time\": \"2:00 PM - 4:00 PM\"}]",
-  "office_hours_note": "* Appointments can be scheduled via email",
-  "connect_heading": "Connect With Us",
-  "connect_text": "We welcome intelligent and creative minds willing to take the challenges of 21st century workplaces and have strong enthusiasm to work in building a smart Bangladesh.",
-  "campus_life_text": "Experience the vibrant academic environment and student activities at the Department of Computer Science & Engineering",
-  "campus_life_video": "/homevid.mp4",
-  "campus_life_caption_title": "Department of CSE, University of Dhaka",
-  "campus_life_caption_sub": "Where innovation meets excellence",
-  "department_info": "{\"name\": \"Department of Computer Science and Engineering\", \"establishedYear\": 1985, \"chairperson\": \"Prof. David Williams, PhD\", \"website\": \"https://cse.university.edu\", \"email\": \"cse@university.edu\", \"phone\": \"+1 (123) 456-7890\", \"address\": \"Computer Science Building, University Campus, 123 University Avenue\", \"achievements\": [\"Ranked in the top 50 CS departments nationally\", \"More than 85% placement rate within 6 months of graduation\", \"Strong industry partnerships with leading tech companies\"]}"
- },
- "courses": [
-  {
-   "id": 101,
-   "program_id": 1,
-   "code": "CSE 101",
-   "title": "Introduction to Computer Science",
-   "semester": "Fall 2025",
-   "year": 1,
-   "credits": 3.0,
-   "description": "An introduction to computer science and programming concepts.",
-   "image_url": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": "Dr. David Miller",
-   "syllabus_weeks": [
+  "people": [
     {
-     "number": 1,
-     "topic": "Introduction to Computer Science",
-     "date": "August 28, 2025",
-     "description": "Course overview, introduction to computing concepts"
+      "name": "Dr. Md. Abdur Razzaque",
+      "role": "Professor & Chairman",
+      "category": "Faculty",
+      "expertise": [
+        "AI and ML in UAV Networks",
+        "Edge Intelligence",
+        "AI for Internet of Things",
+        "Green Networking and Sustainable Internet",
+        "Energy Optimization"
+      ],
+      "email": "razzaque@du.ac.bd",
+      "phone": "01841066390",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-md-abdur-razzaque.jpg",
+      "bio": "Md. Abdur Razzaque (M'08, SM'12)is a Professor of the Dept. of Computer Science and Engineering, University of Dhaka and he is the current chairman of the Department. He chaired 2021 and 2020 Executive Committees for IEEE Computer Society Bangladesh Chapter. He received his BS in Applied Physics and Electronics and MS in Computer Science from University of Dhaka, Bangladesh in 1995 and 1996, respectively. He obtained a PhD in Computer Engineering from Kyung Hee University, South Korea in 2009. He worked for Green University of Bangladesh for different periods as Pro Vice Chancellor, Dean of Faculty of Science and Engineering and Chairperson, Dept of CSE during 2016-2021. He was a research professor at Kyung Hee University, South Korea during 2010-2011. He worked as a visiting professor in Stratford University, Virginia, USA in 2017. He is the director of Green Networking Research Group (http://cse.du.ac.bd/gnr) of the Dept. of CSE, DU. He has been promoting Outcome Based Education for Science and Engineering Faculties of leading universities of the country. He lead many national and international funded research projects. His research interest is in the area of modeling, analysis and optimization of wireless networking protocols and architectures, Mobile Crowdsourcing, Sensor Data Clouds, Internet of Things, Edge Computing, etc. He has published 190+ research papers in peer-reviewed conferences and journals. He is offering editorial services to reputed journals and contributing to numerous international conferences at different capacities. He is a senior member of IEEE, member of IEEE Computer Society, Internet Society (ISOC), etc.",
+      "status": null,
+      "publications": [],
+      "display_order": 0
     },
     {
-     "number": 2,
-     "topic": "History of Computing",
-     "date": "September 4, 2025",
-     "description": "Evolution of computers, key historical developments"
+      "name": "Dr. Suraiya Pervin",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Natural Language Processing",
+        "Digital Signal Processing"
+      ],
+      "email": "suraiya@du.ac.bd",
+      "phone": "+880-2-8650143",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-suraiya-pervin.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 1
     },
     {
-     "number": 3,
-     "topic": "Number Systems and Data Representation",
-     "date": "September 11, 2025",
-     "description": "Binary, decimal, hexadecimal, data encoding"
+      "name": "Dr. Md. Haider Ali",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Computer Graphics and Image Processing"
+      ],
+      "email": "haider@du.ac.bd",
+      "phone": "+880244865057",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-md-haider-ali.jpg",
+      "bio": "Md. Haider Ali (also Mohammad Haider Ali) has completed his Doctor of Engineering from the dept. of Electronics and Information Engineering, Toyohashi University of Technology, Japan in the field of Computer Graphics. His research interest includes Computer Graphics and Image Processing. He is currently working as a professor in the dept. of Computer Science and Engineering, University of Dhaka. Dr. Mohammad Haider Ali is the fellow of Bangladesh Computer Society, and former Student Member of Institute of Electronics, Information and Communication Engineering (IEICE), Japan.",
+      "status": null,
+      "publications": [],
+      "display_order": 2
     },
     {
-     "number": 4,
-     "topic": "Computer Architecture",
-     "date": "September 18, 2025",
-     "description": "Hardware components, memory hierarchy"
+      "name": "Dr. Hafiz Md. Hasan Babu",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "hafizbabu@du.ac.bd",
+      "phone": "+88-01711351055",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-hafiz-md-hasan-babu.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 3
     },
     {
-     "number": 5,
-     "topic": "Operating Systems",
-     "date": "September 25, 2025",
-     "description": "OS functions, process management, file systems"
+      "name": "Dr. Md. Rezaul Karim",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Graph Drawing Algorithms",
+        "Dataminig",
+        "Digital Forensic",
+        "Project Management",
+        "Information Security"
+      ],
+      "email": "rkarim@du.ac.bd",
+      "phone": "880-2-9661900",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-md-rezaul-karim.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 4
     },
     {
-     "number": 6,
-     "topic": "Programming Fundamentals",
-     "date": "October 2, 2025",
-     "description": "Variables, data types, control structures"
+      "name": "Dr. Md. Hasanuzzaman",
+      "role": "Professor (On Leave)",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "hzaman@du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-md-hasanuzzaman.jpg",
+      "bio": "",
+      "status": "On Leave",
+      "publications": [],
+      "display_order": 5
     },
     {
-     "number": 7,
-     "topic": "Algorithms and Problem Solving",
-     "date": "October 9, 2025",
-     "description": "Algorithm design, pseudocode, flowcharts"
+      "name": "Dr. Shabbir Ahmed",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Delay Tolerant Networks, IoT"
+      ],
+      "email": "sumaiyarafia@gmail.com",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-shabbir-ahmed.jpg",
+      "bio": "Current research includes protocol designs of Delay Tolerant Networks (DTN), AdHoc routings, and security of IoT and embedded devices.",
+      "status": null,
+      "publications": [],
+      "display_order": 6
     },
     {
-     "number": 8,
-     "topic": "Introduction to Programming Languages",
-     "date": "October 16, 2025",
-     "description": "Types of programming languages, syntax basics"
+      "name": "Dr. Md. Mustafizur Rahman",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "mustafiz@du.ac.bd",
+      "phone": "+880-1927-199-301",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-md-mustafizur-rahman.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 7
     },
     {
-     "number": 9,
-     "topic": "Software Engineering Principles",
-     "date": "October 23, 2025",
-     "description": "Development lifecycle, requirements, testing"
+      "name": "Dr. Saifuddin Md. Tareeq",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Humanoid Robot Behavior Generation (for social skill development of Autistic Children)",
+        "Bioinformatics",
+        "Data Analysis (big data)",
+        "Human Robot Interaction",
+        "Machine Learning",
+        "Regulatory Elements Finding in Genome for Stress Tolerance (salt, drought etc)"
+      ],
+      "email": "smtareeq@du.ac.bd",
+      "phone": "880-2-9661900",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-saifuddin-md-tareeq.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 8
     },
     {
-     "number": 10,
-     "topic": "Data Structures Basics",
-     "date": "October 30, 2025",
-     "description": "Arrays, lists, stacks, queues"
+      "name": "Dr. Chowdhury Farhan Ahmed",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Knowledge Discovery",
+        "Machine Learning",
+        "Data Mining"
+      ],
+      "email": "farhan@du.ac.bd",
+      "phone": "880-2-9661900",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-chowdhury-farhan-ahmed.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 9
     },
     {
-     "number": 11,
-     "topic": "Database Concepts",
-     "date": "November 6, 2025",
-     "description": "Database models, SQL introduction"
+      "name": "Dr. Md. Mamun-Or-Rashid",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "mamun@cse.du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-md-mamun-or-rashid.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 10
     },
     {
-     "number": 12,
-     "topic": "Computer Networks Basics",
-     "date": "November 13, 2025",
-     "description": "Network models, protocols, Internet"
+      "name": "Dr. Mosaddek Hossain Kamal",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Intelligent system for Electric Vehicle Cloud Charging Infrastructure",
+        "Embedded System for Industry"
+      ],
+      "email": "tushar@du.ac.bd",
+      "phone": "01700766184",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-mosaddek-hossain-kamal.jpg",
+      "bio": "The Postdoctoral Fellowships (PDF) program provides support to a core of the most promising researchers at a pivotal time in their careers. The fellowships are also intended to secure a supply of highly qualified Canadians with leading-edge scientific and research skills for Canadian industry, government, and academic institutions. for more: https://www.nserc-crsng.gc.ca/students-etudiants/pd-np/pdf-bp_eng.asp",
+      "status": null,
+      "publications": [],
+      "display_order": 11
     },
     {
-     "number": 13,
-     "topic": "Ethical Issues in Computing",
-     "date": "November 20, 2025",
-     "description": "Privacy, intellectual property, cybersecurity"
+      "name": "Dr. Muhammad Asif Hossain Khan",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Natural Language Processing",
+        "Developing Efficient Feature Selection Algorithms, Deep Learning Algorithms, Attention Modules",
+        "Mechine Learning",
+        "Text Mining"
+      ],
+      "email": "asif@du.ac.bd",
+      "phone": "01793593098",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-muhammad-asif-hossain-khan.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 12
     },
     {
-     "number": 14,
-     "topic": "Future of Computing",
-     "date": "November 27, 2025",
-     "description": "Emerging technologies, AI, quantum computing"
+      "name": "Dr. Upama Kabir",
+      "role": "Professor",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "upama2@gmail.com",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-upama-kabir.jpg",
+      "bio": "A prestigious recognition for a student who secure the highest marks among all four faculties (science, biological science, pharmacy and law) of University of Dhaka in M.Sc. Exam",
+      "status": null,
+      "publications": [],
+      "display_order": 13
     },
     {
-     "number": 15,
-     "topic": "Course Review",
-     "date": "December 4, 2025",
-     "description": "Review of key concepts"
+      "name": "Dr. Moinul Islam Zaber",
+      "role": "Professor (On Leave)",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "zaber@du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-moinul-islam-zaber.jpg",
+      "bio": "Moinul Zaberis a data and computational social scientist. His research focus is Artificial Intelligence and Telecommunication Technology for public policy. He uses machine learning, statistical inference, econometrics, techno-ethnographic analysis, and design thinking to harness data for policy insights and intervention design. Dr. Zaber is an expert on Ai for Development, Data Science,  Data Governance, and Public Policy. He is a co-founder and director of the Data and Design Lab (dndlab.org) at CSEDU- the first AI for development and computational social science lab in Bangladesh.",
+      "status": "On Leave",
+      "publications": [],
+      "display_order": 14
     },
     {
-     "number": 16,
-     "topic": "Final Exam Preparation",
-     "date": "December 11, 2025",
-     "description": "Review exercises and practice problems"
+      "name": "Abu Ahmed Ferdaus",
+      "role": "Associate Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Data Science",
+        "Machine Learning",
+        "Data Mining"
+      ],
+      "email": "ferdaus@du.ac.bd",
+      "phone": "+88029670734",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/abu-ahmed-ferdaus.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 15
+    },
+    {
+      "name": "Dr. Mosarrat Jahan",
+      "role": "Associate Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Applying blockchain to handle performance and data security issues.",
+        "VANET security",
+        "IoT security",
+        "Developing lightweight solutions for handling security issues of the Internet of Things (IoT).",
+        "Analyzing various security issues of Vehicular Ad Hoc Networks (VANETs) and proposing solutions.",
+        "Blockchain",
+        "Cloud security",
+        "Analysis of various cloud security issues and proposing solutions to protect users' data.",
+        "Applied Cryptography"
+      ],
+      "email": "mosarratjahan@cse.du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-mosarrat-jahan.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 16
+    },
+    {
+      "name": "Dr. Ismat Rahman",
+      "role": "Associate Professor",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "ismat@cse.du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-ismat-rahman.jpeg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 17
+    },
+    {
+      "name": "Dr. Sarker Tanveer Ahmed Rumee",
+      "role": "Associate Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Operating Systems",
+        "Program Analysis",
+        "Information Security"
+      ],
+      "email": "rumee@cse.du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-sarker-tanveer-ahmed-rumee.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 18
+    },
+    {
+      "name": "Dr. Md. Mosaddek Khan",
+      "role": "Associate Professor",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "mosaddek@du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-md-mosaddek-khan.png",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 19
+    },
+    {
+      "name": "Dr. Muhammad Ibrahim",
+      "role": "Associate Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Metaheuristic Optimization Algorithms",
+        "Information Retrieval",
+        "Artificial Intelligence",
+        "Machine Learning"
+      ],
+      "email": "ibrahim313@du.ac.bd",
+      "phone": "+880 2 9661920",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/dr-muhammad-ibrahim.jpg",
+      "bio": "MGS and MIPRS Scholarships from Monash University, Australia. Covered the entire duration of the PhD study.",
+      "status": null,
+      "publications": [],
+      "display_order": 20
+    },
+    {
+      "name": "Hasnain Heickal",
+      "role": "Assistant Professor (Study Leave)",
+      "category": "Faculty",
+      "expertise": [
+        "Machine Learning, Natural Language Processing.",
+        "Artificial Intelligence"
+      ],
+      "email": "hasnain@cse.univdhaka.edu",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/hasnain-heickal.jpg",
+      "bio": "",
+      "status": "On Study Leave",
+      "publications": [],
+      "display_order": 21
+    },
+    {
+      "name": "Md. Mahmudur Rahman",
+      "role": "Assistant Professor",
+      "category": "Faculty",
+      "expertise": [
+        "Knowledge Discovery",
+        "Pattern Mining",
+        "Machine Learning"
+      ],
+      "email": "mrr.rana13@gmail.com",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/md-mahmudur-rahman.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 22
+    },
+    {
+      "name": "Md. Ashraful Islam",
+      "role": "Assistant Professor (Study Leave)",
+      "category": "Faculty",
+      "expertise": [
+        "Pattern Mining",
+        "Graph mining, Weighted Pattern Mining, Sequential Pattern Mining, Data Stream Mining",
+        "Incremental Learning",
+        "Speech Recognition, Speech Synthesizer, Seq2Seq Models, Lemmatiation, POS Tagger",
+        "Machine Learning",
+        "Natural Language Processing"
+      ],
+      "email": "ashraful@du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/md-ashraful-islam.jpg",
+      "bio": "",
+      "status": "On Study Leave",
+      "publications": [],
+      "display_order": 23
+    },
+    {
+      "name": "Md. Fahim Arefin",
+      "role": "Lecturer",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "fahim@cse.du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/md-fahim-arefin.png",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 24
+    },
+    {
+      "name": "Redwan Ahmed Rizvee",
+      "role": "Lecturer (On Leave)",
+      "category": "Faculty",
+      "expertise": [
+        "Deep Learning",
+        "Programming Systems",
+        "Data Mining",
+        "High Performance Computing"
+      ],
+      "email": "rizvee@cse.du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/redwan-ahmed-rizvee.jpg",
+      "bio": "From the Department of Computer Science and Engineering, University of Dhaka for acquiring the first position in the batch in B.Sc",
+      "status": "On Leave",
+      "publications": [],
+      "display_order": 25
+    },
+    {
+      "name": "Md. Tanvir Alam",
+      "role": "Lecturer",
+      "category": "Faculty",
+      "expertise": [
+        "Machine learning on graphs",
+        "Graph Neural Networks"
+      ],
+      "email": "tanvir@cse.du.ac.bd",
+      "phone": "01551225972",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/md-tanvir-alam.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 26
+    },
+    {
+      "name": "Jargis Ahmed",
+      "role": "Lecturer",
+      "category": "Faculty",
+      "expertise": [
+        "Computer Networking",
+        "Mobile Edge ComputingInternet of Things (IoT)Cloud Computing"
+      ],
+      "email": "jargis@cse.du.ac.bd",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/jargis-ahmed.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 27
+    },
+    {
+      "name": "Palash Roy",
+      "role": "Lecturer",
+      "category": "Faculty",
+      "expertise": [
+        "Edge and Cloud Computing",
+        "Network Intelligence",
+        "Federated Learning",
+        "Unmanned Aerial Vehicles",
+        "AI for Internet of Things"
+      ],
+      "email": "palash@cse.du.ac.bd",
+      "phone": "01846869580",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/palash-roy.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 28
+    },
+    {
+      "name": "Md. Ahasanul Alam",
+      "role": "Lecturer",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/md-ahasanul-alam.jpeg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 29
+    },
+    {
+      "name": "Md. Aminul Kader Bulbul",
+      "role": "Lecturer",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/md-aminul-kader-bulbul.png",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 30
+    },
+    {
+      "name": "Shabab Murshed",
+      "role": "Lecturer",
+      "category": "Faculty",
+      "expertise": [],
+      "email": "",
+      "phone": "",
+      "office": "",
+      "office_hours": "",
+      "image_url": "/resources/faculty/shabab-murshed.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 31
+    },
+    {
+      "name": "Md. Haniful Hassan Siddique",
+      "role": "Superintending Engineer",
+      "category": "Officer",
+      "expertise": [],
+      "email": "hanif@du.ac.bd",
+      "phone": "01552416031",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_45759_new.png",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 32
+    },
+    {
+      "name": "Md. Shahajul Islam",
+      "role": "Principal Technical Officer",
+      "category": "Officer",
+      "expertise": [],
+      "email": "shahajul@cse.du.ac.bd",
+      "phone": "01911755066",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/54700_SI-Talukder.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 33
+    },
+    {
+      "name": "Md. Aynul Huqe",
+      "role": "Senior Technical Officer",
+      "category": "Officer",
+      "expertise": [],
+      "email": "aynul09cse@gmail.com",
+      "phone": "02226683029",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/2854_AynulHaque.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 34
+    },
+    {
+      "name": "Paritosh Chakma",
+      "role": "Senior Administrative Officer",
+      "category": "Officer",
+      "expertise": [],
+      "email": "pari_chakma@yahoo.com",
+      "phone": "8802226683029",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/2843_PariPhoto.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 35
+    },
+    {
+      "name": "Md. Shahnewaz Islam",
+      "role": "Senior Technical Officer",
+      "category": "Officer",
+      "expertise": [],
+      "email": "shahnewaz@cse.du.ac.bd",
+      "phone": "02226683029",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2856_new.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 36
+    },
+    {
+      "name": "Md. Alauddin",
+      "role": "Technical Officer",
+      "category": "Officer",
+      "expertise": [],
+      "email": "alauddin@cse.du.ac.bd",
+      "phone": "02226683029",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_4327_new.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 37
+    },
+    {
+      "name": "Md. Aminul Islam",
+      "role": "Senior Assistant",
+      "category": "Officer",
+      "expertise": [],
+      "email": "aminul@cse.du.ac.bd",
+      "phone": "01553422493",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2907.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 38
+    },
+    {
+      "name": "Balai Chandra Das",
+      "role": "Lab Assistant",
+      "category": "Staff",
+      "expertise": [],
+      "email": "balaichdas2012@gmail.com",
+      "phone": "01718763366",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/4312_BalaiChandraDas.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 39
+    },
+    {
+      "name": "Md. Abu Taleb",
+      "role": "Senior Office Shahayak Gr-3",
+      "category": "Staff",
+      "expertise": [],
+      "email": "mdabutaleb197010@gmail.com",
+      "phone": "01775863524",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/46723_Md_Abu_Taleb.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 40
+    },
+    {
+      "name": "Mohammad Rafiqul Islam",
+      "role": "Senior Lab. Attendent Gr-3",
+      "category": "Staff",
+      "expertise": [],
+      "email": "rafi@cse.du.ac.bd",
+      "phone": "01552479757",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/46143_Rafi.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 41
+    },
+    {
+      "name": "Md. Khayrul Rahman",
+      "role": "Laboratory Attendant",
+      "category": "Staff",
+      "expertise": [],
+      "email": "khayrulrahman@gmail.com",
+      "phone": "01829399567",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/3090_1000255160.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 42
+    },
+    {
+      "name": "Muhammad Masudur Rahman",
+      "role": "Laboratory Attendant",
+      "category": "Staff",
+      "expertise": [],
+      "email": "masudcsedu@gmail.com",
+      "phone": "01933452466",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/67504_PhotoMasud.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 43
+    },
+    {
+      "name": "Robiul Islam",
+      "role": "Laboratory Attendant",
+      "category": "Staff",
+      "expertise": [],
+      "email": "robiulislamengr38@gmail.com",
+      "phone": "01771523399",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/71171_robiulislam.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 44
+    },
+    {
+      "name": "Md.Imran Ansary",
+      "role": "Office Shahayak",
+      "category": "Staff",
+      "expertise": [],
+      "email": "imranansary731@gmail.com",
+      "phone": "01770761417",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/75684_ImranAnsari.jpeg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 45
+    },
+    {
+      "name": "Md. Sahidullah",
+      "role": "Parichannata Karmi",
+      "category": "Staff",
+      "expertise": [],
+      "email": "aminulopias@yahoo.com",
+      "phone": "01748622892",
+      "office": "",
+      "office_hours": "",
+      "image_url": "https://ssl.du.ac.bd/fontView/assets/faculty_image/image_2910_new.jpg",
+      "bio": "",
+      "status": null,
+      "publications": [],
+      "display_order": 46
     }
-   ]
-  },
-  {
-   "id": 102,
-   "program_id": 1,
-   "code": "CSE 102",
-   "title": "Introduction to Programming",
-   "semester": "Fall 2025",
-   "year": 1,
-   "credits": 3.0,
-   "description": "Fundamentals of programming using a high-level language.",
-   "image_url": "https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 201,
-   "program_id": 1,
-   "code": "CSE 201",
-   "title": "Data Structures",
-   "semester": "Spring 2026",
-   "year": 1,
-   "credits": 3.0,
-   "description": "Implementation and analysis of fundamental data structures.",
-   "image_url": "https://images.unsplash.com/photo-1456428746267-a1756408f782?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": "Dr. Michael Chen",
-   "syllabus_weeks": [
+  ],
+  "programs": [
     {
-     "number": 1,
-     "topic": "Introduction to Data Structures",
-     "date": "January 15, 2026",
-     "description": "Overview of data structures and their importance"
+      "id": 1,
+      "title": "Bachelor of Science (Honours) in Computer Science and Engineering",
+      "level": "Bachelor",
+      "description": "The four-year BSc (Honours) in Computer Science and Engineering at the University of Dhaka provides a rigorous foundation in computing — algorithms, data structures, software engineering, computer systems, networks, artificial intelligence and hardware — combined with strong mathematics and hands-on laboratory, project and thesis work. The programme follows the 150-credit curriculum (session 2023–2024) and prepares graduates for careers in software, research and higher study.",
+      "image_url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "credits": "150",
+      "duration": "4 years (8 semesters)",
+      "students_enrolled": "298",
+      "application_deadline": "As per the DU Undergraduate Admission notice",
+      "tuition_fee": "Nominal public-university fees (University of Dhaka)",
+      "admission_requirements": [
+        "HSC / equivalent in Science group with strong results in Mathematics and Physics.",
+        "Qualify through the University of Dhaka undergraduate admission test (Science unit) and secure a place in the CSE department merit list."
+      ],
+      "career_prospects": [
+        "Software engineer, systems/network engineer, data scientist, AI/ML engineer and researcher.",
+        "Higher studies (MSc, MPhil, PhD) at home and abroad, and roles in academia, government ICT and the startup ecosystem."
+      ],
+      "display_order": 1
     },
     {
-     "number": 2,
-     "topic": "Arrays and Linked Lists",
-     "date": "January 22, 2026",
-     "description": "Implementation and operations"
+      "id": 2,
+      "title": "Master of Science in Computer Science and Engineering",
+      "level": "Masters",
+      "description": "The MSc in Computer Science and Engineering is a one-and-a-half-year (three-semester) advanced programme offering thesis and non-thesis (project) tracks. Students pursue specialised coursework and research in areas such as artificial intelligence, machine learning, data science, networks, security and systems, building on the BSc foundation.",
+      "image_url": "https://images.unsplash.com/photo-1610563166150-b34df4f3bcd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80",
+      "credits": "36",
+      "duration": "1.5 years (3 semesters)",
+      "students_enrolled": "120",
+      "application_deadline": "As per the DU Graduate Admission notice",
+      "tuition_fee": "Nominal public-university fees (University of Dhaka)",
+      "admission_requirements": [
+        "Four-year BSc (Honours) / equivalent in Computer Science and Engineering or a closely related discipline.",
+        "Selection follows the department's graduate admission criteria and academic record."
+      ],
+      "career_prospects": [
+        "Advanced software engineering, research and development, data science and specialised industry roles.",
+        "Pathway to MPhil / PhD study and academic careers."
+      ],
+      "display_order": 2
     },
     {
-     "number": 3,
-     "topic": "Stacks and Queues",
-     "date": "January 29, 2026",
-     "description": "LIFO, FIFO structures and applications"
+      "id": 3,
+      "title": "Professional Masters in Cybersecurity",
+      "level": "Masters",
+      "description": "The PhD in Physics program prepares students for research careers in physics, focusing on theoretical and experimental methodologies. Students conduct original research in various specializations including quantum mechanics, astrophysics, and condensed matter physics.",
+      "image_url": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "credits": "72",
+      "duration": "4-6 years",
+      "students_enrolled": "45",
+      "application_deadline": "March 1, 2023",
+      "tuition_fee": "$15,000 per year",
+      "admission_requirements": [
+        "Master's degree in Physics or related field. Research experience and strong recommendation letters required."
+      ],
+      "career_prospects": [
+        "Graduates pursue careers in academic research, national laboratories, aerospace industry, and technology research centers."
+      ],
+      "display_order": 3
     },
     {
-     "number": 4,
-     "topic": "Recursion",
-     "date": "February 5, 2026",
-     "description": "Recursive algorithms and problem solving"
+      "id": 4,
+      "title": "PhD in Computer Science and Engineering",
+      "level": "Doctorate",
+      "description": "A research-intensive program for scholars pursuing groundbreaking innovations in areas such as artificial intelligence, quantum computing, and computational theory.",
+      "image_url": "https://images.unsplash.com/photo-1620825937374-87fc7d6bddc2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1451&q=80",
+      "credits": "By research",
+      "duration": "3-5 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 4
     },
     {
-     "number": 5,
-     "topic": "Trees: Basic Concepts",
-     "date": "February 12, 2026",
-     "description": "Tree terminology, binary trees"
+      "id": 5,
+      "title": "Bachelor of Science in Data Science",
+      "level": "Bachelor",
+      "description": "Prepare for the data-driven world with courses in statistical analysis, machine learning, data visualization, and big data processing technologies.",
+      "image_url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "credits": "150",
+      "duration": "4 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 5
     },
     {
-     "number": 6,
-     "topic": "Binary Search Trees",
-     "date": "February 19, 2026",
-     "description": "BST properties and operations"
+      "id": 6,
+      "title": "Master of Science in Artificial Intelligence",
+      "level": "Masters",
+      "description": "Explore the frontier of AI with specialized training in deep learning, natural language processing, computer vision, and robotics applications.",
+      "image_url": "https://images.unsplash.com/photo-1677442135132-198ca30c7285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+      "credits": "36",
+      "duration": "1.5 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 6
     },
     {
-     "number": 7,
-     "topic": "AVL Trees",
-     "date": "February 26, 2026",
-     "description": "Self-balancing binary search trees"
+      "id": 7,
+      "title": "Bachelor of Engineering in Robotics",
+      "level": "Bachelor",
+      "description": "Blend mechanical engineering, electronics, and computer science to design and build the next generation of autonomous systems and intelligent machines.",
+      "image_url": "https://images.unsplash.com/photo-1561557944-6c7202a042b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+      "credits": "150",
+      "duration": "4 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 7
     },
     {
-     "number": 8,
-     "topic": "Heap and Priority Queues",
-     "date": "March 5, 2026",
-     "description": "Heap implementation, heapify algorithm"
+      "id": 8,
+      "title": "Doctor of Philosophy in Biotechnology",
+      "level": "Doctorate",
+      "description": "Conduct pioneering research at the intersection of biology and technology, developing innovations in genomics, pharmaceuticals, and medical devices.",
+      "image_url": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "credits": "By research",
+      "duration": "3-5 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 8
     },
     {
-     "number": 9,
-     "topic": "Graphs: Representation",
-     "date": "March 12, 2026",
-     "description": "Adjacency matrix, adjacency list"
+      "id": 9,
+      "title": "Masters in Information Technology Management",
+      "level": "Masters",
+      "description": "Bridge the gap between technology and business with specialized training in IT strategy, project management, and digital transformation leadership.",
+      "image_url": "https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+      "credits": "36",
+      "duration": "1.5 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 9
     },
     {
-     "number": 10,
-     "topic": "Graph Traversals",
-     "date": "March 19, 2026",
-     "description": "Depth-first, breadth-first search"
+      "id": 10,
+      "title": "Bachelor of Arts in Digital Media",
+      "level": "Bachelor",
+      "description": "Combine creative arts with digital technology to develop skills in multimedia production, web design, animation, and interactive storytelling.",
+      "image_url": "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
+      "credits": "150",
+      "duration": "4 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 10
     },
     {
-     "number": 11,
-     "topic": "Shortest Path Algorithms",
-     "date": "March 26, 2026",
-     "description": "Dijkstra's, Bellman-Ford algorithms"
+      "id": 11,
+      "title": "Doctor of Science in Quantum Computing",
+      "level": "Doctorate",
+      "description": "Push the boundaries of computing with advanced research in quantum algorithms, quantum error correction, and applications in cryptography and optimization.",
+      "image_url": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "credits": "By research",
+      "duration": "3-5 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 11
     },
     {
-     "number": 12,
-     "topic": "Minimum Spanning Trees",
-     "date": "April 2, 2026",
-     "description": "Kruskal's, Prim's algorithms"
-    },
-    {
-     "number": 13,
-     "topic": "Hashing",
-     "date": "April 9, 2026",
-     "description": "Hash functions, collision resolution"
-    },
-    {
-     "number": 14,
-     "topic": "Advanced Sorting Algorithms",
-     "date": "April 16, 2026",
-     "description": "Merge sort, quick sort, heap sort"
-    },
-    {
-     "number": 15,
-     "topic": "Algorithm Analysis",
-     "date": "April 23, 2026",
-     "description": "Time complexity, space complexity"
-    },
-    {
-     "number": 16,
-     "topic": "Final Review",
-     "date": "April 30, 2026",
-     "description": "Comprehensive review of course material"
+      "id": 12,
+      "title": "Master of Engineering in Blockchain Technology",
+      "level": "Masters",
+      "description": "Develop expertise in distributed ledger technologies, smart contracts, cryptocurrency systems, and secure applications for various industries.",
+      "image_url": "https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1432&q=80",
+      "credits": "36",
+      "duration": "1.5 Years",
+      "students_enrolled": "",
+      "application_deadline": "Rolling admissions",
+      "tuition_fee": "Contact admissions office",
+      "admission_requirements": [],
+      "career_prospects": [],
+      "display_order": 12
     }
-   ]
+  ],
+  "content": {
+    "about_text": "The Department of Computer Science and Engineering of University of Dhaka (CSEDU) under the Faculty of Engineering and Technology (FoET) fosters quality education and research endeavors in diverse fields of computing. The CSEDU offers a 4 years Bachelor of Science, 1.5 years Master of Science, 2 years M.Phil, and Ph.D degree programs in Computer Science and Engineering. We also offer a Professional Masters in Information and Cyber Security (PMICS) degree program of 1.5 years duration. The CSEDU has become the finest and strongest academic department in the region for education and research in computing fields. We are proud to be the home of consecutive champion teams for regional and national level competitive programming contests.\n\nOur undergraduate degree program attracts the most meritorious students of the country, intakes only 60 students in a year, and produces graduates who have gone on to great success in industry and academia at home and abroad. The students are offered opportunities to engage in complex problem solving, conducting cutting-edge researches, experiential learning, and depth of study within the discipline, alongside dedicated faculty and a strong team of student-centered advisors and staff. The graduate degree programs, supported by various scholarships and administered by the Faculty of Engineering and Technology (FoET), allow students the opportunity to work with experienced faculty members to expand their knowledge in a variety of CSE areas including Artificial Intelligence, Internet of Things, Cloud Computing, Image Intelligence, Networking, Crowdsourcing, Knowledge Engineering, etc.\n\nWe are also highly privileged to work with a large network of alumni, and a prospective advisory board that includes members from Amazon, Google, Microsoft, and Meta along with other leading technical companies and high-profile universities. This enables us to maintain a relevant curriculum and strong network for our new graduates, leading to a job placement rate of over 95%. Our research profile is also strong and growing, with several million Takas of grants awarded in the last five years, and five faculty members with excellent academic and research profiles joined recently. Active research areas within the department include algorithms, artificial intelligence, cloud computing, computer networking, crowdsourcing applications, data science, distributed systems, graphics and visualization, internet of things, machine learning and pattern mining, etc. The research groups are regularly publishing top-notch journal articles and peer-reviewed ranked conference papers. Our faculty members are dedicated to teaching and providing an engaging, rigorous, outcome based and welcoming classroom environment.\n\nGiven that AI, ML, IoT, Cloud Computing, Big Data Analytics, Cybersecurity, and other Fifth Industrial Revolution (5IR) technologies are playing a major role in building smart city applications as well as a smart society at large, our presence remains strong in the community as we fulfill our mission of research-driven education, industrial and public outreach, and service to the profession. We invite you to browse our website at www.du.ac.bd/body/CSE where you will find detailed information on our academic programs at the undergraduate and graduate levels, research and teaching profiles of our faculty, and student societies. We are confident that you will find a topic that sparks your interest.",
+    "history_text": "The journey of the Department of Computer Science and Engineering started in a bright morning of September 1992. It was a brainchild of Dr. M. Lutfar Rahman, a visionary Professor of the Department of Applied Physics and Electronics, University of Dhaka, who felt the urge to come up with an academic department to tackle the snowballing necessity for computer scientists and IT specialists. In spite of a humble beginning, the department, then known as Department of Computer Science, attracted the very best minds of the nation and soon accumulated a star studded faculty roster as well as the brightest of the students.\n\nThe department started with a single classroom offering M.Sc. degree in Computer Science under the Faculty of Science. In 1994, three year B.Sc. Honors program was introduced which was upgraded to four year B.Sc. Honors program in 1997. It is the first department in the Faculty of Science to introduce the four year BSc. program in the University of Dhaka. In 2004, the name of the department was changed to Computer Science and Engineering, leading to its inclusion in the freshly formed Faculty of Engineering and Technology in 2008. In 2010, the four point grading system was introduced in the Faculty of Engineering and Technology.\n\nInitially, the department started with 20 students in the M.Sc. program in 1992, and then started B.Sc. (Hons) program from 1995 with 21 students. With the increasing demand of Computer Science graduates for the nation, University of Dhaka increased the number of seats for B.Sc. (Hons) program to 60 in 1995. So far, 25 batches have completed their undergraduate studies and 5 batches are currently pursuing their degrees from the department. In addition, 31 batches have completed the graduate study (MSc/ MS) programs and currently 1 batch is continuing their MS coursework/ research. Although only 11 researchers completed PhD from this department, currently there are 4 PhD students pursuing towards their degrees in addition to 1 MPhil students.\n\nIn total, the department has 39 active teachers, 19 of whom have already earned their PhD degrees. Currently,14 faculty members are on leave for pursuing their PhDs from different universities of the world.\n\nA summary of the faculty members are tinted in the following table:\n\nIn Total\tIn Service\tOn Study Leave\tOn Leave\nProfessor\t14\t13\t0\t1\nAssociate Professor\t6\t5\t0\t1\nAssistant Professor\t6\t3\t2\t1\nLecturer\t13\t3\t10\t0\nTotal\t39\t24\t12\t3\nCurrently, Professor Dr. Md. Abdur Razzaque is working as the 12th chairperson of the department and leading the progress of the department after successful completion of 11 ancestors:\n\nDept. of Computer Science\nName of the Chairperson\tStarting Date\tEnding Date\n1.\tProf. Dr. M. Lutfar Rahman\t01-09-1992\t31-08-1995\n2.\tProf. Dr. Md. Abdul Mottalib\t01-09-1995\t31-08-1998\n3.\tDr. Md. Alamgir Hossain\t01-09-1998\t30-09-2000\n4.\tMd. Rezaul Karim\t01-10-2000\t10-02-2003\n5.\tDr. Hafiz Md. Hasan Babu\t19-02-2003\t–\nDept. of Computer Science and Engineering\n\n5.\tDr. Hafiz Md. Hasan Babu\t–\t18-02-2006\n6.\tDr. Md. Haider Ali\t19-02-2006\t18-02-2009\n7.\tProf. Dr. Suraiya Pervin\t19-02-2009\t18-02-2012\n8.\tDr. Md. Hasanuzzaman\t19-02-2012\t19-02-2015\n9.\tProf. Dr. Shabbir Ahmed\t19-02-2015\t18-02-2018\n10.\tProf. Dr. Md. Mustafizur Rahman\t19-02-2018\t18-02-2021\n11.\tProf. Dr. Saifuddin Md Tareeq\t19-02-2021\t18-02-2024\n12.\tProf. Dr. Md. Abdur Razzaque\t19-02-2024\tTo date\nFurther, there are 15 dedicated officers and staffs who are working graciously in order to maintain smooth functioning of the administrative, technical and daily support activities of the department.\n\nFrom its very inception, the Department of Computer Science and Engineering has been a symbol of endurance and excellence in both education as well as administrative sector. The department’s pioneering stride towards better education and standard operational procedures have been spearheaded by the faculties, staffs and students of similar mentality. Today, CSEDU is deemed as one of the leading academic departments in the country fostering quality education, cutting-edge research and development industrial collaboration and student engagement in complex problem solving.",
+    "mission_text": "The Department of Computer Science and Engineering has been one of the pioneering organizations in the education sector of Bangladesh since its inception in 1992. The department is keen on pushing the boundaries of traditional education system and vigilant to face the challenges that the ever changing field of research brings forth. It is the optimum combination of knowledge generation and application that makes the distinctive feature of the department.\n\nThe department focuses on four major perceptions:\n\nExcellence in Education. From the very beginning, the department is dedicated to provide the best education in the field of Computer Science and Engineering. Armed with a group of experienced faculty and the brightest of students, the department has made exemplary improvement in this field of education. The reflection of this effort can be found amongst the top researchers, programmers, or IT specialists working in top level universities and companies in Bangladesh and all over the world, who graduated from the department.\n\nReputation through Research. The department focuses heavily on the quality and impact of the researches done in the field of Computer Science and Engineering as well as in multidisciplinary researches conducted in the department. The researches have been focused towards responding to local and global real world crises as well as crossing the frontiers of traditional methods to create new knowledge.\n\nSteps towards Society. The department is always ready to take the responsibility of taking the necessary steps to deploy ICT in social development. The department is keen to fulfill its social responsibility by taking up projects to automate institutional processes at the university and national levels, educate and train people, especially the young people of the country, through workshops on programming, software design, and other ICT training programs.\n\nEquality for Everyone. Everyone in the Department of Computer Science and Engineering is treated and considered as equal. People’s past, gender, financial background, ethnicity, religion are not at all considered in the assessment of their present performance. This place gives everyone the opportunity to make a name for themselves and stand out as a member of the CSEDU family. It creates a new identity for the students, one which will be remembered by their department and respected by all.\n\nConcoction of Culture. The department opens its doors towards diversity. People from all over the country, from different cultural backgrounds come to the department and become a part of the same culture that is practised in the department. It’s a place for mutual respect and admiration for everyone. This combination of variety ensures an accessible and tolerant environment in the department. An average of 24.59% women out of all students have already pursued degrees from the department which is a reflection of advancement for women in technology in Bangladesh.",
+    "chairman_message": "Welcome to CSEDU\nIt's my immense pleasure to welcome you all to the Department of Computer Science and Engineering (CSE) at the University of Dhaka (also known as CSEDU). The CSEDU is a place where the brightest minds from home and abroad assemble to build their future careers at highly reputed organizations at home and abroad. The department has been inspiring the best and brightest for more than three decades in fostering the frontier technologies of Computer Science and Engineering.\n\nOur curriculum is world standard blended with the theories of computer science, practical engineering design, analysis, and development of solutions to complex engineering problems. Starting from fundamental hardware, software, and network technologies, we cover Artificial Intelligence (AI), Cybersecurity, Cloud Computing, Machine Learning, Blockchain, Human-Computer Interaction and Internet of Things (IoT). We render special focus on competitive programming, innovative design principles, creation of new knowledge, inter-disciplinary education, and enhancing the soft skills of the students. We keep Monday afternoon free in the student timetable, enabling them to pursue their passion outside the classroom activities. You may join any of the hundreds of clubs of the University and feel the genuineness and camaraderie of the student members.\n\nWe nurture you to be future-ready, and tackle multifaceted issues of our society powered by emerging technologies to enhance human living quality. We consider all members of the community as catalysts of evolution and inspire them to break away from traditional learning and doing mentality to create new knowledge and instigate others to do the same. Our credibility and efficacy of the methods of education are reflected by the outstanding performances of our current students in national and international competitive events. Feathers of success have been augmented by our alumni who have been performing with excellence in their respective fields; in the top ranking universities as teachers and researchers and in the top companies all around the globe including Google, Microsoft, Meta, Amazon, Intel, etc. as software engineers and IT specialists. Our students are well-equipped to take the challenge to stand out as the leaders of tomorrow. We welcome intelligent and creative minds willing to take the challenges of 21st century workplaces and have strong enthusiasm to work in building a smart Bangladesh.",
+    "chairman_photo": "/chairman.jpg",
+    "contact_email": "chairman@cse.du.ac.bd",
+    "contact_phone": "+880-2-9670734",
+    "contact_address": "Department of CSE, University of Dhaka",
+    "contact_hours": "Sun-Thu, 9:00 AM - 5:00 PM",
+    "dept_stats": "[{\"label\": \"Students\", \"value\": \"300\"}, {\"label\": \"Faculty Members\", \"value\": \"32\"}, {\"label\": \"Research Projects\", \"value\": \"30+\"}]",
+    "research_areas": "[\"Artificial Intelligence & Machine Learning\", \"Data Science & Analytics\", \"Software Engineering\", \"Cybersecurity\"]",
+    "achievements": "[\"50+ Research Publications\", \"15+ Years Department Leadership\", \"Multiple Research Awards\", \"Industry Collaboration Expert\"]",
+    "office_hours": "[{\"days\": \"Monday - Wednesday\", \"time\": \"10:00 AM - 12:00 PM\"}, {\"days\": \"Thursday - Friday\", \"time\": \"2:00 PM - 4:00 PM\"}]",
+    "office_hours_note": "* Appointments can be scheduled via email",
+    "connect_heading": "Connect With Us",
+    "connect_text": "We welcome intelligent and creative minds willing to take the challenges of 21st century workplaces and have strong enthusiasm to work in building a smart Bangladesh.",
+    "campus_life_text": "Experience the vibrant academic environment and student activities at the Department of Computer Science & Engineering",
+    "campus_life_video": "/homevid.mp4",
+    "campus_life_caption_title": "Department of CSE, University of Dhaka",
+    "campus_life_caption_sub": "Where innovation meets excellence",
+    "department_info": "{\"name\": \"Department of Computer Science and Engineering\", \"establishedYear\": 1985, \"chairperson\": \"Prof. David Williams, PhD\", \"website\": \"https://cse.university.edu\", \"email\": \"cse@university.edu\", \"phone\": \"+1 (123) 456-7890\", \"address\": \"Computer Science Building, University Campus, 123 University Avenue\", \"achievements\": [\"Ranked in the top 50 CS departments nationally\", \"More than 85% placement rate within 6 months of graduation\", \"Strong industry partnerships with leading tech companies\"]}",
+    "home_hero": "{\"title\": \"Shaping the Future of\", \"highlight_word\": \"Computing\", \"subtitle\": \"The Department of Computer Science and Engineering at the University of Dhaka — home of Bangladesh's brightest minds in computing since 1992.\", \"badges\": [\"Est. 1992\", \"Ranked #1 in Bangladesh\", \"95%+ Placement\"], \"primary_cta\": {\"label\": \"Apply for Admission\", \"href\": \"/apply\"}, \"secondary_cta\": {\"label\": \"Explore Programs\", \"href\": \"/admission-hub\"}}",
+    "announcement_ticker": "{\"enabled\": true, \"items\": [{\"text\": \"Admissions open for the 2026-27 academic session — apply now\", \"href\": \"/apply\"}, {\"text\": \"CSEDU teams shine at ICPC Dhaka Regional\", \"href\": \"/notice-board\"}, {\"text\": \"New research lab on AI & Data Science inaugurated\", \"href\": \"/chairman\"}]}",
+    "home_highlights": "[{\"icon\": \"graduation-cap\", \"title\": \"World-Standard Curriculum\", \"description\": \"A rigorous outcome-based curriculum blending computer science theory with hands-on engineering practice, updated with industry input.\"}, {\"icon\": \"trophy\", \"title\": \"Champions in Competition\", \"description\": \"Home of consecutive national and regional champion teams in competitive programming, hackathons and AI contests.\"}, {\"icon\": \"users\", \"title\": \"Global Alumni Network\", \"description\": \"Graduates thriving at Google, Microsoft, Meta, Amazon and top universities across the world — and mentoring the next batch.\"}]",
+    "research_showcase": "[{\"icon\": \"brain\", \"title\": \"AI & Machine Learning\", \"description\": \"Deep learning, Bengali NLP, computer vision and pattern mining for real-world impact.\"}, {\"icon\": \"network\", \"title\": \"Networking & IoT\", \"description\": \"Wireless networks, sensor systems and Internet of Things for smart cities.\"}, {\"icon\": \"database\", \"title\": \"Data Science\", \"description\": \"Big data analytics, knowledge engineering and crowdsourcing applications.\"}, {\"icon\": \"shield-check\", \"title\": \"Cybersecurity\", \"description\": \"Information and cyber security, blockchain and privacy-preserving systems.\"}, {\"icon\": \"cloud\", \"title\": \"Cloud & Distributed Systems\", \"description\": \"Cloud computing, distributed algorithms and high-performance systems.\"}, {\"icon\": \"cpu\", \"title\": \"Systems & Architecture\", \"description\": \"Computer architecture, embedded systems and operating systems research.\"}]",
+    "achievements_showcase": "[{\"icon\": \"trophy\", \"title\": \"ICPC World Finalists\", \"detail\": \"Multiple appearances at the ACM-ICPC World Finals\", \"year\": \"2024\"}, {\"icon\": \"award\", \"title\": \"Top CS Department\", \"detail\": \"Consistently ranked the leading CSE department in Bangladesh\", \"year\": \"2025\"}, {\"icon\": \"medal\", \"title\": \"NASA Space Apps Winners\", \"detail\": \"Global nominees from CSEDU student teams\", \"year\": \"2023\"}, {\"icon\": \"rocket\", \"title\": \"Research Grants\", \"detail\": \"Millions of Takas in competitive research funding in five years\", \"year\": \"2025\"}]",
+    "testimonials": "[{\"name\": \"Tanvir Ahmed\", \"batch\": \"Batch 18\", \"role_now\": \"Senior Software Engineer\", \"company\": \"Google\", \"quote\": \"CSEDU taught me how to think, not just how to code. The problem-solving culture here carried me from the contest arena straight to Silicon Valley.\", \"photo\": \"\"}, {\"name\": \"Nusrat Jahan\", \"batch\": \"Batch 20\", \"role_now\": \"PhD Researcher\", \"company\": \"MIT CSAIL\", \"quote\": \"The research mentorship I received as an undergraduate gave me publications before graduation — and a head start few programs in the world can offer.\", \"photo\": \"\"}, {\"name\": \"Rafid Hasan\", \"batch\": \"Batch 22\", \"role_now\": \"Software Engineer\", \"company\": \"Microsoft\", \"quote\": \"From Monday-afternoon club sessions to 3 AM hackathons, CSEDU is a family that pushes you to be world-class.\", \"photo\": \"\"}]",
+    "partners": "[{\"name\": \"Google\", \"logo_url\": \"\", \"href\": \"https://google.com\"}, {\"name\": \"Microsoft\", \"logo_url\": \"\", \"href\": \"https://microsoft.com\"}, {\"name\": \"Meta\", \"logo_url\": \"\", \"href\": \"https://meta.com\"}, {\"name\": \"Amazon\", \"logo_url\": \"\", \"href\": \"https://amazon.com\"}, {\"name\": \"Samsung R&D\", \"logo_url\": \"\", \"href\": \"\"}, {\"name\": \"bKash\", \"logo_url\": \"\", \"href\": \"\"}, {\"name\": \"Pathao\", \"logo_url\": \"\", \"href\": \"\"}, {\"name\": \"Therap\", \"logo_url\": \"\", \"href\": \"\"}, {\"name\": \"Enosis\", \"logo_url\": \"\", \"href\": \"\"}]",
+    "faqs": "[{\"q\": \"How many students are admitted each year?\", \"a\": \"The undergraduate program admits only 60 of the most meritorious students each year through the University of Dhaka admission test.\"}, {\"q\": \"What degrees does the department offer?\", \"a\": \"A 4-year BSc, 1.5-year MSc, 2-year MPhil and PhD programs in CSE, plus a Professional Masters in Information and Cyber Security (PMICS).\"}, {\"q\": \"What is the job placement rate?\", \"a\": \"Over 95% of graduates are placed within months of graduation — at leading tech companies at home and abroad, or in top graduate programs.\"}, {\"q\": \"Are there research opportunities for undergraduates?\", \"a\": \"Yes — students join active research groups in AI, networking, data science and security, and regularly co-author papers before graduating.\"}]",
+    "home_cta": "{\"title\": \"Ready to join the best?\", \"subtitle\": \"Applications for the next academic session are open. Take the first step toward a world-class computing education.\", \"button\": {\"label\": \"Start Your Application\", \"href\": \"/apply\"}}",
+    "home_featured_people": "[]",
+    "history_timeline": "[{\"year\": \"1992\", \"title\": \"The Beginning\", \"description\": \"Founded as the Department of Computer Science under the Faculty of Science by Prof. Dr. M. Lutfar Rahman, offering an MSc program with 20 students.\"}, {\"year\": \"1994\", \"title\": \"BSc Honors Introduced\", \"description\": \"Three-year BSc Honors program launched — upgraded to a four-year program in 1997, the first in the Faculty of Science.\"}, {\"year\": \"2004\", \"title\": \"Renamed CSE\", \"description\": \"The department became Computer Science and Engineering, joining the newly formed Faculty of Engineering and Technology in 2008.\"}, {\"year\": \"2010\", \"title\": \"Modern Grading\", \"description\": \"Four-point grading system introduced across the Faculty of Engineering and Technology.\"}, {\"year\": \"2024\", \"title\": \"Today\", \"description\": \"39 active faculty, 12 chairpersons of legacy, and the country's strongest computing department — led by Prof. Dr. Md. Abdur Razzaque.\"}]",
+    "social_links": "{\"facebook\": \"https://www.facebook.com/Dept.CSE.DU\", \"linkedin\": \"https://www.linkedin.com/school/university-of-dhaka/\", \"github\": \"\", \"youtube\": \"\", \"x\": \"\"}",
+    "footer_about": "Department of Computer Science and Engineering, University of Dhaka — fostering quality education and cutting-edge research in computing since 1992.",
+    "admission_cycle": "{\"open\": true, \"label\": \"Applications open for the 2026-27 session\", \"deadline_iso\": \"2026-09-30T23:59:59\"}",
+    "admission_steps": "[{\"title\": \"Personal Information\", \"description\": \"Tell us who you are — contact details and basic information.\"}, {\"title\": \"Academic Background\", \"description\": \"Your qualifications, institution, field of study and results.\"}, {\"title\": \"Documents\", \"description\": \"Upload transcripts, recommendation letters and your personal essay.\"}, {\"title\": \"Review & Submit\", \"description\": \"Double-check everything and submit your application.\"}]",
+    "admission_faqs": "[{\"q\": \"When is the application deadline?\", \"a\": \"Deadlines vary by program — check each program card, and the banner above shows the current admission cycle.\"}, {\"q\": \"What documents do I need to apply?\", \"a\": \"Academic transcripts, a recommendation letter and a personal essay. Everything is uploaded in step 3 of the online application.\"}, {\"q\": \"Is there an application fee?\", \"a\": \"Application processing details are communicated by the admission office after your application is shortlisted.\"}, {\"q\": \"Can I apply to more than one program?\", \"a\": \"Yes — submit a separate application for each program you are interested in.\"}]"
   },
-  {
-   "id": 202,
-   "program_id": 1,
-   "code": "CSE 202",
-   "title": "Digital Logic Design",
-   "semester": "Spring 2026",
-   "year": 1,
-   "credits": 3.0,
-   "description": "Boolean algebra, logic gates, and digital circuit design.",
-   "image_url": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 301,
-   "program_id": 1,
-   "code": "CSE 301",
-   "title": "Computer Networking",
-   "semester": "Fall 2026",
-   "year": 2,
-   "credits": 3.0,
-   "description": "Principles and practices of computer network systems.",
-   "image_url": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": "Prof. Sarah Johnson",
-   "syllabus_weeks": [
+  "courses": [
     {
-     "number": 1,
-     "topic": "Introduction to Computer Networking",
-     "date": "August 20, 2025",
-     "description": "Network types, models, and standards"
+      "id": 101,
+      "program_id": 1,
+      "code": "CSE 101",
+      "title": "Introduction to Computer Science",
+      "semester": "Fall 2025",
+      "year": 1,
+      "credits": 3.0,
+      "description": "An introduction to computer science and programming concepts.",
+      "image_url": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": "Dr. David Miller",
+      "syllabus_weeks": [
+        {
+          "number": 1,
+          "topic": "Introduction to Computer Science",
+          "date": "August 28, 2025",
+          "description": "Course overview, introduction to computing concepts"
+        },
+        {
+          "number": 2,
+          "topic": "History of Computing",
+          "date": "September 4, 2025",
+          "description": "Evolution of computers, key historical developments"
+        },
+        {
+          "number": 3,
+          "topic": "Number Systems and Data Representation",
+          "date": "September 11, 2025",
+          "description": "Binary, decimal, hexadecimal, data encoding"
+        },
+        {
+          "number": 4,
+          "topic": "Computer Architecture",
+          "date": "September 18, 2025",
+          "description": "Hardware components, memory hierarchy"
+        },
+        {
+          "number": 5,
+          "topic": "Operating Systems",
+          "date": "September 25, 2025",
+          "description": "OS functions, process management, file systems"
+        },
+        {
+          "number": 6,
+          "topic": "Programming Fundamentals",
+          "date": "October 2, 2025",
+          "description": "Variables, data types, control structures"
+        },
+        {
+          "number": 7,
+          "topic": "Algorithms and Problem Solving",
+          "date": "October 9, 2025",
+          "description": "Algorithm design, pseudocode, flowcharts"
+        },
+        {
+          "number": 8,
+          "topic": "Introduction to Programming Languages",
+          "date": "October 16, 2025",
+          "description": "Types of programming languages, syntax basics"
+        },
+        {
+          "number": 9,
+          "topic": "Software Engineering Principles",
+          "date": "October 23, 2025",
+          "description": "Development lifecycle, requirements, testing"
+        },
+        {
+          "number": 10,
+          "topic": "Data Structures Basics",
+          "date": "October 30, 2025",
+          "description": "Arrays, lists, stacks, queues"
+        },
+        {
+          "number": 11,
+          "topic": "Database Concepts",
+          "date": "November 6, 2025",
+          "description": "Database models, SQL introduction"
+        },
+        {
+          "number": 12,
+          "topic": "Computer Networks Basics",
+          "date": "November 13, 2025",
+          "description": "Network models, protocols, Internet"
+        },
+        {
+          "number": 13,
+          "topic": "Ethical Issues in Computing",
+          "date": "November 20, 2025",
+          "description": "Privacy, intellectual property, cybersecurity"
+        },
+        {
+          "number": 14,
+          "topic": "Future of Computing",
+          "date": "November 27, 2025",
+          "description": "Emerging technologies, AI, quantum computing"
+        },
+        {
+          "number": 15,
+          "topic": "Course Review",
+          "date": "December 4, 2025",
+          "description": "Review of key concepts"
+        },
+        {
+          "number": 16,
+          "topic": "Final Exam Preparation",
+          "date": "December 11, 2025",
+          "description": "Review exercises and practice problems"
+        }
+      ]
     },
     {
-     "number": 2,
-     "topic": "Protocol Layers",
-     "date": "September 4, 2025",
-     "description": "OSI model, TCP/IP model, encapsulation"
+      "id": 102,
+      "program_id": 1,
+      "code": "CSE 102",
+      "title": "Introduction to Programming",
+      "semester": "Fall 2025",
+      "year": 1,
+      "credits": 3.0,
+      "description": "Fundamentals of programming using a high-level language.",
+      "image_url": "https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 3,
-     "topic": "Circuit and Packet Switching",
-     "date": "September 11, 2025",
-     "description": "Connection-oriented vs connectionless communication"
+      "id": 201,
+      "program_id": 1,
+      "code": "CSE 201",
+      "title": "Data Structures",
+      "semester": "Spring 2026",
+      "year": 1,
+      "credits": 3.0,
+      "description": "Implementation and analysis of fundamental data structures.",
+      "image_url": "https://images.unsplash.com/photo-1456428746267-a1756408f782?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": "Dr. Michael Chen",
+      "syllabus_weeks": [
+        {
+          "number": 1,
+          "topic": "Introduction to Data Structures",
+          "date": "January 15, 2026",
+          "description": "Overview of data structures and their importance"
+        },
+        {
+          "number": 2,
+          "topic": "Arrays and Linked Lists",
+          "date": "January 22, 2026",
+          "description": "Implementation and operations"
+        },
+        {
+          "number": 3,
+          "topic": "Stacks and Queues",
+          "date": "January 29, 2026",
+          "description": "LIFO, FIFO structures and applications"
+        },
+        {
+          "number": 4,
+          "topic": "Recursion",
+          "date": "February 5, 2026",
+          "description": "Recursive algorithms and problem solving"
+        },
+        {
+          "number": 5,
+          "topic": "Trees: Basic Concepts",
+          "date": "February 12, 2026",
+          "description": "Tree terminology, binary trees"
+        },
+        {
+          "number": 6,
+          "topic": "Binary Search Trees",
+          "date": "February 19, 2026",
+          "description": "BST properties and operations"
+        },
+        {
+          "number": 7,
+          "topic": "AVL Trees",
+          "date": "February 26, 2026",
+          "description": "Self-balancing binary search trees"
+        },
+        {
+          "number": 8,
+          "topic": "Heap and Priority Queues",
+          "date": "March 5, 2026",
+          "description": "Heap implementation, heapify algorithm"
+        },
+        {
+          "number": 9,
+          "topic": "Graphs: Representation",
+          "date": "March 12, 2026",
+          "description": "Adjacency matrix, adjacency list"
+        },
+        {
+          "number": 10,
+          "topic": "Graph Traversals",
+          "date": "March 19, 2026",
+          "description": "Depth-first, breadth-first search"
+        },
+        {
+          "number": 11,
+          "topic": "Shortest Path Algorithms",
+          "date": "March 26, 2026",
+          "description": "Dijkstra's, Bellman-Ford algorithms"
+        },
+        {
+          "number": 12,
+          "topic": "Minimum Spanning Trees",
+          "date": "April 2, 2026",
+          "description": "Kruskal's, Prim's algorithms"
+        },
+        {
+          "number": 13,
+          "topic": "Hashing",
+          "date": "April 9, 2026",
+          "description": "Hash functions, collision resolution"
+        },
+        {
+          "number": 14,
+          "topic": "Advanced Sorting Algorithms",
+          "date": "April 16, 2026",
+          "description": "Merge sort, quick sort, heap sort"
+        },
+        {
+          "number": 15,
+          "topic": "Algorithm Analysis",
+          "date": "April 23, 2026",
+          "description": "Time complexity, space complexity"
+        },
+        {
+          "number": 16,
+          "topic": "Final Review",
+          "date": "April 30, 2026",
+          "description": "Comprehensive review of course material"
+        }
+      ]
     },
     {
-     "number": 4,
-     "topic": "Application Layer",
-     "date": "September 18, 2025",
-     "description": "Client-server model, P2P, API concepts"
+      "id": 202,
+      "program_id": 1,
+      "code": "CSE 202",
+      "title": "Digital Logic Design",
+      "semester": "Spring 2026",
+      "year": 1,
+      "credits": 3.0,
+      "description": "Boolean algebra, logic gates, and digital circuit design.",
+      "image_url": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 5,
-     "topic": "HTTP, FTP, Email, DNS, SNMP",
-     "date": "September 25, 2025",
-     "description": "Web protocols, email protocols, domain name system"
+      "id": 301,
+      "program_id": 1,
+      "code": "CSE 301",
+      "title": "Computer Networking",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3.0,
+      "description": "Principles and practices of computer network systems.",
+      "image_url": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": "Prof. Sarah Johnson",
+      "syllabus_weeks": [
+        {
+          "number": 1,
+          "topic": "Introduction to Computer Networking",
+          "date": "August 20, 2025",
+          "description": "Network types, models, and standards"
+        },
+        {
+          "number": 2,
+          "topic": "Protocol Layers",
+          "date": "September 4, 2025",
+          "description": "OSI model, TCP/IP model, encapsulation"
+        },
+        {
+          "number": 3,
+          "topic": "Circuit and Packet Switching",
+          "date": "September 11, 2025",
+          "description": "Connection-oriented vs connectionless communication"
+        },
+        {
+          "number": 4,
+          "topic": "Application Layer",
+          "date": "September 18, 2025",
+          "description": "Client-server model, P2P, API concepts"
+        },
+        {
+          "number": 5,
+          "topic": "HTTP, FTP, Email, DNS, SNMP",
+          "date": "September 25, 2025",
+          "description": "Web protocols, email protocols, domain name system"
+        },
+        {
+          "number": 6,
+          "topic": "Transport Layer",
+          "date": "October 2, 2025",
+          "description": "End-to-end delivery, ports, sockets"
+        },
+        {
+          "number": 7,
+          "topic": "TCP & UDP",
+          "date": "October 9, 2025",
+          "description": "Connection-oriented vs connectionless transport"
+        },
+        {
+          "number": 8,
+          "topic": "TCP Reno, TCP Tahoe, TCP New Reno",
+          "date": "October 16, 2025",
+          "description": "TCP variants and congestion control"
+        },
+        {
+          "number": 9,
+          "topic": "Network Layer",
+          "date": "October 23, 2025",
+          "description": "IP addressing, subnetting, routing"
+        },
+        {
+          "number": 10,
+          "topic": "IPv4 and IPv6",
+          "date": "October 30, 2025",
+          "description": "Address formats, transition mechanisms"
+        },
+        {
+          "number": 11,
+          "topic": "Routing Algorithms",
+          "date": "November 6, 2025",
+          "description": "Distance vector, link state, BGP"
+        },
+        {
+          "number": 12,
+          "topic": "Wireless Networks",
+          "date": "November 13, 2025",
+          "description": "WLAN, Bluetooth, mobile networks"
+        },
+        {
+          "number": 13,
+          "topic": "MAC and Routing",
+          "date": "November 20, 2025",
+          "description": "Media access control, routing protocols"
+        },
+        {
+          "number": 14,
+          "topic": "Research Topics on Networking I",
+          "date": "November 27, 2025",
+          "description": "Current research in networking"
+        },
+        {
+          "number": 15,
+          "topic": "Research Topics on Networking II",
+          "date": "December 4, 2025",
+          "description": "Advanced topics and future trends"
+        },
+        {
+          "number": 16,
+          "topic": "Course Review",
+          "date": "December 11, 2025",
+          "description": "Review of key concepts and exam preparation"
+        }
+      ]
     },
     {
-     "number": 6,
-     "topic": "Transport Layer",
-     "date": "October 2, 2025",
-     "description": "End-to-end delivery, ports, sockets"
+      "id": 302,
+      "program_id": 1,
+      "code": "CSE 302",
+      "title": "Operating Systems",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 4.0,
+      "description": "Process management, memory management, and file systems.",
+      "image_url": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+      "instructor": "Dr. Lisa Wong",
+      "syllabus_weeks": [
+        {
+          "number": 1,
+          "topic": "Introduction to Operating Systems",
+          "date": "August 25, 2026",
+          "description": "OS functions, types, and structure"
+        },
+        {
+          "number": 2,
+          "topic": "Process Management",
+          "date": "September 1, 2026",
+          "description": "Process states, PCB, context switching"
+        },
+        {
+          "number": 3,
+          "topic": "CPU Scheduling",
+          "date": "September 8, 2026",
+          "description": "Scheduling algorithms and criteria"
+        },
+        {
+          "number": 4,
+          "topic": "Process Synchronization",
+          "date": "September 15, 2026",
+          "description": "Critical section problem, semaphores"
+        },
+        {
+          "number": 5,
+          "topic": "Deadlocks",
+          "date": "September 22, 2026",
+          "description": "Detection, prevention, avoidance"
+        },
+        {
+          "number": 6,
+          "topic": "Memory Management",
+          "date": "September 29, 2026",
+          "description": "Logical vs physical addressing, swapping"
+        },
+        {
+          "number": 7,
+          "topic": "Virtual Memory",
+          "date": "October 6, 2026",
+          "description": "Paging, segmentation, TLB"
+        },
+        {
+          "number": 8,
+          "topic": "Page Replacement Algorithms",
+          "date": "October 13, 2026",
+          "description": "FIFO, LRU, optimal algorithms"
+        },
+        {
+          "number": 9,
+          "topic": "File System Interface",
+          "date": "October 20, 2026",
+          "description": "File concepts, access methods"
+        },
+        {
+          "number": 10,
+          "topic": "File System Implementation",
+          "date": "October 27, 2026",
+          "description": "Allocation methods, free-space management"
+        },
+        {
+          "number": 11,
+          "topic": "Mass Storage Structure",
+          "date": "November 3, 2026",
+          "description": "Disk structure, scheduling, management"
+        },
+        {
+          "number": 12,
+          "topic": "I/O Systems",
+          "date": "November 10, 2026",
+          "description": "I/O hardware, software, performance"
+        },
+        {
+          "number": 13,
+          "topic": "Protection and Security",
+          "date": "November 17, 2026",
+          "description": "Goals, principles, mechanisms"
+        },
+        {
+          "number": 14,
+          "topic": "Distributed Systems",
+          "date": "November 24, 2026",
+          "description": "Structure, communication, coordination"
+        },
+        {
+          "number": 15,
+          "topic": "Case Studies",
+          "date": "December 1, 2026",
+          "description": "Linux, Windows, Android OS"
+        },
+        {
+          "number": 16,
+          "topic": "Review and Future Trends",
+          "date": "December 8, 2026",
+          "description": "Review and discussion of emerging OS technologies"
+        }
+      ]
     },
     {
-     "number": 7,
-     "topic": "TCP & UDP",
-     "date": "October 9, 2025",
-     "description": "Connection-oriented vs connectionless transport"
+      "id": 303,
+      "program_id": 1,
+      "code": "CSE 303",
+      "title": "Software Engineering",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3.0,
+      "description": "Software development life cycle and project management.",
+      "image_url": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 8,
-     "topic": "TCP Reno, TCP Tahoe, TCP New Reno",
-     "date": "October 16, 2025",
-     "description": "TCP variants and congestion control"
+      "id": 304,
+      "program_id": 1,
+      "code": "CSE 304",
+      "title": "Database Management Systems",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3.0,
+      "description": "Database design, SQL, and database administration.",
+      "image_url": "https://images.unsplash.com/photo-1603969072881-b0fc7f3d6d7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 9,
-     "topic": "Network Layer",
-     "date": "October 23, 2025",
-     "description": "IP addressing, subnetting, routing"
+      "id": 401,
+      "program_id": 1,
+      "code": "CSE 401",
+      "title": "Artificial Intelligence",
+      "semester": "Spring 2027",
+      "year": 3,
+      "credits": 3.0,
+      "description": "Problem-solving methods in artificial intelligence.",
+      "image_url": "https://images.unsplash.com/photo-1677442135132-198ca30c7285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
+      "instructor": "Dr. Robert Garcia",
+      "syllabus_weeks": [
+        {
+          "number": 1,
+          "topic": "Introduction to AI",
+          "date": "January 20, 2027",
+          "description": "AI definitions, history, and applications"
+        },
+        {
+          "number": 2,
+          "topic": "Intelligent Agents",
+          "date": "January 27, 2027",
+          "description": "Agent types, environments, rationality"
+        },
+        {
+          "number": 3,
+          "topic": "Problem Solving by Searching",
+          "date": "February 3, 2027",
+          "description": "Search algorithms, uninformed search"
+        },
+        {
+          "number": 4,
+          "topic": "Informed Search Methods",
+          "date": "February 10, 2027",
+          "description": "Heuristics, A* algorithm, best-first search"
+        },
+        {
+          "number": 5,
+          "topic": "Constraint Satisfaction Problems",
+          "date": "February 17, 2027",
+          "description": "Backtracking, constraint propagation"
+        },
+        {
+          "number": 6,
+          "topic": "Game Playing",
+          "date": "February 24, 2027",
+          "description": "Minimax, alpha-beta pruning"
+        },
+        {
+          "number": 7,
+          "topic": "Logic and Knowledge Representation",
+          "date": "March 3, 2027",
+          "description": "Propositional logic, first-order logic"
+        },
+        {
+          "number": 8,
+          "topic": "Planning",
+          "date": "March 10, 2027",
+          "description": "STRIPS, planning graphs, hierarchical planning"
+        },
+        {
+          "number": 9,
+          "topic": "Uncertainty",
+          "date": "March 17, 2027",
+          "description": "Probability theory, Bayes' rule"
+        },
+        {
+          "number": 10,
+          "topic": "Probabilistic Reasoning",
+          "date": "March 24, 2027",
+          "description": "Bayesian networks, inference"
+        },
+        {
+          "number": 11,
+          "topic": "Machine Learning Basics",
+          "date": "March 31, 2027",
+          "description": "Learning paradigms, decision trees"
+        },
+        {
+          "number": 12,
+          "topic": "Neural Networks",
+          "date": "April 7, 2027",
+          "description": "Perceptron, backpropagation, deep learning"
+        },
+        {
+          "number": 13,
+          "topic": "Natural Language Processing",
+          "date": "April 14, 2027",
+          "description": "Text processing, syntax, semantics"
+        },
+        {
+          "number": 14,
+          "topic": "Computer Vision",
+          "date": "April 21, 2027",
+          "description": "Image processing, object recognition"
+        },
+        {
+          "number": 15,
+          "topic": "Robotics",
+          "date": "April 28, 2027",
+          "description": "Perception, planning, control"
+        },
+        {
+          "number": 16,
+          "topic": "AI Ethics and Future",
+          "date": "May 5, 2027",
+          "description": "Ethical considerations and future directions"
+        }
+      ]
     },
     {
-     "number": 10,
-     "topic": "IPv4 and IPv6",
-     "date": "October 30, 2025",
-     "description": "Address formats, transition mechanisms"
+      "id": 402,
+      "program_id": 1,
+      "code": "CSE 402",
+      "title": "Computer Graphics",
+      "semester": "Spring 2027",
+      "year": 3,
+      "credits": 3.0,
+      "description": "2D and 3D graphics algorithms and programming.",
+      "image_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 11,
-     "topic": "Routing Algorithms",
-     "date": "November 6, 2025",
-     "description": "Distance vector, link state, BGP"
+      "id": 403,
+      "program_id": 1,
+      "code": "CSE 403",
+      "title": "Theory of Computation",
+      "semester": "Spring 2027",
+      "year": 3,
+      "credits": 3.0,
+      "description": "Formal languages, automata, and computational complexity.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 12,
-     "topic": "Wireless Networks",
-     "date": "November 13, 2025",
-     "description": "WLAN, Bluetooth, mobile networks"
+      "id": 404,
+      "program_id": 1,
+      "code": "CSE 404",
+      "title": "Compiler Design",
+      "semester": "Spring 2027",
+      "year": 3,
+      "credits": 3.0,
+      "description": "Lexical analysis, parsing, and code generation.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 13,
-     "topic": "MAC and Routing",
-     "date": "November 20, 2025",
-     "description": "Media access control, routing protocols"
+      "id": 405,
+      "program_id": 1,
+      "code": "CSE 405",
+      "title": "Machine Learning",
+      "semester": "Fall 2027",
+      "year": 4,
+      "credits": 3.0,
+      "description": "Supervised and unsupervised learning algorithms.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 14,
-     "topic": "Research Topics on Networking I",
-     "date": "November 27, 2025",
-     "description": "Current research in networking"
+      "id": 406,
+      "program_id": 1,
+      "code": "CSE 406",
+      "title": "Cryptography and Network Security",
+      "semester": "Fall 2027",
+      "year": 4,
+      "credits": 3.0,
+      "description": "Encryption, authentication, and network security protocols.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 15,
-     "topic": "Research Topics on Networking II",
-     "date": "December 4, 2025",
-     "description": "Advanced topics and future trends"
+      "id": 407,
+      "program_id": 1,
+      "code": "CSE 407",
+      "title": "Mobile App Development",
+      "semester": "Fall 2027",
+      "year": 4,
+      "credits": 3.0,
+      "description": "Development of applications for mobile devices.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     },
     {
-     "number": 16,
-     "topic": "Course Review",
-     "date": "December 11, 2025",
-     "description": "Review of key concepts and exam preparation"
+      "id": 408,
+      "program_id": 1,
+      "code": "CSE 408",
+      "title": "Web Development",
+      "semester": "Fall 2027",
+      "year": 4,
+      "credits": 3.0,
+      "description": "Client-server architecture and web application development.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 409,
+      "program_id": 1,
+      "code": "CSE 409",
+      "title": "Cloud Computing",
+      "semester": "Spring 2028",
+      "year": 4,
+      "credits": 3.0,
+      "description": "Distributed systems and cloud service models.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 410,
+      "program_id": 1,
+      "code": "CSE 410",
+      "title": "Data Science",
+      "semester": "Spring 2028",
+      "year": 4,
+      "credits": 3.0,
+      "description": "Data analysis, visualization, and statistical modeling.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 411,
+      "program_id": 1,
+      "code": "CSE 411",
+      "title": "Natural Language Processing",
+      "semester": "Spring 2028",
+      "year": 4,
+      "credits": 3.0,
+      "description": "Algorithms for processing and analyzing human language.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 412,
+      "program_id": 1,
+      "code": "CSE 412",
+      "title": "Final Year Project",
+      "semester": "Spring 2028",
+      "year": 4,
+      "credits": 6.0,
+      "description": "Capstone project integrating knowledge from various courses.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 501,
+      "program_id": 2,
+      "code": "CSE 501",
+      "title": "Advanced Algorithms",
+      "semester": "Fall 2025",
+      "year": 1,
+      "credits": 3.0,
+      "description": "Design and analysis of advanced algorithms with emphasis on complexity theory.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 502,
+      "program_id": 2,
+      "code": "CSE 502",
+      "title": "Computer Architecture",
+      "semester": "Fall 2025",
+      "year": 1,
+      "credits": 3.0,
+      "description": "Advanced topics in computer organization and architecture.",
+      "image_url": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 503,
+      "program_id": 2,
+      "code": "CSE 503",
+      "title": "Machine Learning",
+      "semester": "Spring 2026",
+      "year": 1,
+      "credits": 3.0,
+      "description": "Fundamentals of machine learning theory and implementation of key algorithms.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 504,
+      "program_id": 2,
+      "code": "CSE 504",
+      "title": "Advanced Database Systems",
+      "semester": "Spring 2026",
+      "year": 1,
+      "credits": 3.0,
+      "description": "Advanced topics in database systems including distributed databases and data mining.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 505,
+      "program_id": 2,
+      "code": "CSE 505",
+      "title": "Cloud Computing",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3.0,
+      "description": "Concepts and technologies of cloud-based systems and services.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 506,
+      "program_id": 2,
+      "code": "CSE 506",
+      "title": "Big Data Analytics",
+      "semester": "Fall 2026",
+      "year": 2,
+      "credits": 3.0,
+      "description": "Processing and analyzing large datasets using modern technologies.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 507,
+      "program_id": 2,
+      "code": "CSE 507",
+      "title": "Deep Learning",
+      "semester": "Spring 2027",
+      "year": 2,
+      "credits": 3.0,
+      "description": "Neural networks and deep learning architectures and applications.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
+    },
+    {
+      "id": 508,
+      "program_id": 2,
+      "code": "CSE 508",
+      "title": "Thesis Research",
+      "semester": "Spring 2027",
+      "year": 2,
+      "credits": 6.0,
+      "description": "Independent research leading to a master's thesis.",
+      "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "instructor": null,
+      "syllabus_weeks": []
     }
-   ]
-  },
-  {
-   "id": 302,
-   "program_id": 1,
-   "code": "CSE 302",
-   "title": "Operating Systems",
-   "semester": "Fall 2026",
-   "year": 2,
-   "credits": 4.0,
-   "description": "Process management, memory management, and file systems.",
-   "image_url": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-   "instructor": "Dr. Lisa Wong",
-   "syllabus_weeks": [
+  ],
+  "gallery": [
     {
-     "number": 1,
-     "topic": "Introduction to Operating Systems",
-     "date": "August 25, 2026",
-     "description": "OS functions, types, and structure"
+      "image_url": "/1.jpg",
+      "caption": "",
+      "display_order": 0
     },
     {
-     "number": 2,
-     "topic": "Process Management",
-     "date": "September 1, 2026",
-     "description": "Process states, PCB, context switching"
+      "image_url": "/3.jpg",
+      "caption": "",
+      "display_order": 1
     },
     {
-     "number": 3,
-     "topic": "CPU Scheduling",
-     "date": "September 8, 2026",
-     "description": "Scheduling algorithms and criteria"
+      "image_url": "/4.jpg",
+      "caption": "",
+      "display_order": 2
     },
     {
-     "number": 4,
-     "topic": "Process Synchronization",
-     "date": "September 15, 2026",
-     "description": "Critical section problem, semaphores"
+      "image_url": "/5.jpg",
+      "caption": "",
+      "display_order": 3
     },
     {
-     "number": 5,
-     "topic": "Deadlocks",
-     "date": "September 22, 2026",
-     "description": "Detection, prevention, avoidance"
+      "image_url": "/6.jpg",
+      "caption": "",
+      "display_order": 4
     },
     {
-     "number": 6,
-     "topic": "Memory Management",
-     "date": "September 29, 2026",
-     "description": "Logical vs physical addressing, swapping"
+      "image_url": "/7.jpg",
+      "caption": "",
+      "display_order": 5
     },
     {
-     "number": 7,
-     "topic": "Virtual Memory",
-     "date": "October 6, 2026",
-     "description": "Paging, segmentation, TLB"
-    },
-    {
-     "number": 8,
-     "topic": "Page Replacement Algorithms",
-     "date": "October 13, 2026",
-     "description": "FIFO, LRU, optimal algorithms"
-    },
-    {
-     "number": 9,
-     "topic": "File System Interface",
-     "date": "October 20, 2026",
-     "description": "File concepts, access methods"
-    },
-    {
-     "number": 10,
-     "topic": "File System Implementation",
-     "date": "October 27, 2026",
-     "description": "Allocation methods, free-space management"
-    },
-    {
-     "number": 11,
-     "topic": "Mass Storage Structure",
-     "date": "November 3, 2026",
-     "description": "Disk structure, scheduling, management"
-    },
-    {
-     "number": 12,
-     "topic": "I/O Systems",
-     "date": "November 10, 2026",
-     "description": "I/O hardware, software, performance"
-    },
-    {
-     "number": 13,
-     "topic": "Protection and Security",
-     "date": "November 17, 2026",
-     "description": "Goals, principles, mechanisms"
-    },
-    {
-     "number": 14,
-     "topic": "Distributed Systems",
-     "date": "November 24, 2026",
-     "description": "Structure, communication, coordination"
-    },
-    {
-     "number": 15,
-     "topic": "Case Studies",
-     "date": "December 1, 2026",
-     "description": "Linux, Windows, Android OS"
-    },
-    {
-     "number": 16,
-     "topic": "Review and Future Trends",
-     "date": "December 8, 2026",
-     "description": "Review and discussion of emerging OS technologies"
+      "image_url": "/8.jpg",
+      "caption": "",
+      "display_order": 6
     }
-   ]
-  },
-  {
-   "id": 303,
-   "program_id": 1,
-   "code": "CSE 303",
-   "title": "Software Engineering",
-   "semester": "Fall 2026",
-   "year": 2,
-   "credits": 3.0,
-   "description": "Software development life cycle and project management.",
-   "image_url": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 304,
-   "program_id": 1,
-   "code": "CSE 304",
-   "title": "Database Management Systems",
-   "semester": "Fall 2026",
-   "year": 2,
-   "credits": 3.0,
-   "description": "Database design, SQL, and database administration.",
-   "image_url": "https://images.unsplash.com/photo-1603969072881-b0fc7f3d6d7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 401,
-   "program_id": 1,
-   "code": "CSE 401",
-   "title": "Artificial Intelligence",
-   "semester": "Spring 2027",
-   "year": 3,
-   "credits": 3.0,
-   "description": "Problem-solving methods in artificial intelligence.",
-   "image_url": "https://images.unsplash.com/photo-1677442135132-198ca30c7285?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
-   "instructor": "Dr. Robert Garcia",
-   "syllabus_weeks": [
-    {
-     "number": 1,
-     "topic": "Introduction to AI",
-     "date": "January 20, 2027",
-     "description": "AI definitions, history, and applications"
-    },
-    {
-     "number": 2,
-     "topic": "Intelligent Agents",
-     "date": "January 27, 2027",
-     "description": "Agent types, environments, rationality"
-    },
-    {
-     "number": 3,
-     "topic": "Problem Solving by Searching",
-     "date": "February 3, 2027",
-     "description": "Search algorithms, uninformed search"
-    },
-    {
-     "number": 4,
-     "topic": "Informed Search Methods",
-     "date": "February 10, 2027",
-     "description": "Heuristics, A* algorithm, best-first search"
-    },
-    {
-     "number": 5,
-     "topic": "Constraint Satisfaction Problems",
-     "date": "February 17, 2027",
-     "description": "Backtracking, constraint propagation"
-    },
-    {
-     "number": 6,
-     "topic": "Game Playing",
-     "date": "February 24, 2027",
-     "description": "Minimax, alpha-beta pruning"
-    },
-    {
-     "number": 7,
-     "topic": "Logic and Knowledge Representation",
-     "date": "March 3, 2027",
-     "description": "Propositional logic, first-order logic"
-    },
-    {
-     "number": 8,
-     "topic": "Planning",
-     "date": "March 10, 2027",
-     "description": "STRIPS, planning graphs, hierarchical planning"
-    },
-    {
-     "number": 9,
-     "topic": "Uncertainty",
-     "date": "March 17, 2027",
-     "description": "Probability theory, Bayes' rule"
-    },
-    {
-     "number": 10,
-     "topic": "Probabilistic Reasoning",
-     "date": "March 24, 2027",
-     "description": "Bayesian networks, inference"
-    },
-    {
-     "number": 11,
-     "topic": "Machine Learning Basics",
-     "date": "March 31, 2027",
-     "description": "Learning paradigms, decision trees"
-    },
-    {
-     "number": 12,
-     "topic": "Neural Networks",
-     "date": "April 7, 2027",
-     "description": "Perceptron, backpropagation, deep learning"
-    },
-    {
-     "number": 13,
-     "topic": "Natural Language Processing",
-     "date": "April 14, 2027",
-     "description": "Text processing, syntax, semantics"
-    },
-    {
-     "number": 14,
-     "topic": "Computer Vision",
-     "date": "April 21, 2027",
-     "description": "Image processing, object recognition"
-    },
-    {
-     "number": 15,
-     "topic": "Robotics",
-     "date": "April 28, 2027",
-     "description": "Perception, planning, control"
-    },
-    {
-     "number": 16,
-     "topic": "AI Ethics and Future",
-     "date": "May 5, 2027",
-     "description": "Ethical considerations and future directions"
-    }
-   ]
-  },
-  {
-   "id": 402,
-   "program_id": 1,
-   "code": "CSE 402",
-   "title": "Computer Graphics",
-   "semester": "Spring 2027",
-   "year": 3,
-   "credits": 3.0,
-   "description": "2D and 3D graphics algorithms and programming.",
-   "image_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 403,
-   "program_id": 1,
-   "code": "CSE 403",
-   "title": "Theory of Computation",
-   "semester": "Spring 2027",
-   "year": 3,
-   "credits": 3.0,
-   "description": "Formal languages, automata, and computational complexity.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 404,
-   "program_id": 1,
-   "code": "CSE 404",
-   "title": "Compiler Design",
-   "semester": "Spring 2027",
-   "year": 3,
-   "credits": 3.0,
-   "description": "Lexical analysis, parsing, and code generation.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 405,
-   "program_id": 1,
-   "code": "CSE 405",
-   "title": "Machine Learning",
-   "semester": "Fall 2027",
-   "year": 4,
-   "credits": 3.0,
-   "description": "Supervised and unsupervised learning algorithms.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 406,
-   "program_id": 1,
-   "code": "CSE 406",
-   "title": "Cryptography and Network Security",
-   "semester": "Fall 2027",
-   "year": 4,
-   "credits": 3.0,
-   "description": "Encryption, authentication, and network security protocols.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 407,
-   "program_id": 1,
-   "code": "CSE 407",
-   "title": "Mobile App Development",
-   "semester": "Fall 2027",
-   "year": 4,
-   "credits": 3.0,
-   "description": "Development of applications for mobile devices.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 408,
-   "program_id": 1,
-   "code": "CSE 408",
-   "title": "Web Development",
-   "semester": "Fall 2027",
-   "year": 4,
-   "credits": 3.0,
-   "description": "Client-server architecture and web application development.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 409,
-   "program_id": 1,
-   "code": "CSE 409",
-   "title": "Cloud Computing",
-   "semester": "Spring 2028",
-   "year": 4,
-   "credits": 3.0,
-   "description": "Distributed systems and cloud service models.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 410,
-   "program_id": 1,
-   "code": "CSE 410",
-   "title": "Data Science",
-   "semester": "Spring 2028",
-   "year": 4,
-   "credits": 3.0,
-   "description": "Data analysis, visualization, and statistical modeling.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 411,
-   "program_id": 1,
-   "code": "CSE 411",
-   "title": "Natural Language Processing",
-   "semester": "Spring 2028",
-   "year": 4,
-   "credits": 3.0,
-   "description": "Algorithms for processing and analyzing human language.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 412,
-   "program_id": 1,
-   "code": "CSE 412",
-   "title": "Final Year Project",
-   "semester": "Spring 2028",
-   "year": 4,
-   "credits": 6.0,
-   "description": "Capstone project integrating knowledge from various courses.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 501,
-   "program_id": 2,
-   "code": "CSE 501",
-   "title": "Advanced Algorithms",
-   "semester": "Fall 2025",
-   "year": 1,
-   "credits": 3.0,
-   "description": "Design and analysis of advanced algorithms with emphasis on complexity theory.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 502,
-   "program_id": 2,
-   "code": "CSE 502",
-   "title": "Computer Architecture",
-   "semester": "Fall 2025",
-   "year": 1,
-   "credits": 3.0,
-   "description": "Advanced topics in computer organization and architecture.",
-   "image_url": "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 503,
-   "program_id": 2,
-   "code": "CSE 503",
-   "title": "Machine Learning",
-   "semester": "Spring 2026",
-   "year": 1,
-   "credits": 3.0,
-   "description": "Fundamentals of machine learning theory and implementation of key algorithms.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 504,
-   "program_id": 2,
-   "code": "CSE 504",
-   "title": "Advanced Database Systems",
-   "semester": "Spring 2026",
-   "year": 1,
-   "credits": 3.0,
-   "description": "Advanced topics in database systems including distributed databases and data mining.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 505,
-   "program_id": 2,
-   "code": "CSE 505",
-   "title": "Cloud Computing",
-   "semester": "Fall 2026",
-   "year": 2,
-   "credits": 3.0,
-   "description": "Concepts and technologies of cloud-based systems and services.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 506,
-   "program_id": 2,
-   "code": "CSE 506",
-   "title": "Big Data Analytics",
-   "semester": "Fall 2026",
-   "year": 2,
-   "credits": 3.0,
-   "description": "Processing and analyzing large datasets using modern technologies.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 507,
-   "program_id": 2,
-   "code": "CSE 507",
-   "title": "Deep Learning",
-   "semester": "Spring 2027",
-   "year": 2,
-   "credits": 3.0,
-   "description": "Neural networks and deep learning architectures and applications.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  },
-  {
-   "id": 508,
-   "program_id": 2,
-   "code": "CSE 508",
-   "title": "Thesis Research",
-   "semester": "Spring 2027",
-   "year": 2,
-   "credits": 6.0,
-   "description": "Independent research leading to a master's thesis.",
-   "image_url": "https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-   "instructor": null,
-   "syllabus_weeks": []
-  }
- ],
- "gallery": [
-  {
-   "image_url": "/1.jpg",
-   "caption": "",
-   "display_order": 0
-  },
-  {
-   "image_url": "/3.jpg",
-   "caption": "",
-   "display_order": 1
-  },
-  {
-   "image_url": "/4.jpg",
-   "caption": "",
-   "display_order": 2
-  },
-  {
-   "image_url": "/5.jpg",
-   "caption": "",
-   "display_order": 3
-  },
-  {
-   "image_url": "/6.jpg",
-   "caption": "",
-   "display_order": 4
-  },
-  {
-   "image_url": "/7.jpg",
-   "caption": "",
-   "display_order": 5
-  },
-  {
-   "image_url": "/8.jpg",
-   "caption": "",
-   "display_order": 6
-  }
- ]
+  ]
 }

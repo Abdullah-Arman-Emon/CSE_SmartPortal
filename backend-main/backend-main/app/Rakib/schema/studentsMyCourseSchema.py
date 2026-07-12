@@ -18,6 +18,7 @@ class MyCourse(BaseModel):
     type: str = Field(..., max_length=50)  # e.g., "Theory", "Lab"
     image_url: Optional[str] = Field(None, max_length=255)  # Optional image
     running: bool
+    status: Optional[str] = "active"   # upcoming | active | completed
     schedules : List[MySchedule]
 
     class Config:

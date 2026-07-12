@@ -20,10 +20,10 @@ import {
 
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "../components/ui/toast";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-console.log("BACKEND_URL:", BACKEND_URL);
 
 const ResourceHub = () => {
 
@@ -127,7 +127,6 @@ const ResourceHub = () => {
             const response = await axios.get(
                 `${BACKEND_URL}/student/equipment/equipments`
             );
-            console.log("Equipments response:", response.data);
             setEquipments(response.data);
         } catch (error) {
             console.error("Error fetching equipments:", error);
@@ -193,7 +192,7 @@ const ResourceHub = () => {
             fetchEquipments();
 
             // Show success message
-            alert("Order placed successfully!");
+            toast.success("Order placed successfully!");
         } catch (error) {
             console.error("Error placing order:", error);
             setError(

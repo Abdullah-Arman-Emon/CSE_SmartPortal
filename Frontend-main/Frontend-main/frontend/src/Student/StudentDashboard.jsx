@@ -8,7 +8,7 @@ import Enroll from "./Enroll";
 import MyCourses from "./MyCourses";
 import StudentCGPA from "./StudentCGPA";
 import StudentResults from "./StudentResults";
-import ChatPanel from "../components/ChatPanel";
+import Messenger from "../components/Messenger";
 import Finance from "./Finance";
 import ResourceHub from "./ResourceHub";
 import StudentNotice from "./StudentNotice";
@@ -35,7 +35,7 @@ const StudentDashboard = () => {
       case "CGPA Calculator":
         return <StudentCGPA />;
       case "Messages":
-        return <ChatPanel role="student" />;
+        return <Messenger />;
       case "Resource Hub":
         return <ResourceHub />;
       case "Notice Board":

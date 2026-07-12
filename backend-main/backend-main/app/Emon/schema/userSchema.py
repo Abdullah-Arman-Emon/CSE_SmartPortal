@@ -6,6 +6,7 @@ class UserCreate(BaseModel):
     password: str
     role: Literal["student", "teacher", "admin"]  # ✅ New required role field
     batch: int | None = None  # Optional for students
+    registration_number: str | None = None  # required for students (validated vs allowlist)
 
 class UserLogin(BaseModel):
     email: EmailStr

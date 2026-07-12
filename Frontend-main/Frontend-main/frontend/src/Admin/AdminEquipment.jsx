@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import ImageInput from "../components/ui/ImageInput"
 import { 
   Package, 
   Search, 
@@ -526,19 +527,12 @@ function AdminEquipment() {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Image URL
-                    </label>
-                    <input
-                      type="url"
-                      name="image_url"
-                      value={formData.image_url}
-                      onChange={handleInputChange}
-                      placeholder="https://example.com/image.jpg"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
+                  <ImageInput
+                    label="Equipment Image"
+                    value={formData.image_url}
+                    onChange={(v) => setFormData((p) => ({ ...p, image_url: v }))}
+                    previewClass="h-24 w-24"
+                  />
 
                   <div className="flex gap-3 pt-4">
                     <button

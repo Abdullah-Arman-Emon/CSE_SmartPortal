@@ -3,8 +3,13 @@ import axios from "axios";
 import {
     Users, FileText, GraduationCap, Image as ImageIcon, Video,
     Plus, Pencil, Trash2, X, Save, Upload, ChevronDown, ChevronRight,
+    Home, HeartHandshake,
 } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
+import HomeTab from "./website/HomeTab";
+import CommunityTab from "./website/CommunityTab";
+import AdmissionContentTab from "./website/AdmissionContentTab";
+import { toast } from "../components/ui/toast";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -83,7 +88,7 @@ function ImagePicker({ value, onChange, accept = "image/*", label = "Upload" }) 
                         try {
                             onChange(await uploadFile(f));
                         } catch {
-                            alert("Upload failed");
+                            toast.error("Upload failed");
                         } finally {
                             setBusy(false);
                             e.target.value = "";
@@ -338,6 +343,9 @@ function ContentTab({ userId }) {
     const set = (key, value) => setContent({ ...content, [key]: value });
     const stats = parseJsonList(content.dept_stats);
     const officeHours = parseJsonList(content.office_hours);
+    const timeline = parseJsonList(content.history_timeline);
+    let socialLinks = {};
+    try { socialLinks = JSON.parse(content.social_links) || {}; } catch { /* empty */ }
 
     const saveAll = async () => {
         setSaving(true);
@@ -431,6 +439,52 @@ function ContentTab({ userId }) {
                     ))}
                     <button onClick={() => set("office_hours", JSON.stringify([...officeHours, { days: "", time: "" }]))}
                         className="text-sm text-indigo-600 inline-flex items-center gap-1"><Plus size={14} /> Add row</button>
+                </div>
+            </Field>
+            <Field label="History timeline (shown on /chairman)">
+                <div className="space-y-2">
+                    {timeline.map((t, i) => (
+                        <div key={i} className="border border-slate-200 rounded-lg p-3 space-y-2">
+                            <div className="flex gap-2">
+                                <input className={`${inputCls} max-w-[110px]`} value={t.year || ""} placeholder="1992"
+                                    onChange={(e) => {
+                                        const next = [...timeline];
+                                        next[i] = { ...next[i], year: e.target.value };
+                                        set("history_timeline", JSON.stringify(next));
+                                    }} />
+                                <input className={inputCls} value={t.title || ""} placeholder="Milestone title"
+                                    onChange={(e) => {
+                                        const next = [...timeline];
+                                        next[i] = { ...next[i], title: e.target.value };
+                                        set("history_timeline", JSON.stringify(next));
+                                    }} />
+                                <button onClick={() => set("history_timeline", JSON.stringify(timeline.filter((_, j) => j !== i)))}
+                                    className="text-red-500"><Trash2 size={16} /></button>
+                            </div>
+                            <textarea className={inputCls} rows={2} value={t.description || ""} placeholder="Description"
+                                onChange={(e) => {
+                                    const next = [...timeline];
+                                    next[i] = { ...next[i], description: e.target.value };
+                                    set("history_timeline", JSON.stringify(next));
+                                }} />
+                        </div>
+                    ))}
+                    <button onClick={() => set("history_timeline", JSON.stringify([...timeline, { year: "", title: "", description: "" }]))}
+                        className="text-sm text-indigo-600 inline-flex items-center gap-1"><Plus size={14} /> Add milestone</button>
+                </div>
+            </Field>
+            <Field label="Footer about text (public site footer)">
+                <textarea className={inputCls} rows={3} value={content.footer_about || ""}
+                    onChange={(e) => set("footer_about", e.target.value)} />
+            </Field>
+            <Field label="Social links (footer icons — leave blank to hide)">
+                <div className="grid sm:grid-cols-2 gap-2">
+                    {["facebook", "linkedin", "github", "youtube", "x"].map((k) => (
+                        <input key={k} className={inputCls} value={socialLinks[k] || ""} placeholder={`${k} URL`}
+                            onChange={(e) =>
+                                set("social_links", JSON.stringify({ ...socialLinks, [k]: e.target.value }))
+                            } />
+                    ))}
                 </div>
             </Field>
             <div className="flex justify-end">
@@ -981,9 +1035,11 @@ function CampusTab({ userId }) {
 // ---- shell ------------------------------------------------------------------
 
 const SUB_TABS = [
+    { id: "home", label: "Home Page", icon: Home },
     { id: "people", label: "People", icon: Users },
     { id: "content", label: "Chairman & About", icon: FileText },
     { id: "programs", label: "Programs", icon: GraduationCap },
+    { id: "community", label: "Community", icon: HeartHandshake },
     { id: "gallery", label: "Gallery", icon: ImageIcon },
     { id: "campus", label: "Campus Life", icon: Video },
 ];
@@ -1011,9 +1067,16 @@ function AdminWebsite() {
                     </button>
                 ))}
             </div>
+            {tab === "home" && <HomeTab userId={userId} />}
             {tab === "people" && <PeopleTab userId={userId} />}
             {tab === "content" && <ContentTab userId={userId} />}
-            {tab === "programs" && <ProgramsTab userId={userId} />}
+            {tab === "programs" && (
+                <>
+                    <AdmissionContentTab userId={userId} />
+                    <ProgramsTab userId={userId} />
+                </>
+            )}
+            {tab === "community" && <CommunityTab userId={userId} />}
             {tab === "gallery" && <GalleryTab userId={userId} />}
             {tab === "campus" && <CampusTab userId={userId} />}
         </div>

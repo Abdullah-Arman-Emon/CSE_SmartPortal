@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from app.core.database import SessionLocal
 from typing import List
@@ -116,6 +116,7 @@ def get_class_by_id(course_id: int, db: Session = Depends(get_db)):
         type=course.type,
         image_url=course.image_url,
         running=course.running,
+        status=course.status or ("active" if course.running else "completed"),
         schedules=my_schd
     )
 
@@ -129,8 +130,11 @@ def get_all_my_classes(teacher_id: int, db: Session = Depends(get_db)):
     if not teacher:
         raise HTTPException(status_code=404, detail="Teacher not found")
     
+    # Active/current courses on top, completed sink to the bottom; within a
+    # group, newest first — so the page always shows what's running now first.
     courses = db.query(Course).filter(Course.teacher_id == teacher_id).all()
-    
+    courses.sort(key=lambda c: ((c.status == "completed") or (c.status is None and not c.running), -c.id))
+
     if not courses:
         return []
 
@@ -145,6 +149,7 @@ def get_all_my_classes(teacher_id: int, db: Session = Depends(get_db)):
             type=course.type,
             image_url=course.image_url,
             running=course.running,
+            status=course.status or ("active" if course.running else "completed"),
             schedules=[
                 MySchedule(day=s.day, start_time=s.start_time)
                 for s in course.schedules
@@ -152,6 +157,25 @@ def get_all_my_classes(teacher_id: int, db: Session = Depends(get_db)):
         )
         for course in courses
     ]
+
+
+COURSE_STATUSES = {"upcoming", "active", "completed"}
+
+
+@router.patch("/{course_id}/status")
+def set_course_status(course_id: int, status: str = Query(...), db: Session = Depends(get_db)):
+    """Teacher marks a course upcoming / active / completed. `running` is kept in
+    sync so legacy views stay correct."""
+    status = (status or "").lower().strip()
+    if status not in COURSE_STATUSES:
+        raise HTTPException(status_code=422, detail=f"Invalid status: {status}")
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    course.status = status
+    course.running = status == "active"
+    db.commit()
+    return {"course_id": course_id, "status": status, "running": course.running}
 
 
 @router.post("/assignments/create", response_model=AssignmentOut)

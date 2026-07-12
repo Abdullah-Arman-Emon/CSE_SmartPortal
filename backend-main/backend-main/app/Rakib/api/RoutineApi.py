@@ -63,6 +63,7 @@ def _slot_out(slot: RoutineSlot, periods: dict, teacher_names: dict, routine: Ro
         "end_time": p.end_time if p else "",
         "course_code": slot.course_code,
         "course_title": slot.course_title,
+        "course_id": slot.course_id,
         "teacher_ids": tids,
         "teacher_initials": slot.teacher_initials,
         "teacher_names": [teacher_names.get(t, f"#{t}") for t in tids],
@@ -188,6 +189,7 @@ class SlotIn(BaseModel):
     routine_id: int
     day: str
     period_id: int
+    course_id: Optional[int] = None          # link to a real Course offering
     course_code: Optional[str] = None
     course_title: Optional[str] = None
     teacher_ids: Optional[List[int]] = None
@@ -200,6 +202,7 @@ class SlotIn(BaseModel):
 class SlotUpdate(BaseModel):
     day: Optional[str] = None
     period_id: Optional[int] = None
+    course_id: Optional[int] = None
     course_code: Optional[str] = None
     course_title: Optional[str] = None
     teacher_ids: Optional[List[int]] = None
@@ -298,21 +301,38 @@ def get_grid(routine_id: Optional[int] = None, batch: Optional[int] = None,
 
 @router.get("/teacher/{teacher_id}/slots")
 def teacher_slots(teacher_id: int, db: Session = Depends(get_db)):
+    """Every published class that belongs to this teacher — whether they are
+    listed on the slot (teacher_ids) OR the slot's linked course is one they
+    teach (course.teacher_id). This keeps a teacher's routine in sync with the
+    courses they actually run, across every active batch."""
+    from app.Emon.model.course import Course
     periods = _periods_map(db)
     names = _teacher_names_map(db)
+    # course ids owned by this teacher (source of truth: who runs the course)
+    my_course_ids = {
+        c.id for c in db.query(Course.id).filter(Course.teacher_id == teacher_id).all()
+    }
     rows = (
         db.query(RoutineSlot, Routine)
         .join(Routine, RoutineSlot.routine_id == Routine.id)
         .filter(Routine.published == True)
         .all()
     )
-    out = [
-        _slot_out(s, periods, names, r)
-        for s, r in rows
-        if teacher_id in _tids(s)
-    ]
+    out = []
+    for s, r in rows:
+        mine_by_slot = teacher_id in _tids(s)
+        mine_by_course = s.course_id is not None and s.course_id in my_course_ids
+        if not (mine_by_slot or mine_by_course):
+            continue
+        d = _slot_out(s, periods, names, r)
+        d["you_teach"] = mine_by_course  # linked to a course you own
+        out.append(d)
     order = {p.id: (p.display_order, p.id) for p in periods.values()}
-    out.sort(key=lambda s: (DAYS.index(s["day"]) if s["day"] in DAYS else 9, order.get(s["period_id"], (99, 99))))
+    out.sort(key=lambda s: (
+        -(s.get("batch") or 0),  # newest batch first
+        DAYS.index(s["day"]) if s["day"] in DAYS else 9,
+        order.get(s["period_id"], (99, 99)),
+    ))
     return out
 
 
@@ -371,6 +391,83 @@ def today_classes(batch: int, semester: str, db: Session = Depends(get_db)):
         "holiday": {"title": holiday.title, "kind": holiday.kind} if holiday else None,
         "classes": classes,
     }
+
+
+@router.get("/student/timeline")
+def student_routine_timeline(user_id: int = Query(...), db: Session = Depends(get_db)):
+    """Every semester this student's batch has reached, past → current, each with
+    its published routine (if any). Pure derivation from batch + current_semester
+    — no per-student history is stored."""
+    from app.Rakib.model.batch_term import BSC_SEMESTER_ORDER
+    student = db.query(Student).filter(Student.user_id == user_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student profile not found")
+    curr = student.current_semester
+    order = BSC_SEMESTER_ORDER
+    idx = order.index(curr) if curr in order else (len(order) - 1)
+    reached = order[: idx + 1] if curr in order else order
+    counts = {}
+    for rid, in db.query(RoutineSlot.routine_id).all():
+        counts[rid] = counts.get(rid, 0) + 1
+    terms = []
+    for sem in reached:
+        routine = (
+            db.query(Routine)
+            .filter(Routine.batch == student.batch, Routine.semester == sem)
+            .order_by(Routine.published.desc(), Routine.id.desc())
+            .first()
+        )
+        terms.append({
+            "batch": student.batch,
+            "semester": sem,
+            "is_current": sem == curr,
+            "routine_id": routine.id if routine else None,
+            "published": bool(routine and routine.published),
+            "slot_count": counts.get(routine.id, 0) if routine else 0,
+            "title": routine.title if routine else None,
+        })
+    return {"batch": student.batch, "current_semester": curr, "terms": terms}
+
+
+@router.get("/teacher/timeline")
+def teacher_routine_timeline(teacher_id: int = Query(...), db: Session = Depends(get_db)):
+    """Distinct (batch, semester) terms this teacher has taught in — derived from
+    the courses they own — each with that term's published routine. Lets a teacher
+    reach the routine of any batch/semester they were part of, past or current."""
+    from app.Emon.model.course import Course
+    from app.Rakib.model.batch_term import semester_rank
+    counts = {}
+    for rid, in db.query(RoutineSlot.routine_id).all():
+        counts[rid] = counts.get(rid, 0) + 1
+    courses = db.query(Course).filter(Course.teacher_id == teacher_id).all()
+    seen = {}
+    for c in courses:
+        key = (c.batch, c.semester)
+        entry = seen.setdefault(key, {"course_count": 0, "active": False})
+        entry["course_count"] += 1
+        if (c.status or ("active" if c.running else "completed")) == "active":
+            entry["active"] = True
+    terms = []
+    for (batch, semester), meta in seen.items():
+        if not semester or "," in (semester or ""):
+            continue  # skip legacy multi-semester course values
+        routine = (
+            db.query(Routine)
+            .filter(Routine.batch == batch, Routine.semester == semester)
+            .order_by(Routine.published.desc(), Routine.id.desc())
+            .first()
+        )
+        terms.append({
+            "batch": batch,
+            "semester": semester,
+            "is_current": meta["active"],
+            "course_count": meta["course_count"],
+            "routine_id": routine.id if routine else None,
+            "published": bool(routine and routine.published),
+            "slot_count": counts.get(routine.id, 0) if routine else 0,
+        })
+    terms.sort(key=lambda t: (-(t["batch"] or 0), semester_rank(t["semester"])))
+    return {"teacher_id": teacher_id, "terms": terms}
 
 
 @router.get("/holidays")
@@ -480,10 +577,61 @@ def delete_routine(routine_id: int, user_id: int = Query(...), db: Session = Dep
     return {"message": "deleted"}
 
 
+def _hydrate_from_course(db: Session, payload: dict):
+    """If a slot references a real Course (course_id), pull its code/title and
+    the course teacher into the slot so curriculum→course→routine stay in sync.
+    Explicit values in the payload still win (admin can override)."""
+    cid = payload.get("course_id")
+    if not cid:
+        return payload
+    from app.Emon.model.course import Course
+    course = db.query(Course).filter(Course.id == cid).first()
+    if not course:
+        return payload
+    # fill when absent OR explicitly empty (model_dump sends None for unset fields)
+    if not payload.get("course_code"):
+        payload["course_code"] = course.code
+    if not payload.get("course_title"):
+        payload["course_title"] = course.title
+    # default the teacher to the course owner when none was chosen explicitly
+    if not payload.get("teacher_ids") and course.teacher_id:
+        payload["teacher_ids"] = [course.teacher_id]
+        t = course.teacher
+        if t and not payload.get("teacher_initials"):
+            payload["teacher_initials"] = _initials(_teacher_name(t))
+    return payload
+
+
 def _apply_slot_payload(payload: dict):
     if "teacher_ids" in payload:
         payload["teacher_ids"] = json.dumps(payload["teacher_ids"] or [])
     return payload
+
+
+@router.get("/admin/courses")
+def routine_courses(batch: int = Query(...), semester: Optional[str] = Query(None),
+                    db: Session = Depends(get_db)):
+    """Courses available to attach to a batch's routine slots — the bridge that
+    lets admin *select* instead of retyping course code/title/teacher."""
+    from app.Emon.model.course import Course
+    q = db.query(Course).filter(Course.batch == batch)
+    if semester:
+        q = q.filter(Course.semester == semester)
+    names = _teacher_names_map(db)
+    out = []
+    for c in q.order_by(Course.id.desc()).all():
+        out.append({
+            "course_id": c.id,
+            "code": c.code,
+            "course_code": c.course_code,
+            "title": c.title,
+            "type": c.type,
+            "status": c.status or ("active" if c.running else "completed"),
+            "teacher_id": c.teacher_id,
+            "teacher_name": names.get(c.teacher_id, ""),
+            "teacher_initials": _initials(names.get(c.teacher_id, "T")) if c.teacher_id else "",
+        })
+    return out
 
 
 @router.post("/admin/slots")
@@ -496,10 +644,10 @@ def create_slot(data: SlotIn, user_id: int = Query(...), db: Session = Depends(g
         raise HTTPException(status_code=400, detail="day must be a full weekday name")
     if not db.query(RoutinePeriod).filter(RoutinePeriod.id == data.period_id).first():
         raise HTTPException(status_code=404, detail="Period not found")
-    payload = data.model_dump()
+    payload = _hydrate_from_course(db, data.model_dump())
     force = payload.pop("force", False)
     conflicts = check_conflicts(db, routine, data.day, data.period_id,
-                                data.teacher_ids or [], data.room, data.group_label)
+                                payload.get("teacher_ids") or [], payload.get("room"), payload.get("group_label"))
     if conflicts and not force:
         raise HTTPException(status_code=409, detail={"conflicts": conflicts})
     row = RoutineSlot(**_apply_slot_payload(payload))
@@ -516,7 +664,7 @@ def update_slot(slot_id: int, data: SlotUpdate, user_id: int = Query(...), db: S
     if not row:
         raise HTTPException(status_code=404, detail="Slot not found")
     routine = db.query(Routine).filter(Routine.id == row.routine_id).first()
-    updates = data.model_dump(exclude_unset=True)
+    updates = _hydrate_from_course(db, data.model_dump(exclude_unset=True))
     force = updates.pop("force", False)
     day = updates.get("day", row.day)
     period_id = updates.get("period_id", row.period_id)

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "../components/ui/toast";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -149,7 +150,6 @@ export default function TeacherClassroom() {
         assignmentPayload
       );
       
-      console.log("Assignment created:", response.data);
       setShowCreateForm(false);
       setAssignmentData({
         title: "",
@@ -200,7 +200,6 @@ export default function TeacherClassroom() {
   }, [teacherProfile, course]);
 
   useEffect( () => {
-    console.log(assignments)
   }, [assignments])
 
   // Fix the handleDeleteAssignment function to use the correct endpoint format
@@ -225,10 +224,10 @@ export default function TeacherClassroom() {
       );
       
       // Show success message
-      alert("Assignment deleted successfully");
+      toast.success("Assignment deleted successfully");
     } catch (error) {
       console.error("Error deleting assignment:", error);
-      alert("Failed to delete assignment. Please try again.");
+      toast.error("Failed to delete assignment. Please try again.");
     } finally {
       setDeleteLoading(null);
     }

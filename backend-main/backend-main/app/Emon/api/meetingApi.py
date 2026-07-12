@@ -54,8 +54,30 @@ def delete_meeting(meeting_id: int, user_id: int = Query(...), db: Session = Dep
 
 
 @router.get("/upcoming", response_model=list[MeetingResponse])
-def upcoming_meetings(db: Session = Depends(get_db)):
-    return db.query(Meeting).filter(Meeting.date_time >= datetime.now()).all()
+def upcoming_meetings(user_id: int = Query(None), db: Session = Depends(get_db)):
+    meetings = db.query(Meeting).filter(Meeting.date_time >= datetime.now()).order_by(Meeting.date_time.asc()).all()
+
+    # meeting_url is only for teachers/admins — guests (and unknown user_ids)
+    # get the schedule without the join link.
+    privileged = False
+    if user_id is not None:
+        user = db.query(User).filter(User.id == user_id).first()
+        privileged = bool(user and user.role in ("teacher", "admin"))
+
+    if privileged:
+        return meetings
+
+    return [
+        MeetingResponse(
+            id=m.id,
+            title=m.title,
+            date_time=m.date_time,
+            meeting_url=None,
+            created_by=m.created_by,
+            is_archived=m.is_archived,
+        )
+        for m in meetings
+    ]
 
 
 @router.post("/rsvp")

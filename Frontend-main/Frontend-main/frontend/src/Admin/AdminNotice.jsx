@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
-import { 
+import { AuthContext } from '../context/AuthContext'
+import {
   Bell,
+  Pin,
   Calendar,
   Users,
   User,
@@ -26,7 +28,9 @@ import {
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 function AdminNotice() {
+  const { user } = useContext(AuthContext)
   const [notices, setNotices] = useState([])
+  const [editingId, setEditingId] = useState(null)
   const [filteredNotices, setFilteredNotices] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -50,7 +54,8 @@ function AdminNotice() {
     batch: '',
     date: '',
     notice_from: 'Admin',
-    attachments: []
+    attachments: [],
+    is_pinned: false
   })
 
   // Notice source options
@@ -151,6 +156,7 @@ function AdminNotice() {
 
   // Reset form
   const resetForm = () => {
+    setEditingId(null)
     setFormData({
       title: '',
       sub_title: '',
@@ -158,16 +164,17 @@ function AdminNotice() {
       batch: '',
       date: '',
       notice_from: 'Admin',
-      attachments: []
+      attachments: [],
+      is_pinned: false
     })
   }
 
-  // Create notice
+  // Create or update notice (admin endpoints require user_id)
   const handleCreateNotice = async (e) => {
     e.preventDefault()
     try {
       setLoading(true)
-      
+
       // Prepare data with proper datetime format
       const noticeData = {
         ...formData,
@@ -175,16 +182,57 @@ function AdminNotice() {
         batch: formData.batch ? parseInt(formData.batch) : null
       }
 
-      await axios.post(`${BACKEND_URL}/admin/notices/create`, noticeData)
-      setSuccess('Notice created successfully!')
+      if (editingId) {
+        await axios.put(`${BACKEND_URL}/admin/notices/update/${editingId}`, noticeData, {
+          params: { user_id: user?.id }
+        })
+        setSuccess('Notice updated successfully!')
+      } else {
+        await axios.post(`${BACKEND_URL}/admin/notices/create`, noticeData, {
+          params: { user_id: user?.id }
+        })
+        setSuccess('Notice created successfully!')
+      }
       setShowCreateModal(false)
       resetForm()
       fetchNotices()
     } catch (err) {
-      setError('Failed to create notice')
-      console.error('Error creating notice:', err)
+      setError(editingId ? 'Failed to update notice' : 'Failed to create notice')
+      console.error('Error saving notice:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Open the modal prefilled for editing
+  const openEditModal = (notice) => {
+    setEditingId(notice.id)
+    setFormData({
+      title: notice.title || '',
+      sub_title: notice.sub_title || '',
+      content: notice.content || '',
+      batch: notice.batch ?? '',
+      // datetime-local wants "YYYY-MM-DDTHH:mm"
+      date: notice.date ? new Date(notice.date).toISOString().slice(0, 16) : '',
+      notice_from: notice.notice_from || 'Admin',
+      attachments: notice.attachments || [],
+      is_pinned: !!notice.is_pinned
+    })
+    setShowCreateModal(true)
+  }
+
+  // Toggle pin without opening the modal
+  const handleTogglePin = async (notice) => {
+    try {
+      await axios.put(`${BACKEND_URL}/admin/notices/update/${notice.id}`,
+        { is_pinned: !notice.is_pinned },
+        { params: { user_id: user?.id } }
+      )
+      setSuccess(notice.is_pinned ? 'Notice unpinned' : 'Notice pinned')
+      fetchNotices()
+    } catch (err) {
+      setError('Failed to update pin state')
+      console.error('Error toggling pin:', err)
     }
   }
 
@@ -193,7 +241,9 @@ function AdminNotice() {
     if (window.confirm('Are you sure you want to delete this notice?')) {
       try {
         setLoading(true)
-        await axios.delete(`${BACKEND_URL}/admin/notices/delete/${noticeId}`)
+        await axios.delete(`${BACKEND_URL}/admin/notices/delete/${noticeId}`, {
+          params: { user_id: user?.id }
+        })
         setSuccess('Notice deleted successfully!')
         fetchNotices()
       } catch (err) {
@@ -356,6 +406,11 @@ function AdminNotice() {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="text-lg font-semibold text-gray-900">{notice.title}</h3>
+                        {notice.is_pinned && (
+                          <span className="px-2 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium flex items-center gap-1">
+                            <Pin size={12} /> Pinned
+                          </span>
+                        )}
                         {urgent && (
                           <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">
                             Urgent
@@ -399,11 +454,29 @@ function AdminNotice() {
                     
                     <div className="flex items-center gap-2 ml-4">
                       <button
+                        onClick={() => handleTogglePin(notice)}
+                        className={`p-2 rounded-lg transition-colors ${
+                          notice.is_pinned
+                            ? 'text-amber-600 bg-amber-50 hover:bg-amber-100'
+                            : 'text-gray-400 hover:bg-gray-100 hover:text-amber-600'
+                        }`}
+                        title={notice.is_pinned ? 'Unpin Notice' : 'Pin Notice'}
+                      >
+                        <Pin size={18} />
+                      </button>
+                      <button
                         onClick={() => openViewModal(notice)}
                         className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                         title="View Details"
                       >
                         <Eye size={18} />
+                      </button>
+                      <button
+                        onClick={() => openEditModal(notice)}
+                        className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+                        title="Edit Notice"
+                      >
+                        <Edit size={18} />
                       </button>
                       <button
                         onClick={() => handleDeleteNotice(notice.id)}
@@ -427,9 +500,14 @@ function AdminNotice() {
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Create New Notice</h2>
+                <h2 className="text-xl font-bold text-gray-900">
+                  {editingId ? 'Edit Notice' : 'Create New Notice'}
+                </h2>
                 <button
-                  onClick={() => setShowCreateModal(false)}
+                  onClick={() => {
+                    setShowCreateModal(false)
+                    resetForm()
+                  }}
                   className="text-gray-400 hover:text-gray-600"
                 >
                   <X size={24} />
@@ -531,10 +609,26 @@ function AdminNotice() {
                   />
                 </div>
 
+                <label className="flex items-center gap-2 text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    checked={formData.is_pinned}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, is_pinned: e.target.checked }))
+                    }
+                    className="h-4 w-4 rounded border-gray-300 text-amber-500 focus:ring-amber-400"
+                  />
+                  <Pin size={14} className="text-amber-500" />
+                  Pin this notice to the top of the public board
+                </label>
+
                 <div className="flex justify-end gap-3 pt-4">
                   <button
                     type="button"
-                    onClick={() => setShowCreateModal(false)}
+                    onClick={() => {
+                      setShowCreateModal(false)
+                      resetForm()
+                    }}
                     className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     Cancel
@@ -544,7 +638,7 @@ function AdminNotice() {
                     disabled={loading}
                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50"
                   >
-                    {loading ? 'Creating...' : 'Create Notice'}
+                    {loading ? 'Saving...' : editingId ? 'Save Changes' : 'Create Notice'}
                   </button>
                 </div>
               </form>

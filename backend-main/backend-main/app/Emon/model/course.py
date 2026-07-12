@@ -31,6 +31,9 @@ class Course(Base):
     credit = Column(Float, default=3.0)  # credit hours, fractional for labs (for CGPA weighting)
     teacher_id = Column(Integer, ForeignKey("teachers.id"), nullable=False)
     running = Column(Boolean, default=True)
+    # lifecycle: "upcoming" (not started) | "active" (running) | "completed" (done).
+    # Teacher-controlled; lets teacher/student/admin separate finished vs ongoing.
+    status = Column(String(20), default="active")
 
     teacher = relationship("Teacher", back_populates="courses")
     schedules = relationship("Schedule", back_populates="course", cascade="all, delete-orphan")

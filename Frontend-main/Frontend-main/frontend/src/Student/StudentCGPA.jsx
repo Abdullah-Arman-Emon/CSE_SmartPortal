@@ -42,23 +42,28 @@ function StudentCGPA() {
   const [publishedBySemester, setPublishedBySemester] = useState({});
   const [publishedResults, setPublishedResults] = useState([]);
   const [profile, setProfile] = useState(null);
+  const [summary, setSummary] = useState(null); // backend CGPA (retake-safe)
   const [catalogMap, setCatalogMap] = useState({}); // course_code -> category
 
   useEffect(() => {
     if (!user?.id) return;
+    let sid = null;
     axios
       .get(`${BACKEND_URL}/v1/auth/get/student`, { params: { user_id: user.id } })
       .then((res) => {
         setProfile(res.data || null);
-        return res.data?.id;
+        sid = res.data?.id;
+        if (!sid) return;
+        return Promise.all([
+          axios.get(`${BACKEND_URL}/v1/results/student/${sid}`),
+          axios.get(`${BACKEND_URL}/v1/results/student/${sid}/summary`),
+        ]);
       })
-      .then((studentId) => {
-        if (!studentId) return;
-        return axios.get(`${BACKEND_URL}/v1/results/student/${studentId}`);
-      })
-      .then((res) => {
-        if (!res) return;
+      .then((arr) => {
+        if (!arr) return;
+        const [res, sum] = arr;
         setPublishedResults(res.data || []);
+        setSummary(sum.data || null);
         const grouped = {};
         (res.data || []).forEach((r) => {
           const key = `Batch ${r.batch} · ${r.semester}`;
@@ -103,9 +108,12 @@ function StudentCGPA() {
       const cat = (r.catalog_code && catalogMap[r.catalog_code]) || "uncategorized";
       byCategory[cat] = (byCategory[cat] || 0) + c;
     });
-    const cgpa = attempted ? qp / attempted : 0;
-    return { program, rules, earned, cgpa, hasF, byCategory };
-  }, [publishedResults, catalogMap, profile]);
+    // Backend summary is authoritative (applies latest-attempt retake rule).
+    const cgpa = summary ? summary.cgpa : (attempted ? qp / attempted : 0);
+    const earnedCr = summary ? summary.earned_credits : earned;
+    const f = summary ? summary.has_f : hasF;
+    return { program, rules, earned: earnedCr, cgpa, hasF: f, byCategory };
+  }, [publishedResults, catalogMap, profile, summary]);
 
   // Current semester courses
   const [rows, setRows] = useState([

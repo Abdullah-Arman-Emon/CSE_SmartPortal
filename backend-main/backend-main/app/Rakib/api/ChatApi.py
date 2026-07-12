@@ -6,10 +6,19 @@ from pydantic import BaseModel
 from typing import Optional
 
 from app.Rakib.model.message import Message
+from app.Rakib.model.notification import Notification
 from app.Emon.model.userModel import User
 from app.Emon.model.teacher import Teacher
 from app.Rakib.model.student import Student
 from app.Emon.model.course import Course
+
+
+def _dash_link(role: str) -> str:
+    return {
+        "admin": "/admin-dashboard?tab=messages",
+        "teacher": "/teacher-dashboard",
+        "student": "/messages",
+    }.get(role or "student", "/messages")
 
 router = APIRouter(prefix="/v1/chat", tags=["Chat"])
 
@@ -89,9 +98,57 @@ def send_message(payload: SendMessage, db: Session = Depends(get_db)):
         attachment_name=payload.attachment_name,
     )
     db.add(m)
+    db.flush()
+
+    # notifications: DM -> recipient; group -> every member except the sender.
+    sender_name = _name_of(db, payload.sender_id)
+    preview = text if text else (f"📎 {payload.attachment_name}" if payload.attachment_name else "sent an attachment")
+    if payload.recipient_id is not None:
+        targets = [payload.recipient_id]
+        body = f"💬 {sender_name}: {preview[:80]}"
+    else:
+        targets = [uid for uid in members if uid != payload.sender_id]
+        body = f"💬 {sender_name} in {course.title}: {preview[:70]}"
+    roles = {u.id: u.role for u in db.query(User).filter(User.id.in_(targets)).all()} if targets else {}
+    for uid in targets:
+        db.add(Notification(user_id=uid, type="message", text=body, link=_dash_link(roles.get(uid))))
+
     db.commit()
     db.refresh(m)
     return _serialize(db, m)
+
+
+@router.get("/my_groups/{user_id}")
+def my_groups(user_id: int, db: Session = Depends(get_db)):
+    """Course groups this user belongs to (teacher: courses they teach;
+    student: enrolled courses). Powers batch/course-wise group chat.
+    Active courses first, newest first, completed last."""
+    teacher = db.query(Teacher).filter(Teacher.user_id == user_id).first()
+    student = db.query(Student).filter(Student.user_id == user_id).first()
+    courses = []
+    if teacher:
+        courses = db.query(Course).filter(Course.teacher_id == teacher.id).all()
+    elif student:
+        courses = list(student.courses)
+    else:  # admin: no owned groups
+        return []
+
+    def sort_key(c):
+        completed = (c.status == "completed") or (c.status is None and not c.running)
+        return (completed, -c.id)  # active first, newest first, completed last
+
+    out = []
+    for c in sorted(courses, key=sort_key):
+        out.append({
+            "course_id": c.id,
+            "title": c.title,
+            "code": c.course_code or c.code,
+            "batch": c.batch,
+            "semester": c.semester,
+            "status": c.status or ("active" if c.running else "completed"),
+            "members": len(c.students) + (1 if c.teacher else 0),
+        })
+    return out
 
 
 @router.get("/course/{course_id}/group")

@@ -72,10 +72,19 @@ export default function Finance() {
         Promise.all([
             axios.get(financeApi.listEvents()),
             axios.get(financeApi.listPaymentsPending()),
-            axios.get(financeApi.listPaymentsPaid())
+            axios.get(financeApi.listPaymentsPaid()),
+            axios.get(`${BACKEND_URL}/v1/auth/get/student?user_id=${userId}`).catch(() => null),
         ])
-            .then(([eventsRes, pendingRes, paidRes]) => {
-                const events = eventsRes.data;
+            .then(([eventsRes, pendingRes, paidRes, studentRes]) => {
+                // Only show fees for this student's own batch (events whose batch
+                // matches, or non-batch-specific / "all" events).
+                const myBatch = studentRes?.data?.batch;
+                const events = eventsRes.data.filter((e) => {
+                    if (myBatch == null) return true;
+                    const b = String(e.batch ?? "").trim().toLowerCase();
+                    if (b === "" || b === "all") return true;
+                    return b === String(myBatch);
+                });
                 const allPayments = [...pendingRes.data, ...paidRes.data];
                 // Deduplicate: Only keep the latest payment per event for this user
                 const userPaymentsMap = {};
@@ -95,7 +104,10 @@ export default function Finance() {
                         transaction_id: payment ? payment.transaction_id : null,
                         paid_at: payment ? payment.verified_at : null,
                         event_id: event.id,
-                        // Add any other fields needed for UI
+                        // Map backend columns to the fields the UI renders.
+                        dueDate: event.deadline,
+                        category: event.category || "Departmental Fee",
+                        semester: event.semester || (event.batch ? `Batch ${event.batch}` : ""),
                     };
                 });
                 setFees(fees);

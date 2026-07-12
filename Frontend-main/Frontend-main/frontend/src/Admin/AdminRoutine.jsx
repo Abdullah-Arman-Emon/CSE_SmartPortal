@@ -2,9 +2,10 @@ import { useState, useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import {
     CalendarClock, Plus, Pencil, Trash2, X, Save, Printer, Eye,
-    CheckCircle2, XCircle, AlertTriangle, RefreshCw,
+    CheckCircle2, XCircle, AlertTriangle, RefreshCw, GraduationCap,
 } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
+import BatchLifecyclePanel from "./BatchLifecyclePanel";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
@@ -22,7 +23,7 @@ function Field({ label, children }) {
 }
 
 const emptySlot = {
-    day: "Sunday", period_id: "", course_code: "", course_title: "",
+    day: "Sunday", period_id: "", course_id: "", course_code: "", course_title: "",
     teacher_ids: [], teacher_initials: "", room: "", group_label: "",
 };
 
@@ -35,6 +36,7 @@ function AdminRoutine() {
     const [routineId, setRoutineId] = useState(null);
     const [grid, setGrid] = useState(null);
     const [teachers, setTeachers] = useState([]);
+    const [batchCourses, setBatchCourses] = useState([]); // courses for the current routine's batch
     const [message, setMessage] = useState({ type: "", text: "" });
 
     // availability overlay
@@ -86,6 +88,16 @@ function AdminRoutine() {
     }, [loadRoutines]);
 
     useEffect(() => { loadGrid(); }, [loadGrid]);
+
+    // courses of this routine's batch — so a slot can be attached to a real
+    // course (auto-fills code/title/teacher) instead of retyping everything.
+    useEffect(() => {
+        const b = grid?.routine?.batch;
+        if (!b) return setBatchCourses([]);
+        const sem = grid?.routine?.semester;
+        axios.get(`${BACKEND_URL}/v1/routine/admin/courses?batch=${b}${sem ? `&semester=${encodeURIComponent(sem)}` : ""}`)
+            .then((r) => setBatchCourses(r.data || [])).catch(() => setBatchCourses([]));
+    }, [grid?.routine?.batch, grid?.routine?.semester]);
 
     useEffect(() => {
         if (tab === "requests" && adminId) {
@@ -146,6 +158,27 @@ function AdminRoutine() {
         }
     };
 
+    const closeTerm = async () => {
+        if (!routine) return;
+        if (!window.confirm(
+            `Close Batch ${routine.batch} (${routine.semester})?\n\n` +
+            `This finalises every student's GPA for this semester and promotes ` +
+            `students currently in ${routine.semester} to the next semester. This cannot be undone.`
+        )) return;
+        try {
+            const res = await axios.post(
+                `${BACKEND_URL}/v1/batch-terms/admin/close?batch=${routine.batch}` +
+                `&semester=${encodeURIComponent(routine.semester)}&user_id=${adminId}`
+            );
+            const d = res.data;
+            flash("success", d.graduated
+                ? `Term closed — Batch ${routine.batch} has completed the programme.`
+                : `Term closed — ${d.students_promoted} student(s) promoted to ${d.next_semester}.`);
+        } catch (e) {
+            flash("error", e.response?.data?.detail || "Failed to close term");
+        }
+    };
+
     const deleteRoutine = async () => {
         if (!window.confirm(`Delete this routine and all its ${grid?.slots?.length ?? 0} classes?`)) return;
         try {
@@ -177,6 +210,7 @@ function AdminRoutine() {
             routine_id: routineId,
             day: slotModal.day,
             period_id: Number(slotModal.period_id),
+            course_id: slotModal.course_id || null,
             course_code: slotModal.course_code || null,
             course_title: slotModal.course_title || null,
             teacher_ids: slotModal.teacher_ids,
@@ -330,7 +364,7 @@ table{border-collapse:collapse;width:100%;margin-top:16px} td,th{border:1px soli
             )}
 
             <div className="flex flex-wrap gap-2 mb-6">
-                {[["editor", "Routine Editor"], ["requests", "Change Requests"], ["holidays", "Academic Calendar"], ["periods", "Time Periods"]].map(([id, label]) => (
+                {[["editor", "Routine Editor"], ["batches", "Batch Lifecycle"], ["requests", "Change Requests"], ["holidays", "Academic Calendar"], ["periods", "Time Periods"]].map(([id, label]) => (
                     <button key={id} onClick={() => setTab(id)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium ${tab === id ? "bg-indigo-600 text-white" : "bg-white border text-slate-600 hover:bg-slate-50"}`}>
                         {label}
@@ -366,6 +400,10 @@ table{border-collapse:collapse;width:100%;margin-top:16px} td,th{border:1px soli
                                 <button onClick={printRoutine}
                                     className="inline-flex items-center gap-1 px-3 py-2 bg-white border rounded-lg text-sm text-slate-600 hover:bg-slate-50">
                                     <Printer size={14} /> Print
+                                </button>
+                                <button onClick={closeTerm} title="Finalise GPA & promote students to the next semester"
+                                    className="inline-flex items-center gap-1 px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">
+                                    <GraduationCap size={14} /> Close term & promote
                                 </button>
                                 <button onClick={deleteRoutine}
                                     className="inline-flex items-center gap-1 px-3 py-2 bg-red-50 text-red-600 rounded-lg text-sm hover:bg-red-100">
@@ -437,6 +475,10 @@ table{border-collapse:collapse;width:100%;margin-top:16px} td,th{border:1px soli
                         </div>
                     )}
                 </div>
+            )}
+
+            {tab === "batches" && (
+                <BatchLifecyclePanel adminId={adminId} flash={flash} />
             )}
 
             {tab === "requests" && (
@@ -614,6 +656,42 @@ table{border-collapse:collapse;width:100%;margin-top:16px} td,th{border:1px soli
                             <h3 className="text-lg font-bold text-slate-800">{slotModal.id ? "Edit Class" : "Add Class"}</h3>
                             <button onClick={() => setSlotModal(null)}><X size={20} /></button>
                         </div>
+
+                        {/* Attach a real course — auto-fills code, title & teacher */}
+                        <div className="mb-4 bg-indigo-50 border border-indigo-100 rounded-lg p-3">
+                            <label className="block text-xs font-medium text-indigo-800 mb-1">
+                                Course (from this batch — auto-fills code, title & teacher)
+                            </label>
+                            <select
+                                className={inputCls}
+                                value={slotModal.course_id || ""}
+                                onChange={(e) => {
+                                    const cid = Number(e.target.value) || "";
+                                    const c = batchCourses.find((x) => x.course_id === cid);
+                                    if (c) {
+                                        const ids = c.teacher_id ? [c.teacher_id] : [];
+                                        setSlotModal({
+                                            ...slotModal, course_id: cid,
+                                            course_code: c.code, course_title: c.title,
+                                            teacher_ids: ids, teacher_initials: autoInitials(ids),
+                                        });
+                                    } else {
+                                        setSlotModal({ ...slotModal, course_id: "" });
+                                    }
+                                }}
+                            >
+                                <option value="">— Custom (type below) —</option>
+                                {batchCourses.map((c) => (
+                                    <option key={c.course_id} value={c.course_id}>
+                                        {c.code} · {c.title} — {c.teacher_name || "no teacher"} {c.status === "completed" ? "(completed)" : ""}
+                                    </option>
+                                ))}
+                            </select>
+                            {batchCourses.length === 0 && (
+                                <p className="text-[11px] text-indigo-500 mt-1">No courses for this batch yet — teachers create them under “Create Course”.</p>
+                            )}
+                        </div>
+
                         <div className="grid sm:grid-cols-2 gap-4">
                             <Field label="Day">
                                 <select className={inputCls} value={slotModal.day}

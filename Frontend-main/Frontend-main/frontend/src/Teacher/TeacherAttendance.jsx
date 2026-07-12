@@ -29,6 +29,8 @@ function TeacherAttendance({ teacherProfile }) {
   const [view, setView] = useState("mark"); // mark | report
   const [report, setReport] = useState(null);
   const [matrix, setMatrix] = useState(null);
+  const [reportLoading, setReportLoading] = useState(false);
+  const [reportError, setReportError] = useState("");
   const [reportView, setReportView] = useState("summary"); // summary | register
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -86,6 +88,7 @@ function TeacherAttendance({ teacherProfile }) {
       await axios.post(`${BACKEND_URL}/v1/attendance/mark`, {
         course_id: Number(courseId),
         date,
+        teacher_id: teacherProfile?.id ?? null,
         records: students.map((s) => ({ student_id: s.id, status: marks[s.id] || "present" })),
       });
       flash("success", "Attendance saved.");
@@ -98,7 +101,14 @@ function TeacherAttendance({ teacherProfile }) {
 
   const loadReport = async (from = fromDate, to = toDate, attempt = 0) => {
     if (!courseId) return flash("error", "Select a course first.");
+    // Guard against being called as an event handler — only accept real strings.
+    if (typeof from !== "string") from = fromDate;
+    if (typeof to !== "string") to = toDate;
     setView("report");
+    if (attempt === 0) {
+      setReportLoading(true);
+      setReportError("");
+    }
     const params = {};
     if (from) params.from_date = from;
     if (to) params.to_date = to;
@@ -117,9 +127,11 @@ function TeacherAttendance({ teacherProfile }) {
       const why = e.response
         ? `${e.response.status}: ${e.response.data?.detail || e.response.statusText || "server error"}`
         : "network error — check your connection";
-      flash("error", `Failed to load report (${why}).`);
+      setReportError(`Failed to load report (${why}).`);
+      setReportLoading(false);
       return;
     }
+    setReportLoading(false);
     // Register matrix is secondary — its failure must not block the summary
     try {
       const mat = await axios.get(
@@ -143,9 +155,9 @@ function TeacherAttendance({ teacherProfile }) {
     : [];
 
   const downloadCSV = () => {
-    if (!report || !matrix) return;
+    if (!report) return;
     let csv;
-    if (reportView === "summary") {
+    if (reportView === "summary" || !matrix) {
       csv = ["Student,Batch,Present,Late,Absent,Percentage,Eligible"]
         .concat(
           reportRows.map(
@@ -237,7 +249,7 @@ function TeacherAttendance({ teacherProfile }) {
             <CalendarCheck size={16} className="inline mr-1" /> Take Attendance
           </button>
           <button
-            onClick={loadReport}
+            onClick={() => loadReport()}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${view === "report" ? "bg-amber-500 text-white" : "bg-white border border-slate-200 text-slate-600"}`}
           >
             <ClipboardList size={16} className="inline mr-1" /> Report
@@ -323,7 +335,24 @@ function TeacherAttendance({ teacherProfile }) {
       ) : (
         <div className="bg-white rounded-xl border border-slate-200 p-6">
           {!report ? (
-            <p className="text-slate-500 text-center py-8">Loading report…</p>
+            reportError ? (
+              <div className="text-center py-8">
+                <AlertTriangle size={32} className="mx-auto text-red-400 mb-2" />
+                <p className="text-red-600">{reportError}</p>
+                <button
+                  onClick={() => loadReport()}
+                  className="mt-4 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600"
+                >
+                  Retry
+                </button>
+              </div>
+            ) : reportLoading ? (
+              <p className="text-slate-500 text-center py-8">Loading report…</p>
+            ) : (
+              <p className="text-slate-500 text-center py-8">
+                Click <span className="font-medium">Report</span> to generate the batch report.
+              </p>
+            )
           ) : (
             <>
               <div className="flex flex-wrap items-center justify-between gap-3 mb-4">

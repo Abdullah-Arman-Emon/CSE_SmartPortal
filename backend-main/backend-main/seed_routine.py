@@ -81,27 +81,9 @@ def seed_if_empty():
             db.commit()
             print(f"seed_routine: seeded {len(PERIODS)} periods")
 
-        if db.query(Routine).first() is None:
-            periods = db.query(RoutinePeriod).order_by(
-                RoutinePeriod.display_order, RoutinePeriod.id).all()
-            if len(periods) >= 5:
-                routine = Routine(
-                    batch=27, semester="4-1",
-                    title="4th Year 1st Semester B.Sc 2024-2025",
-                    room_note="Room No.: 429", class_start_date="22.02.2026",
-                    published=True,
-                )
-                db.add(routine)
-                db.commit()
-                for day, pidx, code, initials, room, group in SLOTS:
-                    db.add(RoutineSlot(
-                        routine_id=routine.id, day=day, period_id=periods[pidx - 1].id,
-                        course_code=code, course_title=COURSES.get(code),
-                        teacher_ids="[]", teacher_initials=initials,
-                        room=room, group_label=group,
-                    ))
-                db.commit()
-                print(f"seed_routine: seeded Batch 27 (4-1) routine with {len(SLOTS)} slots")
+        # NOTE: the full published routines (all batches/semesters), with real
+        # teacher accounts and course links, are seeded by seed_full_routines.py.
+        # This file now only owns the shared periods and the academic calendar.
 
         if db.query(AcademicHoliday).first() is None:
             for title, kind, start, end in HOLIDAYS:

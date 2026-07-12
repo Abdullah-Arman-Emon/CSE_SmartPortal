@@ -38,6 +38,7 @@ class RoutineSlot(Base):
     routine_id = Column(Integer, ForeignKey("routines.id"), nullable=False, index=True)
     day = Column(String(20), nullable=False)             # "Sunday".."Thursday" (full English name)
     period_id = Column(Integer, ForeignKey("routine_periods.id"), nullable=False)
+    course_id = Column(Integer, ForeignKey("courses.id"), nullable=True, index=True)  # linked offering (teacher/title/code source of truth)
     course_code = Column(String(50), nullable=True)      # "CSE-4101"
     course_title = Column(String(255), nullable=True)    # "Artificial Intelligence"
     teacher_ids = Column(Text, nullable=True)            # JSON array of Teacher.id (may be empty)

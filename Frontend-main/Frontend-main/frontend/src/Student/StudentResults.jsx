@@ -16,6 +16,7 @@ function StudentResults() {
   const { user } = useContext(AuthContext);
   const [studentId, setStudentId] = useState(null);
   const [results, setResults] = useState([]);
+  const [summary, setSummary] = useState(null); // backend-computed CGPA (retake-safe)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,16 +29,26 @@ function StudentResults() {
 
   useEffect(() => {
     if (!studentId) return;
-    axios
-      .get(`${BACKEND_URL}/v1/results/student/${studentId}`)
-      .then((res) => setResults(res.data || []))
+    Promise.all([
+      axios.get(`${BACKEND_URL}/v1/results/student/${studentId}`),
+      axios.get(`${BACKEND_URL}/v1/results/student/${studentId}/summary`),
+    ])
+      .then(([r, s]) => {
+        setResults(r.data || []);
+        setSummary(s.data || null);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [studentId]);
 
-  const totalCredits = results.reduce((sum, r) => sum + (r.credit || 0), 0);
-  const totalQuality = results.reduce((sum, r) => sum + (r.credit || 0) * (r.grade_point || 0), 0);
-  const cgpa = totalCredits ? totalQuality / totalCredits : 0;
+  const totalCredits = summary ? summary.attempted_credits : results.reduce((sum, r) => sum + (r.credit || 0), 0);
+  // Backend CGPA applies the latest-attempt retake rule; fall back to naive only if it's missing.
+  const cgpa = summary ? summary.cgpa
+    : (() => {
+        const c = results.reduce((s, r) => s + (r.credit || 0), 0);
+        const q = results.reduce((s, r) => s + (r.credit || 0) * (r.grade_point || 0), 0);
+        return c ? q / c : 0;
+      })();
 
   const downloadTranscript = () => {
     const rows = results
