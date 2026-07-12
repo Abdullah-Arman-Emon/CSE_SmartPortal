@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import PublicNavbar from "./PublicNavbar";
 import PublicFooter from "./PublicFooter";
+import Chatbot from "../Chatbot";
 import { PublicSiteProvider } from "./PublicSiteContext";
 import { pageTransition } from "../motion/motion";
 import { hasDarkHero } from "./publicRoutes";
@@ -33,6 +34,7 @@ export default function PublicLayout() {
           </motion.main>
         </AnimatePresence>
         <PublicFooter />
+        <Chatbot />
       </div>
     </PublicSiteProvider>
   );

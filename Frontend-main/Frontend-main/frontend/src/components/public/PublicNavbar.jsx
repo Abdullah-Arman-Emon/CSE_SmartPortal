@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { to: "/people", label: "People" },
   { to: "/chairman", label: "About" },
   { to: "/admission-hub", label: "Admissions" },
+  { to: "/curriculum", label: "Curriculum" },
   { to: "/notice-board", label: "Notices" },
   { to: "/meetings", label: "Meetings" },
 ];

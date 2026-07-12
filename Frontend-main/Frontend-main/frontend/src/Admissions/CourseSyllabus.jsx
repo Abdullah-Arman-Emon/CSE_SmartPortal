@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import HeroCanvas from "../components/three/HeroCanvas";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -39,8 +40,9 @@ function CourseSyllabus() {
     return (
         <div className="min-h-screen bg-white flex flex-col">
             {/* Gradient top bar */}
-            <div className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-700 text-white py-8 px-6">
-                <div className="max-w-7xl mx-auto">
+            <div className="mesh-bg overflow-hidden text-white py-8 px-6 relative">
+                <HeroCanvas />
+                <div className="relative z-10 max-w-7xl mx-auto">
                     <div className="flex justify-between items-center">
                         <div>
                             <h1 className="text-3xl font-bold">

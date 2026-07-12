@@ -28,6 +28,7 @@ import ApplicationSubmitted from './Admissions/ApplicationSubmitted'
 import TeacherClassroom from './Teacher/TeacherClassroom'
 import SubmissionList from './Teacher/SubmissionList'
 import PeopleDirectory from './pages/PeopleDirectory'
+import Curriculum from './pages/Curriculum'
 import AboutChairman from './pages/AboutChairman'
 import DepartmentalMeetings from './pages/DepartmentalMeetings'
 import ResourceHub from './Student/ResourceHub'
@@ -67,6 +68,7 @@ function App() {
           <Route path="/apply" element={<ApplicationForm />} />
           <Route path="/application-submitted" element={<ApplicationSubmitted />} />
           <Route path="/people" element={<PeopleDirectory />} />
+          <Route path="/curriculum" element={<Curriculum />} />
           <Route path="/chairman" element={<AboutChairman />} />
           <Route path="/meetings" element={<DepartmentalMeetings />} />
           <Route path="/notice-board" element={<NoticeBoard />} />

@@ -16,7 +16,6 @@ import Partners from "./components/home/Partners";
 import CampusLife from "./components/home/CampusLife";
 import Faq from "./components/home/Faq";
 import CtaBand from "./components/home/CtaBand";
-import Chatbot from "./components/Chatbot";
 import { parseContent } from "./components/public/content";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -70,7 +69,6 @@ const HomePage = () => {
       <CampusLife content={content} />
       <Faq items={parseContent(content.faqs, [])} />
       <CtaBand content={parseContent(content.home_cta, null)} />
-      <Chatbot />
     </div>
   );
 };

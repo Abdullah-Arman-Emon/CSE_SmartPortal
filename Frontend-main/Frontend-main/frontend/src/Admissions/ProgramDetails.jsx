@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { resourceUrl } from "../components/public/content";
+import HeroCanvas from "../components/three/HeroCanvas";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 function ProgramDetails() {
     const { id } = useParams();
     const [program, setProgram] = useState(null);
+    const [allPrograms, setAllPrograms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("overview");
 
@@ -15,11 +18,13 @@ function ProgramDetails() {
         const fetchProgram = async () => {
             setLoading(true);
             try {
-                const [progRes, contentRes, peopleRes] = await Promise.all([
+                const [progRes, contentRes, peopleRes, allRes] = await Promise.all([
                     axios.get(`${BACKEND_URL}/guest/site/programs/${id}`),
                     axios.get(`${BACKEND_URL}/guest/site/content?keys=department_info`),
                     axios.get(`${BACKEND_URL}/guest/site/people`).catch(() => ({ data: [] })),
+                    axios.get(`${BACKEND_URL}/guest/site/programs`).catch(() => ({ data: [] })),
                 ]);
+                setAllPrograms(allRes.data || []);
                 const prog = progRes.data;
                 try {
                     prog.departmentInfo = JSON.parse(contentRes.data.department_info);
@@ -75,8 +80,9 @@ function ProgramDetails() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-100 to-gray-200">
             {/* Header with breadcrumb */}
-            <div className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-700 text-white relative">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+            <div className="mesh-bg overflow-hidden text-white relative">
+                <HeroCanvas />
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
                     <div className="absolute top-2 sm:top-4 left-2 sm:left-4">
                         <Link
                             to="/admission-hub"
@@ -144,7 +150,7 @@ function ProgramDetails() {
                             {/* Program header with image */}
                             <div className="h-48 sm:h-56 lg:h-64 relative overflow-hidden">
                                 <img
-                                    src={program?.imageUrl}
+                                    src={resourceUrl(program?.imageUrl)}
                                     alt={program?.title}
                                     className="w-full h-full object-cover"
                                 />
@@ -360,9 +366,9 @@ function ProgramDetails() {
                                                         <div className="flex items-center p-3 sm:p-4">
                                                             <div className="flex-shrink-0 h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden">
                                                                 <img
-                                                                    src={
+                                                                    src={resourceUrl(
                                                                         faculty.imageUrl
-                                                                    }
+                                                                    )}
                                                                     alt={
                                                                         faculty.name
                                                                     }
@@ -589,14 +595,14 @@ function ProgramDetails() {
                                 </h3>
                             </div>
                             <div className="p-3 sm:p-4">
-                                {programsData
+                                {allPrograms
                                     .filter(
                                         (p) =>
                                             p.id !== program?.id &&
                                             p.level === program?.level
                                     )
                                     .slice(0, 3).length > 0 ? (
-                                    programsData
+                                    allPrograms
                                         .filter(
                                             (p) =>
                                                 p.id !== program?.id &&
@@ -616,7 +622,7 @@ function ProgramDetails() {
                                                         {relatedProgram.title}
                                                     </h4>
                                                     <p className="text-gray-600 text-sm line-clamp-2">
-                                                        {relatedProgram.description.substring(
+                                                        {(relatedProgram.description || "").substring(
                                                             0,
                                                             100
                                                         )}

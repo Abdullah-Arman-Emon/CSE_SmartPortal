@@ -1,599 +1,343 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-    MessageCircle,
-    Send,
-    X,
-    Bot,
-    User,
-    Minimize2,
-    ExternalLink,
-} from "lucide-react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { MessageCircle, Send, X, Bot, User, Sparkles, ArrowUpRight } from "lucide-react";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-// Provide via build-time env (VITE_GEMINI_API_KEY). No hardcoded secret in the bundle.
+// Client-side key (build-time). For a hardened setup, proxy this through the
+// backend; here we keep it optional and degrade gracefully when absent.
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_MODEL = "gemini-2.0-flash";
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
-// Database query functions
-const queryDatabase = async (intent, query) => {
-    try {
-        const response = await fetch(`${BACKEND_URL}/v1/chatbot/query`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ intent, query }),
-        });
+// Static, always-available knowledge so the bot is useful even offline / keyless.
+const CSEDU_FACTS = `Department of Computer Science & Engineering (CSEDU), University of Dhaka.
+- Established 1992 (as part of DU, founded 1921 — "Oxford of the East"). Campus: Dhaka, Bangladesh.
+- Programs: 4-year BSc (Honours) in CSE, MSc in CSE, MPhil, and PhD.
+- BSc structure: ~150 credits across 8 semesters; theory + lab (lab courses carry fractional credits); minimum CGPA 2.00 to graduate (2.50 for some categories/MSc).
+- Curriculum: programming, data structures, algorithms, databases, operating systems, computer networks, AI/ML, data science, software engineering, cybersecurity, computer graphics, theory of computation.
+- Admission: highly competitive, merit-based via the DU admission (Science unit) examination; limited seats.
+- Facilities: modern computer labs, research labs, seminar library; active clubs, programming contests (ACM ICPC), hackathons, seminars.
+- Alumni work at Google, Microsoft, Meta, Amazon and leading Bangladeshi tech firms; alumni association: cseduaa.org.
+- Website: this portal. For exact fees, dates and faculty office hours, contact the department office.`;
 
-        if (response.ok) {
-            return await response.json();
-        }
-    } catch (error) {
-        console.error("Database query error:", error);
-    }
-    return null;
-};
+const QUICK_QUESTIONS = [
+  "What programs does CSEDU offer?",
+  "How do I apply for admission?",
+  "Tell me about the BSc curriculum",
+  "Who are the faculty members?",
+];
 
-// Intent classification and route mapping
-const classifyIntent = (message) => {
-    const lowerMessage = message.toLowerCase();
-
-    const intentMap = {
-        faculty: {
-            keywords: [
-                "faculty",
-                "teacher",
-                "professor",
-                "instructor",
-                "staff",
-            ],
-            route: "/pepople",
-            dbQuery: "teachers",
-        },
-        courses: {
-            keywords: [
-                "course",
-                "courses",
-                "curriculum",
-                "syllabus",
-                "subject",
-                "class",
-            ],
-            route: "/admission-hub",
-            dbQuery: "courses",
-        },
-        admission: {
-            keywords: [
-                "admission",
-                "admissions",
-                "requirements",
-                "eligibility",
-            ],
-            route: "/admission-hub",
-            dbQuery: "admission",
-        },
-        apply: {
-            keywords: ["apply", "application"],
-            route: "/apply",
-            dbQuery: "admission",
-        },
-        alumni: {
-            keywords: ["alumni", "graduate", "placement", "career", "job"],
-            route: "https://cseduaa.org/", // external URL
-            dbQuery: "alumni",
-        },
-        about: {
-            keywords: ["about", "history", "department", "university", "cse"],
-            route: "/chairman",
-            dbQuery: "about",
-        },
-    };
-
-    for (const [intent, config] of Object.entries(intentMap)) {
-        if (config.keywords.some((keyword) => lowerMessage.includes(keyword))) {
-            return { intent, ...config };
-        }
-    }
-
-    return { intent: "general", route: null, dbQuery: null };
-};
+// Route the bot can deep-link to, chosen from the answer/question text.
+function linkFor(text) {
+  const t = text.toLowerCase();
+  if (/(apply|application form)/.test(t)) return { to: "/apply", label: "Open application form" };
+  if (/(admission|eligib|require|program|course|curriculum|syllab)/.test(t))
+    return { to: "/admission-hub", label: "Explore programs & admission" };
+  if (/(faculty|teacher|professor|staff|people|officer)/.test(t))
+    return { to: "/people", label: "View people directory" };
+  if (/(notice|announce|circular)/.test(t)) return { to: "/notice-board", label: "View notice board" };
+  if (/(meeting|seminar|event)/.test(t)) return { to: "/meetings", label: "View meetings & events" };
+  if (/(chair|about|history|department)/.test(t)) return { to: "/chairman", label: "About the department" };
+  return null;
+}
 
 const Chatbot = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isMinimized, setIsMinimized] = useState(false);
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            text: "Hello! I'm the DU CSE Assistant. I can help you with:\n\n• Events and workshops\n• Faculty information\n• Course details\n• Admission process\n• Research opportunities\n• Alumni network\n• Contact information\n\nWhat would you like to know?",
-            sender: "bot",
-            timestamp: new Date(),
-            hasLinks: false,
-        },
-    ]);
-    const [inputText, setInputText] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const messagesEndRef = useRef(null);
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      sender: "bot",
+      text: "Assalamu Alaikum! 👋 I'm the CSEDU Assistant for the Department of Computer Science & Engineering, University of Dhaka.\n\nAsk me anything about programs, admission, the curriculum, faculty, notices or campus life.",
+      timestamp: new Date(),
+    },
+  ]);
+  const [inputText, setInputText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
+  const siteContextRef = useRef(null); // cached live site data string
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
+  const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
-
-    const generateSystemPrompt = () => {
-        return `You are a helpful AI assistant for Dhaka University's Computer Science and Engineering (CSE) Department. You should provide accurate and helpful information about the university and department.
-
-Key information about Dhaka University (DU):
-- Founded in 1921, the oldest and most prestigious university in Bangladesh
-- Located in Dhaka, the capital city of Bangladesh
-- Known as the "Oxford of the East"
-- Beautiful historic campus with over 100 years of academic excellence
-- Home to numerous Nobel laureates, researchers, and distinguished alumni
-
-About the CSE Department at DU:
-- One of the top Computer Science departments in Bangladesh
-- Offers Bachelor's and Master's programs in Computer Science and Engineering
-- Strong curriculum covering programming, algorithms, data structures, databases, AI/ML, software engineering, computer networks, cybersecurity, and more
-- Excellent faculty with PhD degrees from top international universities
-- State-of-the-art computer labs and research facilities
-- Strong industry connections and internship opportunities
-- Alumni working at top tech companies like Google, Microsoft, Facebook, Amazon, and leading Bangladeshi tech firms
-- Active research in areas like AI, machine learning, data science, robotics, and software engineering
-- Regular programming contests, hackathons, and tech events
-- Strong placement record with graduates joining both local and international companies
-
-Academic Programs:
-- 4-year Bachelor of Science in Computer Science and Engineering (B.Sc. in CSE)
-- Master of Science in Computer Science and Engineering (M.Sc. in CSE)
-- PhD programs in Computer Science
-
-Admission Information:
-- Highly competitive admission process
-- Admission through university entrance examination
-- Merit-based selection
-- Limited seats available due to high demand
-
-Campus Life:
-- Vibrant student community with various clubs and organizations
-- Cultural events, seminars, and workshops
-- Beautiful campus with historic buildings
-- Central library with extensive collection
-- Hostels for both male and female students
-
-Please provide helpful, accurate, and encouraging information. If you don't know specific current details like exact admission dates, fees, or specific faculty information, suggest contacting the department directly. Keep responses conversational and informative.`;
-    };
-
-    const generateEnhancedResponse = async (
-        userMessage,
-        dbData,
-        classifiedIntent
-    ) => {
-        const systemPrompt = `You are an intelligent assistant for Dhaka University's CSE Department. 
-    
-Context: The user asked about "${classifiedIntent.intent}" related topics.
-Database Information: ${
-            dbData
-                ? JSON.stringify(dbData)
-                : "No specific database information available"
-        }
-
-Instructions:
-1. Provide helpful, accurate information based on the database data when available
-2. If database data is available, incorporate it naturally into your response
-3. Keep responses conversational and informative
-4. If you mention specific items (events, faculty, courses), format them in a structured way
-5. Always be encouraging and helpful
-6. If you don't have specific current information, suggest contacting the department directly
-
-User Query: ${userMessage}
-
-Provide a comprehensive response that helps the user understand the information and guides them appropriately.`;
-
-        try {
-            const response = await fetch(GEMINI_API_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    contents: [
-                        {
-                            parts: [
-                                {
-                                    text: systemPrompt,
-                                },
-                            ],
-                        },
-                    ],
-                }),
-            });
-
-            if (!response.ok) {
-                console.error(
-                    "Gemini API Error:",
-                    response.status,
-                    response.statusText
-                );
-                throw new Error(`API Error: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            // Check if response has the expected structure
-            if (
-                !data.candidates ||
-                !data.candidates[0] ||
-                !data.candidates[0].content ||
-                !data.candidates[0].content.parts ||
-                !data.candidates[0].content.parts[0]
-            ) {
-                console.error("Unexpected API response structure:", data);
-                throw new Error("Invalid response structure");
-            }
-
-            return data.candidates[0].content.parts[0].text;
-        } catch (error) {
-            console.error("Error calling Gemini API:", error);
-
-            // Fallback response based on intent
-            const fallbackResponses = {
-                events: "I'd be happy to help you with events information! Our department regularly hosts workshops, seminars, and competitions. For the latest events, please check our events page or contact the department directly.",
-                faculty:
-                    "Our CSE department has excellent faculty members with expertise in various areas of computer science. For detailed faculty information including their research areas and contact details, please visit our faculty page.",
-                courses:
-                    "The CSE department offers a comprehensive curriculum covering programming, algorithms, data structures, AI/ML, and more. For detailed course information and curriculum, please check our courses page.",
-                admission:
-                    "Admission to our CSE program is highly competitive and merit-based. For current admission requirements, deadlines, and application procedures, please visit our admission page or contact the admissions office.",
-                research:
-                    "Our department is actively involved in cutting-edge research in AI, machine learning, software engineering, and more. For research opportunities and ongoing projects, please visit our research page.",
-                contact:
-                    "You can reach the CSE department through various channels. For complete contact information including phone numbers, email addresses, and office locations, please visit our contact page.",
-                about: "The CSE department at Dhaka University is one of the premier computer science departments in Bangladesh, offering excellent education and research opportunities since its establishment.",
-                general:
-                    "I'm here to help you with information about the CSE department at Dhaka University. You can ask me about events, faculty, courses, admission, research, or any other department-related topics.",
-            };
-
-            return (
-                fallbackResponses[classifiedIntent.intent] ||
-                fallbackResponses.general
-            );
-        }
-    };
-
-    const sendMessage = async () => {
-        if (!inputText.trim()) return;
-
-        const userMessage = {
-            id: messages.length + 1,
-            text: inputText,
-            sender: "user",
-            timestamp: new Date(),
-        };
-
-        setMessages((prev) => [...prev, userMessage]);
-        const currentInput = inputText;
-        setInputText("");
-        setIsLoading(true);
-
-        try {
-            // Classify user intent
-            const classifiedIntent = classifyIntent(currentInput);
-
-            // Query database if applicable
-            let dbData = null;
-            if (classifiedIntent.dbQuery) {
-                dbData = await queryDatabase(
-                    classifiedIntent.intent,
-                    currentInput
-                );
-            }
-
-            // Generate AI response with context
-            const aiResponse = await generateEnhancedResponse(
-                currentInput,
-                dbData,
-                classifiedIntent
-            );
-
-            // Create bot response with potential navigation links
-            const botMessage = {
-                id: messages.length + 2,
-                text: aiResponse,
-                sender: "bot",
-                timestamp: new Date(),
-                hasLinks: classifiedIntent.route !== null,
-                navigationLink: classifiedIntent.route,
-                linkText: classifiedIntent.route
-                    ? `View ${
-                          classifiedIntent.intent.charAt(0).toUpperCase() +
-                          classifiedIntent.intent.slice(1)
-                      } Page`
-                    : null,
-                dbData: dbData,
-            };
-
-            setMessages((prev) => [...prev, botMessage]);
-        } catch (error) {
-            console.error("Error processing message:", error);
-            const errorMessage = {
-                id: messages.length + 2,
-                text: "I apologize, but I'm having trouble connecting right now. Please try again in a moment, or feel free to contact the CSE Department directly for immediate assistance.",
-                sender: "bot",
-                timestamp: new Date(),
-                hasLinks: false,
-            };
-            setMessages((prev) => [...prev, errorMessage]);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleLinkClick = (route) => {
-        // Navigate to the specified route
-        window.location.href = route;
-    };
-
-    const renderDatabaseInfo = (dbData, intent) => {
-        if (!dbData || !dbData.data) return null;
-
-        switch (intent) {
-            case "events":
-                return (
-                    <div className="mt-2 p-2 bg-blue-50 rounded border-l-4 border-blue-400">
-                        <h4 className="font-semibold text-sm text-blue-800 mb-1">
-                            Recent Events:
-                        </h4>
-                        {dbData.data.slice(0, 3).map((event, index) => (
-                            <div
-                                key={index}
-                                className="text-xs text-blue-700 mb-1"
-                            >
-                                • {event.name} -{" "}
-                                {new Date(
-                                    event.start_date
-                                ).toLocaleDateString()}
-                            </div>
-                        ))}
-                    </div>
-                );
-            case "faculty":
-                return (
-                    <div className="mt-2 p-2 bg-green-50 rounded border-l-4 border-green-400">
-                        <h4 className="font-semibold text-sm text-green-800 mb-1">
-                            Faculty Members:
-                        </h4>
-                        {dbData.data.slice(0, 3).map((faculty, index) => (
-                            <div
-                                key={index}
-                                className="text-xs text-green-700 mb-1"
-                            >
-                                • {faculty.name} - {faculty.designation}
-                            </div>
-                        ))}
-                    </div>
-                );
-            default:
-                return null;
-        }
-    };
-
-    const handleKeyPress = (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    };
-
-    const formatTime = (timestamp) => {
-        return timestamp.toLocaleTimeString("en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-        });
-    };
-
-    if (!isOpen) {
-        return (
-            <div className="fixed bottom-6 right-6 z-50">
-                <button
-                    onClick={() => setIsOpen(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110"
-                    aria-label="Open chatbot"
-                >
-                    <MessageCircle className="w-6 h-6" />
-                </button>
-            </div>
-        );
+  // Pull real, admin-managed site data once so answers are grounded in live content.
+  const loadSiteContext = useCallback(async () => {
+    if (siteContextRef.current !== null) return siteContextRef.current;
+    try {
+      const [programs, people] = await Promise.all([
+        axios.get(`${BACKEND_URL}/guest/site/programs`).then((r) => r.data).catch(() => []),
+        axios.get(`${BACKEND_URL}/guest/site/people`).then((r) => r.data).catch(() => []),
+      ]);
+      let ctx = "";
+      if (Array.isArray(programs) && programs.length) {
+        ctx += "\nLive programs on the portal:\n";
+        ctx += programs
+          .slice(0, 12)
+          .map(
+            (p) =>
+              `- ${p.title} (${p.level || "program"}${p.duration ? ", " + p.duration : ""}${
+                p.credits ? ", " + p.credits + " credits" : ""
+              })${p.description ? ": " + String(p.description).slice(0, 140) : ""}`
+          )
+          .join("\n");
+      }
+      if (Array.isArray(people) && people.length) {
+        ctx += "\n\nFaculty / staff on the portal:\n";
+        ctx += people
+          .slice(0, 25)
+          .map((p) => `- ${p.name}${p.role ? " — " + p.role : ""}${p.expertise?.length ? " (" + p.expertise.join(", ") + ")" : ""}`)
+          .join("\n");
+      }
+      siteContextRef.current = ctx;
+      return ctx;
+    } catch {
+      siteContextRef.current = "";
+      return "";
     }
+  }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      loadSiteContext();
+      setTimeout(() => inputRef.current?.focus(), 250);
+    }
+  }, [isOpen, loadSiteContext]);
+
+  const systemInstruction = (siteContext) =>
+    `You are the official CSEDU Assistant — a warm, precise virtual guide for the Department of Computer Science & Engineering, University of Dhaka. Answer ANY question a prospective student, current student, parent or visitor might ask about the department.
+
+Ground truth (authoritative):
+${CSEDU_FACTS}
+${siteContext ? "\nLive portal data (prefer this for specifics):\n" + siteContext : ""}
+
+Rules:
+- Be accurate, friendly and concise (usually 2–5 short paragraphs or a few bullet points).
+- Use "•" for bullets. Avoid heavy markdown, tables, or code fences.
+- If asked for exact fees, current deadlines, seat counts, or a specific person's contact, give what you know and advise contacting the department office / checking the relevant portal page.
+- For unrelated topics, gently steer back to CSEDU / University of Dhaka.
+- Never invent faculty names or figures that aren't in the ground truth or live data.
+- You may point users to portal pages: Admission Hub, Apply, People, Notice Board, Meetings.`;
+
+  const askGemini = async (history, userText, siteContext) => {
+    if (!GEMINI_API_KEY) throw new Error("no-key");
+    const contents = [
+      ...history
+        .filter((m) => m.sender === "user" || m.sender === "bot")
+        .slice(-8)
+        .map((m) => ({ role: m.sender === "user" ? "user" : "model", parts: [{ text: m.text }] })),
+      { role: "user", parts: [{ text: userText }] },
+    ];
+    const res = await fetch(GEMINI_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: systemInstruction(siteContext) }] },
+        contents,
+        generationConfig: { temperature: 0.4, maxOutputTokens: 900, topP: 0.9 },
+      }),
+    });
+    if (!res.ok) throw new Error(`api-${res.status}`);
+    const data = await res.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) throw new Error("empty");
+    return text.trim();
+  };
+
+  const sendMessage = async (preset) => {
+    const content = (preset ?? inputText).trim();
+    if (!content || isLoading) return;
+    const userMsg = { id: Date.now(), sender: "user", text: content, timestamp: new Date() };
+    const history = messages;
+    setMessages((prev) => [...prev, userMsg]);
+    setInputText("");
+    setIsLoading(true);
+    try {
+      const siteContext = await loadSiteContext();
+      let reply;
+      try {
+        reply = await askGemini(history, content, siteContext);
+      } catch (e) {
+        // Graceful, still-useful fallback grounded in static facts.
+        reply =
+          "I can't reach the live AI service right now, but here's what I can tell you:\n\n" +
+          "• CSEDU offers a 4-year BSc (Honours), MSc, MPhil and PhD in Computer Science & Engineering.\n" +
+          "• Admission is merit-based through the University of Dhaka Science-unit exam.\n" +
+          "• Use the Admission Hub to browse programs, or Apply to start an application.\n\n" +
+          "For exact fees and dates, please contact the department office.";
+      }
+      const link = linkFor(content + " " + reply);
+      setMessages((prev) => [
+        ...prev,
+        { id: Date.now() + 1, sender: "bot", text: reply, timestamp: new Date(), link },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const goto = (to) => {
+    setIsOpen(false);
+    if (/^https?:\/\//.test(to)) window.open(to, "_blank", "noopener");
+    else navigate(to);
+  };
+
+  const fmt = (t) => t.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+
+  // ---- Launcher (closed) ----
+  if (!isOpen) {
     return (
-        <div className="fixed bottom-6 right-6 z-50">
-            <div
-                className={`bg-white rounded-lg shadow-2xl border border-gray-200 transition-all duration-300 ${
-                    isMinimized ? "w-80 h-16" : "w-96 h-[500px]"
-                }`}
-            >
-                {/* Header */}
-                <div className="bg-blue-600 text-white p-4 rounded-t-lg flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                        <Bot className="w-5 h-5" />
-                        <div>
-                            <h3 className="font-semibold text-sm">
-                                DU CSE Smart Assistant
-                            </h3>
-                            <p className="text-blue-100 text-xs">
-                                AI-powered help with database access
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <button
-                            onClick={() => setIsMinimized(!isMinimized)}
-                            className="text-blue-100 hover:text-white transition-colors"
-                            aria-label={isMinimized ? "Maximize" : "Minimize"}
-                        >
-                            <Minimize2 className="w-4 h-4" />
-                        </button>
-                        <button
-                            onClick={() => setIsOpen(false)}
-                            className="text-blue-100 hover:text-white transition-colors"
-                            aria-label="Close chatbot"
-                        >
-                            <X className="w-4 h-4" />
-                        </button>
-                    </div>
-                </div>
-
-                {!isMinimized && (
-                    <>
-                        {/* Messages */}
-                        <div className="flex-1 overflow-y-auto p-4 h-80 bg-gray-50">
-                            <div className="space-y-3">
-                                {messages.map((message) => (
-                                    <div
-                                        key={message.id}
-                                        className={`flex ${
-                                            message.sender === "user"
-                                                ? "justify-end"
-                                                : "justify-start"
-                                        }`}
-                                    >
-                                        <div
-                                            className={`flex items-start space-x-2 max-w-[85%] ${
-                                                message.sender === "user"
-                                                    ? "flex-row-reverse space-x-reverse"
-                                                    : ""
-                                            }`}
-                                        >
-                                            <div
-                                                className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs ${
-                                                    message.sender === "user"
-                                                        ? "bg-blue-600"
-                                                        : "bg-gray-600"
-                                                }`}
-                                            >
-                                                {message.sender === "user" ? (
-                                                    <User className="w-4 h-4" />
-                                                ) : (
-                                                    <Bot className="w-4 h-4" />
-                                                )}
-                                            </div>
-                                            <div
-                                                className={`rounded-lg p-3 ${
-                                                    message.sender === "user"
-                                                        ? "bg-blue-600 text-white"
-                                                        : "bg-white text-gray-800 border border-gray-200"
-                                                }`}
-                                            >
-                                                <p className="text-sm whitespace-pre-wrap">
-                                                    {message.text}
-                                                </p>
-
-                                                {/* Render database information */}
-                                                {message.sender === "bot" &&
-                                                    message.dbData &&
-                                                    renderDatabaseInfo(
-                                                        message.dbData,
-                                                        classifyIntent(
-                                                            message.text
-                                                        ).intent
-                                                    )}
-
-                                                {/* Navigation link */}
-                                                {message.hasLinks &&
-                                                    message.navigationLink && (
-                                                        <button
-                                                            onClick={() =>
-                                                                handleLinkClick(
-                                                                    message.navigationLink
-                                                                )
-                                                            }
-                                                            className="mt-2 inline-flex items-center px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-md text-xs transition-colors"
-                                                        >
-                                                            <ExternalLink className="w-3 h-3 mr-1" />
-                                                            {message.linkText}
-                                                        </button>
-                                                    )}
-
-                                                <p
-                                                    className={`text-xs mt-1 ${
-                                                        message.sender ===
-                                                        "user"
-                                                            ? "text-blue-100"
-                                                            : "text-gray-500"
-                                                    }`}
-                                                >
-                                                    {formatTime(
-                                                        message.timestamp
-                                                    )}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                                {isLoading && (
-                                    <div className="flex justify-start">
-                                        <div className="flex items-start space-x-2 max-w-[80%]">
-                                            <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs">
-                                                <Bot className="w-4 h-4" />
-                                            </div>
-                                            <div className="bg-white text-gray-800 border border-gray-200 rounded-lg p-3">
-                                                <div className="flex space-x-1">
-                                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                                                    <div
-                                                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                                                        style={{
-                                                            animationDelay:
-                                                                "0.1s",
-                                                        }}
-                                                    ></div>
-                                                    <div
-                                                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                                                        style={{
-                                                            animationDelay:
-                                                                "0.2s",
-                                                        }}
-                                                    ></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                                <div ref={messagesEndRef} />
-                            </div>
-                        </div>
-
-                        {/* Input */}
-                        <div className="p-4 border-t border-gray-200 bg-white rounded-b-lg">
-                            <div className="flex space-x-2">
-                                <textarea
-                                    value={inputText}
-                                    onChange={(e) =>
-                                        setInputText(e.target.value)
-                                    }
-                                    onKeyPress={handleKeyPress}
-                                    placeholder="Ask about events, faculty, courses, admission..."
-                                    className="flex-1 resize-none border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    rows="2"
-                                    disabled={isLoading}
-                                />
-                                <button
-                                    onClick={sendMessage}
-                                    disabled={!inputText.trim() || isLoading}
-                                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-lg px-4 py-2 transition-colors"
-                                    aria-label="Send message"
-                                >
-                                    <Send className="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                )}
-            </div>
-        </div>
+      <button
+        onClick={() => setIsOpen(true)}
+        aria-label="Open CSEDU Assistant"
+        className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-gradient-to-br from-brand-600 to-accent-500 px-4 py-3.5 text-white shadow-xl shadow-brand-600/30 transition hover:scale-105 sm:bottom-6 sm:right-6"
+        style={{ paddingBottom: "max(0.875rem, env(safe-area-inset-bottom))" }}
+      >
+        <MessageCircle className="h-5 w-5" />
+        <span className="hidden text-sm font-semibold sm:inline">Ask CSEDU</span>
+      </button>
     );
+  }
+
+  // ---- Panel (open) ----
+  return (
+    <div
+      className="fixed inset-x-0 bottom-0 z-50 flex flex-col overflow-hidden border border-slate-200 bg-white shadow-2xl
+                 h-[85dvh] rounded-t-2xl
+                 sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[600px] sm:w-[400px] sm:rounded-2xl"
+      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      role="dialog"
+      aria-label="CSEDU Assistant"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-brand-600 to-accent-500 px-4 py-3 text-white">
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+            <Bot className="h-5 w-5" />
+          </span>
+          <div className="leading-tight">
+            <h3 className="text-sm font-semibold">CSEDU Assistant</h3>
+            <p className="flex items-center gap-1 text-[11px] text-white/80">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" /> Online · DU CSE
+            </p>
+          </div>
+        </div>
+        <button onClick={() => setIsOpen(false)} className="rounded-lg p-1.5 hover:bg-white/15" aria-label="Close">
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* Messages */}
+      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-slate-50 p-3 sm:p-4">
+        {messages.map((m) => (
+          <div key={m.id} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
+            <div
+              className={`flex max-w-[88%] items-start gap-2 ${
+                m.sender === "user" ? "flex-row-reverse" : ""
+              }`}
+            >
+              <span
+                className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white ${
+                  m.sender === "user" ? "bg-brand-600" : "bg-slate-700"
+                }`}
+              >
+                {m.sender === "user" ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+              </span>
+              <div
+                className={`rounded-2xl px-3.5 py-2.5 text-sm ${
+                  m.sender === "user"
+                    ? "rounded-tr-sm bg-brand-600 text-white"
+                    : "rounded-tl-sm border border-slate-200 bg-white text-slate-800"
+                }`}
+              >
+                <p className="whitespace-pre-wrap leading-relaxed">{m.text.replace(/\*\*/g, "")}</p>
+                {m.link && (
+                  <button
+                    onClick={() => goto(m.link.to)}
+                    className="mt-2 inline-flex items-center gap-1 rounded-lg bg-brand-500/10 px-2.5 py-1.5 text-xs font-medium text-brand-700 hover:bg-brand-500/20"
+                  >
+                    {m.link.label}
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </button>
+                )}
+                <p className={`mt-1 text-[10px] ${m.sender === "user" ? "text-white/70" : "text-slate-400"}`}>
+                  {fmt(m.timestamp)}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="flex items-start gap-2">
+              <span className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-slate-700 text-white">
+                <Bot className="h-4 w-4" />
+              </span>
+              <div className="rounded-2xl rounded-tl-sm border border-slate-200 bg-white px-4 py-3">
+                <div className="flex gap-1">
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-slate-400" />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-slate-400" style={{ animationDelay: "0.12s" }} />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-slate-400" style={{ animationDelay: "0.24s" }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Quick questions (only before the user has asked anything) */}
+        {messages.length === 1 && !isLoading && (
+          <div className="flex flex-wrap gap-2 pt-1">
+            {QUICK_QUESTIONS.map((q) => (
+              <button
+                key={q}
+                onClick={() => sendMessage(q)}
+                className="inline-flex items-center gap-1 rounded-full border border-brand-500/30 bg-white px-3 py-1.5 text-xs text-brand-700 hover:bg-brand-500/10"
+              >
+                <Sparkles className="h-3 w-3" /> {q}
+              </button>
+            ))}
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input */}
+      <div className="border-t border-slate-200 bg-white p-2.5 sm:p-3">
+        <div className="flex items-end gap-2">
+          <textarea
+            ref={inputRef}
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={onKeyDown}
+            placeholder="Ask about programs, admission, faculty…"
+            rows={1}
+            disabled={isLoading}
+            className="max-h-28 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+          />
+          <button
+            onClick={() => sendMessage()}
+            disabled={!inputText.trim() || isLoading}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-600 text-white transition hover:bg-brand-700 disabled:bg-slate-300"
+            aria-label="Send"
+          >
+            <Send className="h-4 w-4" />
+          </button>
+        </div>
+        <p className="mt-1.5 text-center text-[10px] text-slate-400">CSEDU Assistant · University of Dhaka</p>
+      </div>
+    </div>
+  );
 };
 
 export default Chatbot;

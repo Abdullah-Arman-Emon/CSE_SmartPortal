@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { staggerContainer, fadeUp } from "../motion/motion";
+import HeroCanvas from "../three/HeroCanvas";
 
 /**
  * Shared inner-page hero band (mesh gradient + breadcrumb + title/sub +
@@ -12,6 +13,8 @@ export default function PageHero({ eyebrow, title, sub, crumbs = [], stats, chil
 
   return (
     <section className="mesh-bg relative overflow-hidden text-white">
+      {/* Same animated constellation backdrop as the homepage hero */}
+      <HeroCanvas />
       <div className="pointer-events-none absolute inset-0 opacity-[0.15] [background-image:radial-gradient(rgba(255,255,255,0.35)_1px,transparent_1px)] [background-size:28px_28px]" />
       <motion.div
         className="relative mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6 md:pb-20 md:pt-32"

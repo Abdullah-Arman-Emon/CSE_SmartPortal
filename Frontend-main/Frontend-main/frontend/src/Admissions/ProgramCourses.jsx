@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { resourceUrl } from "../components/public/content";
+import HeroCanvas from "../components/three/HeroCanvas";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -116,8 +118,9 @@ function ProgramCourses() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-100 to-gray-200">
             {/* Header with breadcrumb */}
-            <div className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-700 text-white">
-                <div className="max-w-7xl mx-auto px-4 py-6">
+            <div className="mesh-bg overflow-hidden text-white relative">
+                <HeroCanvas />
+                <div className="relative z-10 max-w-7xl mx-auto px-4 py-6">
                     <div className="flex items-center text-sm mb-2">
                         <Link to="/" className="hover:text-gray-300">
                             Home
@@ -391,11 +394,13 @@ function ProgramCourses() {
                                     >
                                         <div className="h-32 bg-gradient-to-r from-slate-700 to-slate-600 flex items-center justify-center p-4 relative">
                                             {/* Replace the placeholder with actual image */}
+                                            {course.imageUrl && (
                                             <img
-                                                src={course.imageUrl}
+                                                src={resourceUrl(course.imageUrl)}
                                                 alt={course.title}
                                                 className="absolute inset-0 w-full h-full object-cover opacity-40"
                                             />
+                                            )}
                                             <div className="absolute top-2 left-2 z-10 bg-white shadow-md rounded px-2 py-1">
                                                 <span className="text-slate-700 font-medium text-xs">
                                                     {course.code}

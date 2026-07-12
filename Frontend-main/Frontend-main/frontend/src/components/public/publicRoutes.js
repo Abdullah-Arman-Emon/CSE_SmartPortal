@@ -6,6 +6,7 @@ const DARK_HERO_PATHS = [
   /^\/people\/?$/,
   /^\/chairman\/?$/,
   /^\/admission-hub\/?$/,
+  /^\/curriculum\/?$/,
   /^\/apply\/?$/,
   /^\/notice-board\/?$/,
   /^\/meetings\/?$/,
