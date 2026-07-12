@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { resourceUrl } from "../components/public/content";
 import HeroCanvas from "../components/three/HeroCanvas";
+import { motion, useReducedMotion } from "framer-motion";
+import { staggerContainer, listItem, viewportOnce } from "../components/motion/motion";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -10,6 +12,7 @@ const semesterPrefix = (course) => (course.semester || "").split(" ")[0];
 
 function ProgramCourses() {
     const { programId } = useParams();
+    const reduce = useReducedMotion();
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [programTitle, setProgramTitle] = useState("");
@@ -386,11 +389,20 @@ function ProgramCourses() {
 
                         {/* Courses grid */}
                         {filteredCourses.length > 0 && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <motion.div
+                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                                variants={staggerContainer(0.06)}
+                                initial={reduce ? false : "hidden"}
+                                whileInView="visible"
+                                viewport={viewportOnce}
+                            >
                                 {filteredCourses.map((course) => (
-                                    <div
+                                    <motion.div
                                         key={course.id}
-                                        className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
+                                        variants={listItem}
+                                        whileHover={reduce ? undefined : { y: -6 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                                        className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg"
                                     >
                                         <div className="h-32 bg-gradient-to-r from-slate-700 to-slate-600 flex items-center justify-center p-4 relative">
                                             {/* Replace the placeholder with actual image */}
@@ -436,9 +448,9 @@ function ProgramCourses() {
                                                 </Link>
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
-                            </div>
+                            </motion.div>
                         )}
                     </div>
                 </div>

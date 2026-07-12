@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import HeroCanvas from "../components/three/HeroCanvas";
+import Reveal from "../components/motion/Reveal";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -64,7 +65,7 @@ function CourseSyllabus() {
 
             {/* White background content area */}
             <div className="flex-grow bg-white py-8">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <Reveal className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="mb-8">
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                             Course Schedule
@@ -138,7 +139,7 @@ function CourseSyllabus() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </Reveal>
             </div>
         </div>
     );

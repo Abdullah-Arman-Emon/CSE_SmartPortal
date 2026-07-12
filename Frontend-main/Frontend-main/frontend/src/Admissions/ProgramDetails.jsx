@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { resourceUrl } from "../components/public/content";
 import HeroCanvas from "../components/three/HeroCanvas";
+import Reveal from "../components/motion/Reveal";
+import { slideRight } from "../components/motion/motion";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -145,7 +147,7 @@ function ProgramDetails() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
                 <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
                     {/* Left column - Main content */}
-                    <div className="lg:w-2/3">
+                    <Reveal className="lg:w-2/3">
                         <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6 sm:mb-8">
                             {/* Program header with image */}
                             <div className="h-48 sm:h-56 lg:h-64 relative overflow-hidden">
@@ -583,10 +585,10 @@ function ProgramDetails() {
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </Reveal>
 
                     {/* Right column - Sidebar */}
-                    <div className="lg:w-1/3">
+                    <Reveal variant={slideRight} delay={0.1} className="lg:w-1/3">
                         {/* Related Programs */}
                         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
                             <div className="bg-slate-700 text-white p-3 sm:p-4">
@@ -665,7 +667,7 @@ function ProgramDetails() {
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </Reveal>
                 </div>
             </div>
 
