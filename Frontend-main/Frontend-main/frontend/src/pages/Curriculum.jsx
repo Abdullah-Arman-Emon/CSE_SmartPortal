@@ -128,43 +128,31 @@ export default function Curriculum() {
             {credits.toFixed(2)} cr
           </span>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-xs uppercase tracking-wide text-slate-400">
-                <th className="px-4 py-2 font-medium sm:px-5">Code</th>
-                <th className="px-4 py-2 font-medium">Title</th>
-                <th className="px-4 py-2 font-medium">Cr</th>
-                <th className="px-4 py-2 font-medium">Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map((c) => (
-                <tr key={c.id} className="border-t border-slate-50">
-                  <td className="whitespace-nowrap px-4 py-2.5 font-medium text-slate-900 sm:px-5">
-                    {c.course_code}
-                  </td>
-                  <td className="px-4 py-2.5 text-slate-700">
-                    {c.title}
-                    {c.is_lab && (
-                      <FlaskConical className="ml-1.5 inline h-3.5 w-3.5 text-slate-400" aria-label="Lab" />
-                    )}
-                  </td>
-                  <td className="px-4 py-2.5 text-slate-600">{c.credit}</td>
-                  <td className="px-4 py-2.5">
-                    <span
-                      className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-medium ${
-                        CATEGORY_STYLES[c.category] || "bg-slate-100 text-slate-700"
-                      }`}
-                    >
-                      {CATEGORY_LABELS[c.category] || c.category}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ul className="divide-y divide-slate-50">
+          {list.map((c) => (
+            <li key={c.id} className="flex items-start gap-3 px-4 py-3 sm:px-5">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm font-semibold text-slate-900">{c.course_code}</span>
+                  {c.is_lab && (
+                    <FlaskConical className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-label="Lab" />
+                  )}
+                </div>
+                <p className="mt-0.5 text-sm leading-snug text-slate-600">{c.title}</p>
+              </div>
+              <div className="flex shrink-0 flex-col items-end gap-1">
+                <span className="text-sm font-medium text-slate-700">{c.credit} cr</span>
+                <span
+                  className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                    CATEGORY_STYLES[c.category] || "bg-slate-100 text-slate-700"
+                  }`}
+                >
+                  {CATEGORY_LABELS[c.category] || c.category}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
         {hasElective && (
           <p className="border-t border-slate-100 px-4 py-2.5 text-xs text-slate-500 sm:px-5">
             Elective courses: choose one option (with its lab, where applicable).

@@ -28,7 +28,7 @@ def get_db():
 
 # Server-side owner key — kept in backend env ONLY (never shipped to the browser).
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 CSEDU_FACTS = (
     "Department of Computer Science & Engineering (CSEDU), University of Dhaka. Established 1992 "
@@ -166,6 +166,14 @@ def chatbot_ask(payload: AskPayload, db: Session = Depends(get_db)):
             data = json.loads(resp.read().decode("utf-8"))
         text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
         return {"reply": text, "grounded": bool(grounding)}
+    except urllib.error.HTTPError as e:
+        body = ""
+        try:
+            body = e.read().decode("utf-8")[:500]
+        except Exception:
+            pass
+        print(f"[chatbot_ask] Gemini HTTP {e.code}: {body}")
+        return {"reply": _static_fallback(), "grounded": False}
     except Exception as e:
         print(f"[chatbot_ask] Gemini call failed: {e}")
         return {"reply": _static_fallback(), "grounded": False}
