@@ -17,6 +17,15 @@ from app.Rakib.model.notice import Notice
 
 router = APIRouter(prefix="/v1/chatbot", tags=["Chatbot"])
 
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 # Server-side owner key — kept in backend env ONLY (never shipped to the browser).
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
@@ -141,15 +150,16 @@ def chatbot_ask(payload: AskPayload, db: Session = Depends(get_db)):
         "contents": contents,
         "generationConfig": {"temperature": 0.4, "maxOutputTokens": 900, "topP": 0.9},
     }
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
-        f"?key={GEMINI_API_KEY}"
-    )
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
     try:
         req = urllib.request.Request(
             url,
             data=json.dumps(body).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                # Newer Gemini "auth keys" (AQ.*) work via this header.
+                "x-goog-api-key": GEMINI_API_KEY,
+            },
             method="POST",
         )
         with urllib.request.urlopen(req, timeout=25) as resp:
@@ -159,14 +169,6 @@ def chatbot_ask(payload: AskPayload, db: Session = Depends(get_db)):
     except Exception as e:
         print(f"[chatbot_ask] Gemini call failed: {e}")
         return {"reply": _static_fallback(), "grounded": False}
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 class ChatbotQuery(BaseModel):
