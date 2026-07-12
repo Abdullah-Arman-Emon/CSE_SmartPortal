@@ -5,8 +5,11 @@ import {
   Outlet,
   useNavigate,
   useOutletContext,
+  useLocation,
 } from "react-router-dom";
 import axios from "axios";
+import { LayoutGrid, BookOpen, ClipboardCheck, MessageSquare } from "lucide-react";
+import BottomNav from "../components/ui/BottomNav";
 
 import CreateNewCourse from "./CreateNewCourse";
 import MyCourses from "./MyCourses";
@@ -267,6 +270,12 @@ function TeacherDashboard() {
   });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  // active-path helper for the mobile bottom nav
+  const atPath = (seg) =>
+    seg === ""
+      ? /\/teacher-dashboard\/?$/.test(location.pathname)
+      : location.pathname.includes(`/teacher-dashboard/${seg}`);
 
   useEffect(() => {
     if (!user?.isAuthenticated) {
@@ -416,12 +425,24 @@ function TeacherDashboard() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main Content — pb-24 on mobile keeps content clear of the fixed bottom nav */}
       <div className="flex-1 bg-slate-50 overflow-auto w-full pt-14 lg:pt-0">
-        <div className="p-4 sm:p-6 md:p-8">
+        <div className="p-4 sm:p-6 md:p-8 pb-24 lg:pb-8">
           <Outlet context={{ user, teacherProfile, dashboardData }} />
         </div>
       </div>
+
+      {/* Android-style bottom nav (mobile only) — parity with Student/Admin panels */}
+      <BottomNav
+        onMore={() => setSidebarOpen(true)}
+        moreActive={sidebarOpen}
+        items={[
+          { key: "home", label: "Home", Icon: LayoutGrid, active: atPath(""), onClick: () => navigate("/teacher-dashboard") },
+          { key: "courses", label: "Courses", Icon: BookOpen, active: atPath("courses"), onClick: () => navigate("/teacher-dashboard/courses") },
+          { key: "attendance", label: "Attendance", Icon: ClipboardCheck, active: atPath("attendance"), onClick: () => navigate("/teacher-dashboard/attendance") },
+          { key: "messages", label: "Messages", Icon: MessageSquare, active: atPath("messages"), onClick: () => navigate("/teacher-dashboard/messages") },
+        ]}
+      />
     </div>
   );
 }

@@ -35,6 +35,31 @@ body {
   background-color: #f8fafc;
   font-family: var(--font-sans);
 }
+
+/* ---------- Mobile responsiveness safety net ----------
+   The app has many admin/teacher/student pages; a few widen past the viewport
+   on phones (wide tables, fixed widths) and cause the whole page to scroll
+   sideways / look "broken". These rules stop the horizontal blow-out globally
+   without touching individual pages:
+   - no sideways scroll of the page body itself
+   - any data table scrolls inside its own container instead of the page
+   - media never overflows its column                                          */
+html, body {
+  max-width: 100%;
+  /* `clip` (not `hidden`) prevents horizontal blow-out WITHOUT turning the body
+     into a scroll container — so `position: sticky` headers keep working. */
+  overflow-x: clip;
+}
+/* Wide tables: let them scroll within their own box on small screens. */
+table {
+  max-width: 100%;
+}
+@media (max-width: 640px) {
+  .overflow-x-auto { -webkit-overflow-scrolling: touch; }
+  /* A bare <table> with no scroll wrapper still won't force the page wider. */
+  table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+img, video, canvas, svg { max-width: 100%; height: auto; }
 h1, h2, h3, .font-display {
   font-family: var(--font-display);
 }

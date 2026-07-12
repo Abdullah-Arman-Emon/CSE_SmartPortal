@@ -2,8 +2,10 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-RUN npm ci
+# package-lock.json is gitignored in this repo, so use `npm install`
+# (a `COPY package-lock.json` would fail the build when the lock file is absent).
+COPY package.json ./
+RUN npm install
 
 COPY . .
 

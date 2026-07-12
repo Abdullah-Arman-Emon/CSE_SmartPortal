@@ -51,6 +51,7 @@ import AdminWebsite from "./AdminWebsite";
 import AdminRoutine from "./AdminRoutine";
 import Messenger from "../components/Messenger";
 import NotificationBell from "../components/NotificationBell";
+import BottomNav from "../components/ui/BottomNav";
 
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -608,7 +609,7 @@ function AdminDashboard() {
 
 
                 {/* Main Content */}
-                <main className="flex-1 min-w-0 p-4 sm:p-6">
+                <main className="flex-1 min-w-0 p-4 sm:p-6 pb-24 md:pb-6">
                     {activeTab === "dashboard" && (
                         <motion.div
                             className="space-y-6"
@@ -1066,6 +1067,18 @@ function AdminDashboard() {
                     {activeTab === "website" && <AdminWebsite />}
                 </main>
             </div>
+
+            {/* Android-style bottom nav (mobile only) */}
+            <BottomNav
+                onMore={() => setIsMobileMenuOpen(true)}
+                moreActive={isMobileMenuOpen}
+                items={[
+                    { key: "dashboard", label: "Home", Icon: BarChart3, active: activeTab === "dashboard", onClick: () => setActiveTab("dashboard") },
+                    { key: "users", label: "Users", Icon: Users, active: activeTab === "users", onClick: () => setActiveTab("users") },
+                    { key: "routine", label: "Routine", Icon: CalendarClock, active: activeTab === "routine", onClick: () => setActiveTab("routine") },
+                    { key: "messages", label: "Messages", Icon: MessageSquare, active: activeTab === "messages", onClick: () => setActiveTab("messages") },
+                ]}
+            />
         </div>
     );
 

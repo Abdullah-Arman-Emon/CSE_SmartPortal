@@ -16,12 +16,19 @@ export function parseContent(raw, fallback) {
   }
 }
 
-// Attachment/image URLs are stored relative ("/resources/x.png"); prefix
-// with the backend origin only at render time.
+// Resolve a stored image/attachment value to a loadable URL.
+//   - absolute (http/https/protocol-relative/data:)  -> used as-is
+//   - backend uploads under /resources/...            -> routed via the API origin
+//   - anything else (e.g. "/1.jpg", "/chairman.jpg")  -> a FRONTEND public asset,
+//                                                        served as-is by the SPA host
+// The /resources check is the key fix: only backend-served files get the
+// BACKEND_URL (/api) prefix; frontend public assets must NOT, or they 404.
 export function resourceUrl(url) {
   if (!url) return "";
   if (/^(https?:)?\/\//.test(url) || url.startsWith("data:")) return url;
-  return `${BACKEND_URL}${url.startsWith("/") ? "" : "/"}${url}`;
+  const path = url.startsWith("/") ? url : `/${url}`;
+  if (path.startsWith("/resources")) return `${BACKEND_URL}${path}`;
+  return path;
 }
 
 export function formatDate(value, opts) {
