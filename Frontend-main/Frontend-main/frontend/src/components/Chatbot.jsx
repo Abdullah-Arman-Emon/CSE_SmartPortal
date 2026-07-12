@@ -1,25 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { MessageCircle, Send, X, Bot, User, Sparkles, ArrowUpRight } from "lucide-react";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-// Client-side key (build-time). For a hardened setup, proxy this through the
-// backend; here we keep it optional and degrade gracefully when absent.
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-const GEMINI_MODEL = "gemini-2.0-flash";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
-
-// Static, always-available knowledge so the bot is useful even offline / keyless.
-const CSEDU_FACTS = `Department of Computer Science & Engineering (CSEDU), University of Dhaka.
-- Established 1992 (as part of DU, founded 1921 — "Oxford of the East"). Campus: Dhaka, Bangladesh.
-- Programs: 4-year BSc (Honours) in CSE, MSc in CSE, MPhil, and PhD.
-- BSc structure: ~150 credits across 8 semesters; theory + lab (lab courses carry fractional credits); minimum CGPA 2.00 to graduate (2.50 for some categories/MSc).
-- Curriculum: programming, data structures, algorithms, databases, operating systems, computer networks, AI/ML, data science, software engineering, cybersecurity, computer graphics, theory of computation.
-- Admission: highly competitive, merit-based via the DU admission (Science unit) examination; limited seats.
-- Facilities: modern computer labs, research labs, seminar library; active clubs, programming contests (ACM ICPC), hackathons, seminars.
-- Alumni work at Google, Microsoft, Meta, Amazon and leading Bangladeshi tech firms; alumni association: cseduaa.org.
-- Website: this portal. For exact fees, dates and faculty office hours, contact the department office.`;
+// AI runs server-side (backend holds the Gemini key + grounds answers in DB data),
+// so no key is ever shipped to the browser.
 
 const QUICK_QUESTIONS = [
   "What programs does CSEDU offer?",
@@ -57,116 +43,45 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
-  const siteContextRef = useRef(null); // cached live site data string
 
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
 
-  // Pull real, admin-managed site data once so answers are grounded in live content.
-  const loadSiteContext = useCallback(async () => {
-    if (siteContextRef.current !== null) return siteContextRef.current;
-    try {
-      const [programs, people] = await Promise.all([
-        axios.get(`${BACKEND_URL}/guest/site/programs`).then((r) => r.data).catch(() => []),
-        axios.get(`${BACKEND_URL}/guest/site/people`).then((r) => r.data).catch(() => []),
-      ]);
-      let ctx = "";
-      if (Array.isArray(programs) && programs.length) {
-        ctx += "\nLive programs on the portal:\n";
-        ctx += programs
-          .slice(0, 12)
-          .map(
-            (p) =>
-              `- ${p.title} (${p.level || "program"}${p.duration ? ", " + p.duration : ""}${
-                p.credits ? ", " + p.credits + " credits" : ""
-              })${p.description ? ": " + String(p.description).slice(0, 140) : ""}`
-          )
-          .join("\n");
-      }
-      if (Array.isArray(people) && people.length) {
-        ctx += "\n\nFaculty / staff on the portal:\n";
-        ctx += people
-          .slice(0, 25)
-          .map((p) => `- ${p.name}${p.role ? " — " + p.role : ""}${p.expertise?.length ? " (" + p.expertise.join(", ") + ")" : ""}`)
-          .join("\n");
-      }
-      siteContextRef.current = ctx;
-      return ctx;
-    } catch {
-      siteContextRef.current = "";
-      return "";
-    }
-  }, []);
-
   useEffect(() => {
-    if (isOpen) {
-      loadSiteContext();
-      setTimeout(() => inputRef.current?.focus(), 250);
-    }
-  }, [isOpen, loadSiteContext]);
-
-  const systemInstruction = (siteContext) =>
-    `You are the official CSEDU Assistant — a warm, precise virtual guide for the Department of Computer Science & Engineering, University of Dhaka. Answer ANY question a prospective student, current student, parent or visitor might ask about the department.
-
-Ground truth (authoritative):
-${CSEDU_FACTS}
-${siteContext ? "\nLive portal data (prefer this for specifics):\n" + siteContext : ""}
-
-Rules:
-- Be accurate, friendly and concise (usually 2–5 short paragraphs or a few bullet points).
-- Use "•" for bullets. Avoid heavy markdown, tables, or code fences.
-- If asked for exact fees, current deadlines, seat counts, or a specific person's contact, give what you know and advise contacting the department office / checking the relevant portal page.
-- For unrelated topics, gently steer back to CSEDU / University of Dhaka.
-- Never invent faculty names or figures that aren't in the ground truth or live data.
-- You may point users to portal pages: Admission Hub, Apply, People, Notice Board, Meetings.`;
-
-  const askGemini = async (history, userText, siteContext) => {
-    if (!GEMINI_API_KEY) throw new Error("no-key");
-    const contents = [
-      ...history
-        .filter((m) => m.sender === "user" || m.sender === "bot")
-        .slice(-8)
-        .map((m) => ({ role: m.sender === "user" ? "user" : "model", parts: [{ text: m.text }] })),
-      { role: "user", parts: [{ text: userText }] },
-    ];
-    const res = await fetch(GEMINI_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: systemInstruction(siteContext) }] },
-        contents,
-        generationConfig: { temperature: 0.4, maxOutputTokens: 900, topP: 0.9 },
-      }),
-    });
-    if (!res.ok) throw new Error(`api-${res.status}`);
-    const data = await res.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) throw new Error("empty");
-    return text.trim();
-  };
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 250);
+  }, [isOpen]);
 
   const sendMessage = async (preset) => {
     const content = (preset ?? inputText).trim();
     if (!content || isLoading) return;
     const userMsg = { id: Date.now(), sender: "user", text: content, timestamp: new Date() };
-    const history = messages;
+    const history = messages
+      .filter((m) => m.sender === "user" || m.sender === "bot")
+      .slice(-8)
+      .map((m) => ({ role: m.sender === "user" ? "user" : "model", text: m.text }));
     setMessages((prev) => [...prev, userMsg]);
     setInputText("");
     setIsLoading(true);
     try {
-      const siteContext = await loadSiteContext();
       let reply;
       try {
-        reply = await askGemini(history, content, siteContext);
-      } catch (e) {
-        // Graceful, still-useful fallback grounded in static facts.
+        // AI is served by our backend (key stays server-side, answers grounded in DB data).
+        const res = await axios.post(`${BACKEND_URL}/v1/chatbot/ask`, {
+          message: content,
+          history,
+        });
+        reply = res.data?.reply;
+      } catch {
+        reply = null;
+      }
+      if (!reply) {
         reply =
-          "I can't reach the live AI service right now, but here's what I can tell you:\n\n" +
+          "I can't reach the assistant right now, but here's what I can tell you:\n\n" +
           "• CSEDU offers a 4-year BSc (Honours), MSc, MPhil and PhD in Computer Science & Engineering.\n" +
           "• Admission is merit-based through the University of Dhaka Science-unit exam.\n" +
-          "• Use the Admission Hub to browse programs, or Apply to start an application.\n\n" +
+          "• Use the Curriculum and Admission Hub pages, or Apply to start an application.\n\n" +
           "For exact fees and dates, please contact the department office.";
       }
       const link = linkFor(content + " " + reply);

@@ -14,11 +14,6 @@ COPY . .
 ARG VITE_BACKEND_URL=/api
 ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
 
-# Gemini key for the CSEDU chatbot (optional — the bot degrades gracefully
-# without it). Supply via build arg or docker-compose build.args.
-ARG VITE_GEMINI_API_KEY=""
-ENV VITE_GEMINI_API_KEY=${VITE_GEMINI_API_KEY}
-
 RUN npm run build
 
 FROM nginx:stable-alpine
