@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { motion, useReducedMotion } from "framer-motion";
 import { GraduationCap, BookOpen, FlaskConical, Layers, Clock, Award, ArrowRight } from "lucide-react";
 import PageHero from "../components/public/PageHero";
+import Reveal from "../components/motion/Reveal";
+import { staggerContainer, listItem, scaleIn, viewportOnce } from "../components/motion/motion";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -84,6 +87,7 @@ export default function Curriculum() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     axios
@@ -178,13 +182,22 @@ export default function Curriculum() {
 
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
         {/* Program overview cards */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          variants={staggerContainer(0.1)}
+          initial={reduce ? false : "hidden"}
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
           {PROGRAMS.map((p) => {
             const Icon = p.icon;
             return (
-              <div
+              <motion.div
                 key={p.key}
-                className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                variants={scaleIn}
+                whileHover={reduce ? undefined : { y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-xl"
               >
                 <span
                   className={`mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${p.accent} text-white shadow-lg`}
@@ -203,10 +216,10 @@ export default function Curriculum() {
                 <p className="mt-3 border-t border-slate-100 pt-3 text-xs leading-relaxed text-slate-500">
                   {p.note}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* BSc curriculum */}
         <div className="mt-14">
@@ -241,7 +254,7 @@ export default function Curriculum() {
             !error &&
             [1, 2, 3, 4].map((year) =>
               grouped[year] ? (
-                <div key={year} className="mt-10">
+                <Reveal key={year} className="mt-10">
                   <h3 className="font-display mb-4 flex items-center gap-2 text-lg font-bold text-slate-800">
                     <Clock className="h-5 w-5 text-brand-500" />
                     {YEAR_LABELS[year]}
@@ -257,7 +270,7 @@ export default function Curriculum() {
                       ) : null
                     )}
                   </div>
-                </div>
+                </Reveal>
               ) : null
             )}
         </div>
