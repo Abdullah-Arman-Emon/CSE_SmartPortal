@@ -25,7 +25,12 @@ def get_db():
 
 @router.post("/create", response_model=EventOut)
 def create_event(event_data: EventCreate, db: Session = Depends(get_db)):
-    event = Event(**event_data.model_dump())
+    data = event_data.model_dump()
+    # end_date is optional in the API but NOT NULL in the DB — fall back to
+    # start_date for single-point events so creation never 500s.
+    if data.get("end_date") is None:
+        data["end_date"] = data["start_date"]
+    event = Event(**data)
     db.add(event)
     db.commit()
     db.refresh(event)

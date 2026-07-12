@@ -22,8 +22,8 @@ def create_meeting(data: MeetingCreate, db: Session = Depends(get_db)):
     # if data.meeting_url is None:
     #     data.meeting_url = create_google_meet_event(title=data.title, start_time=data.date_time)
     
-    if data.meeting_url is None:
-        raise HTTPException(status_code=403, detail="meeting link cannot be created")
+    if not data.meeting_url:
+        raise HTTPException(status_code=400, detail="A meeting link (URL) is required.")
     
     print(f"meeting url : {data.meeting_url}")
 
