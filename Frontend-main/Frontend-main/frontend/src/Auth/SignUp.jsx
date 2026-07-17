@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Mail, Lock, UserCog, Hash, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, UserCog, Hash, AlertCircle, CheckCircle2, Sparkles } from "lucide-react";
 
 import AuthLayout from "./AuthLayout";
 import Spinner from "../components/ui/Spinner";
@@ -61,7 +61,7 @@ const SignUp = () => {
       subtitle={
         <div className="mb-8 text-center lg:text-left">
           <h1 className="text-3xl font-bold text-white mb-1">Create your account</h1>
-          <p className="text-slate-400 text-sm">Join the CSE SmartPortal.</p>
+          <p className="text-slate-400 text-sm">Create your account to access the student portal experience.</p>
         </div>
       }
     >
@@ -130,6 +130,13 @@ const SignUp = () => {
             </div>
           </div>
         )}
+
+        <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-3 text-sm text-slate-300">
+          <div className="flex items-center gap-2 font-medium text-amber-300">
+            <Sparkles size={16} /> Demo note
+          </div>
+          <p className="mt-1">This portal is designed for role-based access and a smoother onboarding experience for new students.</p>
+        </div>
 
         <button
           type="submit" disabled={submitting}

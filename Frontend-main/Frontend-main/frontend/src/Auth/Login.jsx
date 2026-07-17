@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { Mail, Lock, AlertCircle } from "lucide-react";
+import { Mail, Lock, AlertCircle, Sparkles } from "lucide-react";
 
 import { AuthContext } from "../context/AuthContext";
 import AuthLayout from "./AuthLayout";
@@ -80,7 +80,7 @@ function Login() {
       subtitle={
         <div className="mb-8 text-center lg:text-left">
           <h1 className="text-3xl font-bold text-white mb-1">Welcome back</h1>
-          <p className="text-slate-400 text-sm">Log in to access your dashboard.</p>
+          <p className="text-slate-400 text-sm">Sign in to access your student, teacher, or admin workspace.</p>
         </div>
       }
     >
@@ -116,7 +116,7 @@ function Login() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/40 px-3 py-2">
           <label className="flex items-center gap-2 text-slate-400 text-sm cursor-pointer">
             <input
               type="checkbox" name="rememberMe"
@@ -128,6 +128,13 @@ function Login() {
           <span className="text-slate-600 text-sm cursor-not-allowed" title="Please contact the department office">
             Forgot password?
           </span>
+        </div>
+
+        <div className="rounded-lg border border-indigo-500/20 bg-indigo-500/10 p-3 text-sm text-slate-300">
+          <div className="flex items-center gap-2 font-medium text-indigo-300">
+            <Sparkles size={16} /> Freshers tip
+          </div>
+          <p className="mt-1">Use the assistant on the homepage if you need guidance with admission, courses, or student tasks.</p>
         </div>
 
         <button

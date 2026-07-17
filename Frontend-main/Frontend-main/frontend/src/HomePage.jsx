@@ -49,6 +49,7 @@ function HomePage() {
     ]);
 
     const [currentGalleryImage, setCurrentGalleryImage] = useState(0);
+    const [campusVideoError, setCampusVideoError] = useState(false);
 
     // Campus Life section content — admin-managed, with static fallback
     const [campusContent, setCampusContent] = useState({
@@ -664,34 +665,59 @@ function HomePage() {
             <Navbar />
 
             {/* Enhanced Hero section */}
-            <section className="bg-gradient-to-r from-slate-700 via-gray-800 to-slate-700 text-white py-20 relative overflow-hidden">
-                <div className="absolute inset-0 bg-black opacity-20"></div>
+            <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white py-20">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(251,191,36,0.22),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(99,102,241,0.24),_transparent_32%)]" />
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
-                            Department of Computer Science & Engineering
-                        </h1>
-                        <h2 className="text-2xl md:text-3xl mb-8 animate-fade-in-delay">
-                            University of Dhaka
-                        </h2>
-                        <p className="text-xl max-w-4xl mx-auto text-slate-200 mb-8 animate-fade-in-delay-2">
-                            Pioneering excellence in computer science education
-                            and research since 1992. Shaping the future of
-                            technology through innovation and discovery.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link
-                                to="/chairman"
-                                className="bg-amber-500 hover:bg-amber-600 text-slate-800 px-8 py-3 rounded-lg font-medium ansition-colors"
-                            >
-                                Learn More
-                            </Link>
-                            <Link
-                                to="/apply"
-                                className="border-2 border-amber-500 text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-slate-800 transition-colors"
-                            >
-                                Apply Now
-                            </Link>
+                    <div className="grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+                        <div className="text-center lg:text-left">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-500/10 px-3 py-1 text-sm font-medium text-amber-200 mb-5">
+                                <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+                                Smart university portal for modern students
+                            </div>
+                            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                                Department of Computer Science & Engineering
+                            </h1>
+                            <h2 className="text-2xl md:text-3xl mb-8 text-slate-200">
+                                University of Dhaka
+                            </h2>
+                            <p className="text-xl max-w-3xl text-slate-300 mb-8">
+                                A seamless digital experience for admissions, academics, communication, finance, and student support — all designed for freshers and experienced learners alike.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                <Link
+                                    to="/chairman"
+                                    className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-8 py-3 rounded-lg font-semibold transition-colors"
+                                >
+                                    Learn More
+                                </Link>
+                                <Link
+                                    to="/apply"
+                                    className="border border-white/20 bg-white/10 hover:bg-white hover:text-slate-900 px-8 py-3 rounded-lg font-semibold transition-colors"
+                                >
+                                    Apply Now
+                                </Link>
+                            </div>
+                        </div>
+
+                        <div className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur-xl p-6 shadow-2xl">
+                            <div className="rounded-xl border border-amber-400/20 bg-slate-900/70 p-5">
+                                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-300">Live demo highlight</p>
+                                <h3 className="mt-2 text-2xl font-semibold text-white">Ask the CSEDU Assistant</h3>
+                                <p className="mt-3 text-sm text-slate-300">
+                                    Freshers can ask questions like admission steps, assignment guidance, exam updates, and payment help — all from one smart assistant.
+                                </p>
+                                <div className="mt-5 space-y-3">
+                                    <div className="rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2 text-sm text-slate-200">
+                                        “How do I apply for admission?”
+                                    </div>
+                                    <div className="rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2 text-sm text-slate-200">
+                                        “How do I submit an assignment?”
+                                    </div>
+                                    <div className="rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2 text-sm text-slate-200">
+                                        “How can I check my results?”
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1269,7 +1295,7 @@ function HomePage() {
                             <p className="mb-1">
                                 Department of Computer Science & Engineering
                             </p>
-                            <p className="mb-1">Faculty of Science</p>
+                            <p className="mb-1">Faculty of Engineering & Technology</p>
                             <p className="mb-1">University of Dhaka</p>
                             <p className="mb-3">Dhaka 1000, Bangladesh</p>
                             <div className="mt-4 pt-3 border-t border-slate-600 space-y-2">

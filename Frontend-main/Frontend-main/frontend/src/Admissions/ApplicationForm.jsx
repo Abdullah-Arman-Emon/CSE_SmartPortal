@@ -179,15 +179,18 @@ function ApplicationForm() {
 
     // Program options
     const programOptions = [
-        { value: "1", label: "Bachelor of Science in Computer Science" },
         {
-            value: "2",
-            label: "Masters of Science in Computer Science and Engineering",
+            value: "cse-bsc",
+            label: "B.Sc. in Computer Science and Engineering",
         },
-        { value: "3", label: "Doctor of Philosophy in Physics" },
-        { value: "4", label: "Bachelor of Arts in History" },
-        { value: "5", label: "Master of Science in Biology" },
-        { value: "6", label: "Doctor of Education in Leadership" },
+        {
+            value: "cse-msc",
+            label: "M.Sc. in Computer Science and Engineering",
+        },
+        {
+            value: "cse-phd",
+            label: "PhD in Computer Science and Engineering",
+        },
     ];
 
     // Render step content
@@ -276,6 +279,9 @@ function ApplicationForm() {
                                     </option>
                                 ))}
                             </select>
+                            <p className="mt-2 text-xs text-slate-500">
+                                Choose the CSEDU program you are applying for.
+                            </p>
                         </div>
                     </div>
                 );

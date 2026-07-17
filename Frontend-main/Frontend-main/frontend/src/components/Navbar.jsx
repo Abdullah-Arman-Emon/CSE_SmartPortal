@@ -45,7 +45,7 @@ const Navbar = () => {
           <div className="flex space-x-7">
             <div>
               <Link to="/" className="flex items-center py-4">
-                <span className="font-semibold text-lg">CSEDU - Dhaka University</span>
+                <span className="font-semibold text-lg">CSE SmartPortal</span>
               </Link>
             </div>
             <div className="hidden md:flex items-center space-x-1">
