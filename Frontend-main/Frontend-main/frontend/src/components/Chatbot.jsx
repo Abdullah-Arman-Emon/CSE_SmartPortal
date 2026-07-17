@@ -87,6 +87,11 @@ const classifyIntent = (message) => {
             route: "/chairman",
             dbQuery: "about",
         },
+        guide: {
+            keywords: ["help", "guide", "how", "what should i do", "assist me", "explain"],
+            route: null,
+            dbQuery: "guide",
+        },
     };
 
     for (const [intent, config] of Object.entries(intentMap)) {
@@ -98,13 +103,21 @@ const classifyIntent = (message) => {
     return { intent: "general", route: null, dbQuery: null };
 };
 
+const suggestedQuestions = [
+    "How do I apply for admission?",
+    "How do I submit an assignment?",
+    "How can I check my results?",
+    "How do I pay my fees?",
+    "How do I view notices and events?",
+];
+
 const Chatbot = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMinimized, setIsMinimized] = useState(false);
     const [messages, setMessages] = useState([
         {
             id: 1,
-            text: "Hello! I'm the DU CSE Assistant. I can help you with:\n\n• Events and workshops\n• Faculty information\n• Course details\n• Admission process\n• Research opportunities\n• Alumni network\n• Contact information\n\nWhat would you like to know?",
+            text: "Hello! I'm your CSEDU Student Assistant. I can help with admissions, login, courses, assignments, exams, payments, events, notices, and general website guidance.\n\nTry asking: \"How do I apply for admission?\" or \"How do I submit an assignment?\"",
             sender: "bot",
             timestamp: new Date(),
             hasLinks: false,
@@ -165,12 +178,72 @@ Campus Life:
 Please provide helpful, accurate, and encouraging information. If you don't know specific current details like exact admission dates, fees, or specific faculty information, suggest contacting the department directly. Keep responses conversational and informative.`;
     };
 
+    const getLocalResponse = (userMessage, classifiedIntent) => {
+        const lowerMessage = userMessage.toLowerCase();
+
+        if (lowerMessage.includes("admission") || lowerMessage.includes("apply")) {
+            return "For admission, open the Admission section, create or sign in to your account, fill in the form carefully, upload the required documents, review your details, and submit the application. If you are unsure about a document or deadline, contact the admissions office for help.";
+        }
+
+        if (lowerMessage.includes("login") || lowerMessage.includes("sign in") || lowerMessage.includes("password")) {
+            return "To log in, use the Login page with your registered email or student ID and password. If you forgot your password, use the password recovery option or contact support for account help.";
+        }
+
+        if (lowerMessage.includes("assignment") || lowerMessage.includes("submission")) {
+            return "To submit an assignment, go to the relevant course or assignment section, open the assignment task, upload your file, and confirm the submission. Make sure you submit before the deadline.";
+        }
+
+        if (lowerMessage.includes("exam") || lowerMessage.includes("result") || lowerMessage.includes("grade")) {
+            return "You can check your exams and results from the student dashboard or exam section. Look for the schedule, result list, or grade details for your enrolled courses.";
+        }
+
+        if (lowerMessage.includes("payment") || lowerMessage.includes("fee") || lowerMessage.includes("finance")) {
+            return "For payments or fees, open the Finance section in your dashboard. Review the fee details, choose the payment option, and complete the transaction carefully.";
+        }
+
+        if (lowerMessage.includes("event") || lowerMessage.includes("notice") || lowerMessage.includes("announcement")) {
+            return "You can explore upcoming events, notices, and announcements from the student portal homepage or the dedicated Events and Notices sections.";
+        }
+
+        if (lowerMessage.includes("course") || lowerMessage.includes("curriculum") || lowerMessage.includes("class")) {
+            return "To view your courses, open the Courses or Dashboard section. You can check your enrolled subjects, curriculum details, and related academic materials there.";
+        }
+
+        if (lowerMessage.includes("dashboard") || lowerMessage.includes("home page")) {
+            return "Your dashboard is the main landing page after login. It usually shows your courses, notices, announcements, and important student updates.";
+        }
+
+        if (lowerMessage.includes("resource") || lowerMessage.includes("material") || lowerMessage.includes("file")) {
+            return "You can usually find study resources and uploaded files in the Resources or course-related section of the portal.";
+        }
+
+        if (lowerMessage.includes("meeting") || lowerMessage.includes("class meeting")) {
+            return "If a meeting or class session is scheduled, you can check it from the Meetings or Dashboard section and follow the provided instructions.";
+        }
+
+        if (lowerMessage.includes("support") || lowerMessage.includes("contact") || lowerMessage.includes("help me")) {
+            return "If you need support, use the contact or support option in the portal, or ask me about the specific task you are trying to complete.";
+        }
+
+        if (classifiedIntent.intent === "guide" || lowerMessage.includes("help") || lowerMessage.includes("how")) {
+            return "I can help you with admissions, login, courses, assignments, exams, payments, events, notices, resources, meetings, and general website navigation. Ask me anything specific and I will guide you step by step.";
+        }
+
+        return "I’m here to guide you through the CSEDU student portal. You can ask me about admissions, login, courses, assignments, exams, payments, events, notices, or how to use the website.";
+    };
+
     const generateEnhancedResponse = async (
         userMessage,
         dbData,
         classifiedIntent
     ) => {
-        const systemPrompt = `You are an intelligent assistant for Dhaka University's CSE Department. 
+        const localReply = getLocalResponse(userMessage, classifiedIntent);
+
+        if (!GEMINI_API_KEY) {
+            return localReply;
+        }
+
+        const systemPrompt = `You are an intelligent assistant for the CSEDU student portal. 
     
 Context: The user asked about "${classifiedIntent.intent}" related topics.
 Database Information: ${
@@ -186,6 +259,7 @@ Instructions:
 4. If you mention specific items (events, faculty, courses), format them in a structured way
 5. Always be encouraging and helpful
 6. If you don't have specific current information, suggest contacting the department directly
+7. For beginner users, explain the steps clearly and simply
 
 User Query: ${userMessage}
 
@@ -239,24 +313,25 @@ Provide a comprehensive response that helps the user understand the information 
 
             // Fallback response based on intent
             const fallbackResponses = {
-                events: "I'd be happy to help you with events information! Our department regularly hosts workshops, seminars, and competitions. For the latest events, please check our events page or contact the department directly.",
+                events: "I'd be happy to help you with events information! The portal regularly updates notices, seminars, and campus activities. For the latest updates, please check the Events section or contact the department directly.",
                 faculty:
-                    "Our CSE department has excellent faculty members with expertise in various areas of computer science. For detailed faculty information including their research areas and contact details, please visit our faculty page.",
+                    "Our department has excellent faculty members with expertise in various areas of computer science and teaching. For detailed faculty information, please visit the faculty or staff page.",
                 courses:
-                    "The CSE department offers a comprehensive curriculum covering programming, algorithms, data structures, AI/ML, and more. For detailed course information and curriculum, please check our courses page.",
+                    "The portal offers academic resources and course information for students. For detailed course information and curriculum, please check the Courses section.",
                 admission:
-                    "Admission to our CSE program is highly competitive and merit-based. For current admission requirements, deadlines, and application procedures, please visit our admission page or contact the admissions office.",
+                    "Admission guidance is available through the Admissions page. For current requirements, deadlines, and application procedures, please visit the admission page or contact the admissions office.",
                 research:
-                    "Our department is actively involved in cutting-edge research in AI, machine learning, software engineering, and more. For research opportunities and ongoing projects, please visit our research page.",
+                    "The department is actively involved in academic and research opportunities. For research details and recent work, please visit the relevant academic page.",
                 contact:
-                    "You can reach the CSE department through various channels. For complete contact information including phone numbers, email addresses, and office locations, please visit our contact page.",
-                about: "The CSE department at Dhaka University is one of the premier computer science departments in Bangladesh, offering excellent education and research opportunities since its establishment.",
+                    "You can reach the department through the support and contact options available in the portal.",
+                about: "The CSEDU portal is designed to help students navigate academic life, admissions, and day-to-day student services more easily.",
                 general:
-                    "I'm here to help you with information about the CSE department at Dhaka University. You can ask me about events, faculty, courses, admission, research, or any other department-related topics.",
+                    "I'm here to guide you through the CSEDU student portal. You can ask me about admissions, login, courses, assignments, exams, payments, events, notices, or general website help.",
             };
 
             return (
                 fallbackResponses[classifiedIntent.intent] ||
+                localReply ||
                 fallbackResponses.general
             );
         }
@@ -533,6 +608,19 @@ Provide a comprehensive response that helps the user understand the information 
                                         </div>
                                     </div>
                                 ))}
+                                {messages.length === 1 && (
+                                    <div className="flex flex-wrap gap-2 mt-2">
+                                        {suggestedQuestions.map((question) => (
+                                            <button
+                                                key={question}
+                                                onClick={() => setInputText(question)}
+                                                className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs text-blue-700 hover:bg-blue-100"
+                                            >
+                                                {question}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                                 {isLoading && (
                                     <div className="flex justify-start">
                                         <div className="flex items-start space-x-2 max-w-[80%]">

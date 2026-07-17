@@ -83,6 +83,10 @@ def chatbot_query(payload: ChatbotQuery, db: Session = Depends(get_db)):
                     "at least 60% in the Physics and Mathematics parts of the test. "
                     "Apply from the Admissions page of this portal.",
         }]
+    elif intent in ("guide", "help", "student", "faq", "dashboard", "resource", "resources", "meeting", "meetings", "support", "contact"):
+        data = [{
+            "info": "This assistant can guide students through admission, login, assignments, exams, payments, events, notices, resources, meetings, and website navigation. Ask about one topic at a time for the clearest answer.",
+        }]
     elif intent in ("about", "alumni"):
         data = [{
             "info": "Department of Computer Science and Engineering, University of Dhaka — "
