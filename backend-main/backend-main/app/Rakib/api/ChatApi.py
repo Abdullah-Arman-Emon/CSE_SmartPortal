@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_
@@ -16,7 +17,7 @@ from app.Emon.model.course import Course
 def _dash_link(role: str) -> str:
     return {
         "admin": "/admin-dashboard?tab=messages",
-        "teacher": "/teacher-dashboard",
+        "teacher": "/teacher-dashboard/messages",
         "student": "/messages",
     }.get(role or "student", "/messages")
 
@@ -51,6 +52,11 @@ class SendMessage(BaseModel):
     attachment_name: Optional[str] = None
 
 
+class EditMessage(BaseModel):
+    sender_id: int
+    text: str
+
+
 def _serialize(db, m: Message):
     return {
         "id": m.id,
@@ -61,6 +67,8 @@ def _serialize(db, m: Message):
         "attachment_url": m.attachment_url,
         "attachment_name": m.attachment_name,
         "created_at": m.created_at.isoformat() if m.created_at else None,
+        "edited_at": m.edited_at.isoformat() if m.edited_at else None,
+        "deleted_at": m.deleted_at.isoformat() if m.deleted_at else None,
     }
 
 
@@ -113,6 +121,45 @@ def send_message(payload: SendMessage, db: Session = Depends(get_db)):
     for uid in targets:
         db.add(Notification(user_id=uid, type="message", text=body, link=_dash_link(roles.get(uid))))
 
+    db.commit()
+    db.refresh(m)
+    return _serialize(db, m)
+
+
+@router.put("/message/{message_id}")
+def edit_message(message_id: int, payload: EditMessage, db: Session = Depends(get_db)):
+    m = db.query(Message).filter(Message.id == message_id).first()
+    if not m:
+        raise HTTPException(status_code=404, detail="Message not found")
+    if m.sender_id != payload.sender_id:
+        raise HTTPException(status_code=403, detail="You can only edit your own messages")
+    if m.deleted_at is not None:
+        raise HTTPException(status_code=400, detail="Cannot edit a deleted message")
+    text = (payload.text or "").strip()
+    if not text:
+        raise HTTPException(status_code=422, detail="Empty message")
+
+    m.text = text
+    m.edited_at = datetime.now()
+    db.commit()
+    db.refresh(m)
+    return _serialize(db, m)
+
+
+@router.delete("/message/{message_id}")
+def delete_message(message_id: int, sender_id: int = Query(...), db: Session = Depends(get_db)):
+    m = db.query(Message).filter(Message.id == message_id).first()
+    if not m:
+        raise HTTPException(status_code=404, detail="Message not found")
+    if m.sender_id != sender_id:
+        raise HTTPException(status_code=403, detail="You can only delete your own messages")
+    if m.deleted_at is not None:
+        raise HTTPException(status_code=400, detail="Message already deleted")
+
+    m.text = ""
+    m.attachment_url = None
+    m.attachment_name = None
+    m.deleted_at = datetime.now()
     db.commit()
     db.refresh(m)
     return _serialize(db, m)

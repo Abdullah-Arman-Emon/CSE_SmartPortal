@@ -555,7 +555,7 @@ def update_routine(routine_id: int, data: RoutineUpdate, user_id: int = Query(..
         for uid in _batch_student_user_ids(db, routine.batch):
             push_notification(db, uid,
                               f"Class routine published for Batch {routine.batch} ({routine.semester}) — check the Routine tab.",
-                              ntype="routine", link="/student-dashboard")
+                              ntype="routine", link="/routine")
         db.commit()
     return {"message": "updated"}
 
@@ -782,7 +782,7 @@ def create_request(data: RequestIn, teacher_id: int = Query(...), db: Session = 
                 f"{me} proposes swapping their {slot.course_code or 'class'} "
                 f"({slot.day} {p.label if p else ''}) with your {target.course_code or 'class'} "
                 f"({target.day} {tp.label if tp else ''}). Open Routine → Requests to accept or decline.",
-                ntype="routine", link="/teacher-dashboard",
+                ntype="routine", link="/teacher-dashboard/routine",
             )
         db.commit()
         db.refresh(req)
@@ -810,7 +810,7 @@ def create_request(data: RequestIn, teacher_id: int = Query(...), db: Session = 
                 db, uid,
                 f"{me} requests moving {slot.course_code or 'a class'} (Batch {routine.batch}, {routine.semester}) "
                 f"from {slot.day} to {data.proposed_day} {p.label if p else ''}. Approve in Admin → Routine.",
-                ntype="routine", link="/admin-dashboard",
+                ntype="routine", link="/admin-dashboard?tab=routine&sub=requests",
             )
         db.commit()
         db.refresh(req)
@@ -845,9 +845,9 @@ def admin_requests(user_id: int = Query(...), db: Session = Depends(get_db)):
 
 def _notify_reschedule(db: Session, routine: Routine, text: str):
     for uid in _batch_student_user_ids(db, routine.batch):
-        push_notification(db, uid, text, ntype="routine", link="/student-dashboard")
+        push_notification(db, uid, text, ntype="routine", link="/routine")
     for uid in _admin_user_ids(db):
-        push_notification(db, uid, text, ntype="routine", link="/admin-dashboard")
+        push_notification(db, uid, text, ntype="routine", link="/admin-dashboard?tab=routine")
 
 
 @router.put("/requests/{request_id}/accept")
@@ -895,7 +895,7 @@ def accept_request(request_id: int, user_id: int = Query(...), db: Session = Dep
             _notify_reschedule(db, target_routine, text)
         for uid in _teacher_user_ids(db, [req.requested_by]):
             push_notification(db, uid, f"Your swap request was accepted. {text}",
-                              ntype="routine", link="/teacher-dashboard")
+                              ntype="routine", link="/teacher-dashboard/routine")
         db.commit()
         return _request_out(req, db)
 
@@ -923,7 +923,7 @@ def accept_request(request_id: int, user_id: int = Query(...), db: Session = Dep
     _notify_reschedule(db, routine, text)
     for uid in _teacher_user_ids(db, [req.requested_by]):
         push_notification(db, uid, f"Your move request was approved. {text}",
-                          ntype="routine", link="/teacher-dashboard")
+                          ntype="routine", link="/teacher-dashboard/routine")
     db.commit()
     return _request_out(req, db)
 
@@ -948,7 +948,7 @@ def decline_request(request_id: int, user_id: int = Query(...), db: Session = De
     req.decided_at = datetime.utcnow()
     for uid in _teacher_user_ids(db, [req.requested_by]):
         push_notification(db, uid, "Your routine change request was declined.",
-                          ntype="routine", link="/teacher-dashboard")
+                          ntype="routine", link="/teacher-dashboard/routine")
     db.commit()
     return {"message": "declined"}
 

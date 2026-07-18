@@ -23,7 +23,7 @@ def _dash_link(db: Session, user_id: int) -> str:
     role = (u.role if u else "student") or "student"
     return {
         "admin": "/admin-dashboard?tab=messages",
-        "teacher": "/teacher-dashboard",
+        "teacher": "/teacher-dashboard/messages",
         "student": "/messages",
     }.get(role, "/messages")
 
@@ -94,6 +94,11 @@ class SendDM(BaseModel):
     attachment_name: Optional[str] = None
 
 
+class EditDM(BaseModel):
+    sender_id: int
+    text: str
+
+
 def _serialize(m: DirectMessage):
     return {
         "id": m.id,
@@ -104,6 +109,8 @@ def _serialize(m: DirectMessage):
         "attachment_name": m.attachment_name,
         "created_at": m.created_at.isoformat() if m.created_at else None,
         "read_at": m.read_at.isoformat() if m.read_at else None,
+        "edited_at": m.edited_at.isoformat() if m.edited_at else None,
+        "deleted_at": m.deleted_at.isoformat() if m.deleted_at else None,
     }
 
 
@@ -137,6 +144,45 @@ def send_dm(payload: SendDM, db: Session = Depends(get_db)):
         text=f"💬 {sender_name}: {preview[:80]}",
         link=_dash_link(db, payload.recipient_id),
     ))
+    db.commit()
+    db.refresh(m)
+    return _serialize(m)
+
+
+@router.put("/message/{message_id}")
+def edit_dm(message_id: int, payload: EditDM, db: Session = Depends(get_db)):
+    m = db.query(DirectMessage).filter(DirectMessage.id == message_id).first()
+    if not m:
+        raise HTTPException(status_code=404, detail="Message not found")
+    if m.sender_id != payload.sender_id:
+        raise HTTPException(status_code=403, detail="You can only edit your own messages")
+    if m.deleted_at is not None:
+        raise HTTPException(status_code=400, detail="Cannot edit a deleted message")
+    text = (payload.text or "").strip()
+    if not text:
+        raise HTTPException(status_code=422, detail="Empty message")
+
+    m.text = text
+    m.edited_at = datetime.now()
+    db.commit()
+    db.refresh(m)
+    return _serialize(m)
+
+
+@router.delete("/message/{message_id}")
+def delete_dm(message_id: int, sender_id: int = Query(...), db: Session = Depends(get_db)):
+    m = db.query(DirectMessage).filter(DirectMessage.id == message_id).first()
+    if not m:
+        raise HTTPException(status_code=404, detail="Message not found")
+    if m.sender_id != sender_id:
+        raise HTTPException(status_code=403, detail="You can only delete your own messages")
+    if m.deleted_at is not None:
+        raise HTTPException(status_code=400, detail="Message already deleted")
+
+    m.text = ""
+    m.attachment_url = None
+    m.attachment_name = None
+    m.deleted_at = datetime.now()
     db.commit()
     db.refresh(m)
     return _serialize(m)

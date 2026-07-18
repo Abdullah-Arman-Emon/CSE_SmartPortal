@@ -20,6 +20,7 @@ class MyCourse(BaseModel):
     running: bool
     status: Optional[str] = "active"   # upcoming | active | completed
     schedules : List[MySchedule]
+    students_count: int = 0
 
     class Config:
         from_attributes = True

@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import {
     CalendarClock, Plus, Pencil, Trash2, X, Save, Printer, Eye,
@@ -31,7 +32,16 @@ function AdminRoutine() {
     const { user } = useContext(AuthContext);
     const adminId = user?.id;
 
-    const [tab, setTab] = useState("editor"); // editor | requests | holidays | periods
+    const [searchParams] = useSearchParams();
+    const VALID_TABS = ["editor", "batches", "requests", "holidays", "periods"];
+    const subParam = searchParams.get("sub");
+    const [tab, setTab] = useState(VALID_TABS.includes(subParam) ? subParam : "editor"); // editor | requests | holidays | periods
+
+    // Deep-link from a notification (?tab=routine&sub=requests) opens straight to that sub-tab.
+    useEffect(() => {
+        if (VALID_TABS.includes(subParam)) setTab(subParam);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [subParam]);
     const [routines, setRoutines] = useState([]);
     const [routineId, setRoutineId] = useState(null);
     const [grid, setGrid] = useState(null);

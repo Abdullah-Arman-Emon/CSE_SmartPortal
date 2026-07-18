@@ -82,7 +82,7 @@ def ensure_daily_class_digest(db: Session, user_id: int):
             user_id=user_id,
             type="routine_daily",
             text=f"Today's classes ({day_name}, Batch {student.batch} {student.current_semester}): " + " · ".join(parts),
-            link="/student-dashboard",
+            link="/routine",
         ))
         db.commit()
     except Exception as e:

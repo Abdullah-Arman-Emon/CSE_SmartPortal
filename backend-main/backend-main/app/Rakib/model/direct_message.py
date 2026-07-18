@@ -16,6 +16,8 @@ class DirectMessage(Base):
     attachment_name = Column(String(255), nullable=True)        # original filename
     created_at = Column(DateTime, default=datetime.now, index=True)
     read_at = Column(DateTime, nullable=True)                   # NULL = unseen
+    edited_at = Column(DateTime, nullable=True)
+    deleted_at = Column(DateTime, nullable=True)
 
     __table_args__ = (
         Index("idx_dm_pair", "sender_id", "recipient_id"),

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useContext, useCallback, useMemo } from "r
 import axios from "axios";
 import {
   Send, Paperclip, FileText, Loader2, Search, Check, CheckCheck,
-  MessageSquare, ArrowLeft, Circle, Users, Hash,
+  MessageSquare, ArrowLeft, Circle, Users, Hash, MoreVertical, Pencil, Trash2, X as XIcon,
 } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -80,6 +80,10 @@ export default function Messenger() {
   const [uploading, setUploading] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const [menuFor, setMenuFor] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState("");
+  const [busyId, setBusyId] = useState(null);
 
   const lastId = useRef(0);
   const bottom = useRef(null);
@@ -154,8 +158,8 @@ export default function Messenger() {
     if (!active) return;
     fetchThread(true);
     const t = setInterval(() => fetchThread(false), 4000);
-    const full = active.kind === "dm" ? setInterval(() => fetchThread(true), 12000) : null;
-    return () => { clearInterval(t); if (full) clearInterval(full); };
+    const full = setInterval(() => fetchThread(true), 12000);
+    return () => { clearInterval(t); clearInterval(full); };
   }, [active, fetchThread]);
 
   useEffect(() => { bottom.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
@@ -203,6 +207,53 @@ export default function Messenger() {
     } finally {
       setUploading(false);
       if (fileInput.current) fileInput.current.value = "";
+    }
+  };
+
+  const mergeMessage = (updated) => {
+    setMessages((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
+  };
+
+  const messageUrl = (id) =>
+    isGroup ? `${BACKEND_URL}/v1/chat/message/${id}` : `${BACKEND_URL}/v1/dm/message/${id}`;
+
+  const startEdit = (m) => {
+    setMenuFor(null);
+    setEditingId(m.id);
+    setEditText(m.text || "");
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditText("");
+  };
+
+  const saveEdit = async (id) => {
+    const trimmed = editText.trim();
+    if (!trimmed) { cancelEdit(); return; }
+    setBusyId(id);
+    try {
+      const r = await axios.put(messageUrl(id), { sender_id: me, text: trimmed });
+      mergeMessage(r.data);
+      cancelEdit();
+    } catch (err) {
+      setError(err.response?.data?.detail || "Could not edit message — try again.");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const deleteMessage = async (m) => {
+    setMenuFor(null);
+    if (!window.confirm("Delete this message? This cannot be undone.")) return;
+    setBusyId(m.id);
+    try {
+      const r = await axios.delete(messageUrl(m.id), { params: { sender_id: me } });
+      mergeMessage(r.data);
+    } catch (err) {
+      setError(err.response?.data?.detail || "Could not delete message — try again.");
+    } finally {
+      setBusyId(null);
     }
   };
 
@@ -400,19 +451,77 @@ export default function Messenger() {
                     (() => {
                       const m = item;
                       const mine = Number(m.sender_id) === me;
+                      const deleted = !!m.deleted_at;
+                      const editing = editingId === m.id;
                       return (
-                        <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+                        <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"} group`}>
+                          {mine && !deleted && !editing && (
+                            <div className="relative flex items-start mr-1 mt-1.5">
+                              <button
+                                onClick={() => setMenuFor(menuFor === m.id ? null : m.id)}
+                                className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-slate-600 p-0.5 rounded transition"
+                                title="Message options"
+                              >
+                                <MoreVertical size={15} />
+                              </button>
+                              {menuFor === m.id && (
+                                <div className="absolute right-0 top-6 z-10 bg-white border border-slate-200 rounded-lg shadow-lg py-1 w-32 text-sm">
+                                  <button
+                                    onClick={() => startEdit(m)}
+                                    className="w-full flex items-center gap-2 px-3 py-1.5 text-slate-700 hover:bg-slate-50 text-left"
+                                  >
+                                    <Pencil size={13} /> Edit
+                                  </button>
+                                  <button
+                                    onClick={() => deleteMessage(m)}
+                                    className="w-full flex items-center gap-2 px-3 py-1.5 text-red-600 hover:bg-red-50 text-left"
+                                  >
+                                    <Trash2 size={13} /> Delete
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          )}
                           <div className={`max-w-[75%] rounded-2xl px-3.5 py-2 shadow-sm ${mine ? "bg-amber-500 text-white rounded-br-md" : "bg-white border border-slate-200 text-slate-700 rounded-bl-md"}`}>
                             {!mine && (isGroup || m.sender_name) && (
                               <p className="text-[11px] font-semibold text-indigo-500 mb-0.5">{m.sender_name}</p>
                             )}
-                            {m.text && <p className="text-sm whitespace-pre-wrap break-words">{m.text}</p>}
-                            {renderAttachment(m, mine)}
+                            {deleted ? (
+                              <p className="text-sm italic opacity-70">Message deleted</p>
+                            ) : editing ? (
+                              <div className="flex items-center gap-1.5">
+                                <input
+                                  autoFocus
+                                  value={editText}
+                                  onChange={(e) => setEditText(e.target.value)}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter") { e.preventDefault(); saveEdit(m.id); }
+                                    if (e.key === "Escape") cancelEdit();
+                                  }}
+                                  disabled={busyId === m.id}
+                                  className="flex-1 text-sm px-2 py-1 rounded-lg text-slate-800 bg-white/90 focus:outline-none"
+                                />
+                                <button onClick={() => saveEdit(m.id)} disabled={busyId === m.id} className="p-1 rounded hover:bg-white/20" title="Save">
+                                  {busyId === m.id ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                                </button>
+                                <button onClick={cancelEdit} className="p-1 rounded hover:bg-white/20" title="Cancel">
+                                  <XIcon size={14} />
+                                </button>
+                              </div>
+                            ) : (
+                              <>
+                                {m.text && <p className="text-sm whitespace-pre-wrap break-words">{m.text}</p>}
+                                {renderAttachment(m, mine)}
+                              </>
+                            )}
                             <div className={`flex items-center gap-1 mt-1 ${mine ? "justify-end text-amber-100" : "text-slate-400"}`}>
+                              {m.edited_at && !deleted && (
+                                <span className="text-[10px] italic">edited</span>
+                              )}
                               <span className="text-[10px]">
                                 {m.created_at ? new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""}
                               </span>
-                              {mine && !isGroup && (m.read_at
+                              {mine && !isGroup && !deleted && (m.read_at
                                 ? <CheckCheck size={13} className="text-sky-200" title="Seen" />
                                 : <Check size={13} title="Sent" />)}
                             </div>

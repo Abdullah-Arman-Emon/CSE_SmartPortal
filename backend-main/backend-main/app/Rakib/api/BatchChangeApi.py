@@ -92,7 +92,7 @@ def create_request(data: ChangeIn, user_id: int = Query(...), db: Session = Depe
             db, uid,
             f"{_student_name(student)} requests moving to Batch {data.to_batch} ({data.to_semester}). "
             f"Review in Admin → Students.",
-            ntype="admin", link="/admin-dashboard",
+            ntype="admin", link="/admin-dashboard?tab=users",
         )
     db.commit()
     db.refresh(req)
@@ -153,7 +153,7 @@ def approve(request_id: int, data: DecisionIn = DecisionIn(), user_id: int = Que
     push_notification(
         db, student.user_id,
         f"Your batch-change request was approved. You are now in Batch {req.to_batch} ({req.to_semester}).",
-        ntype="admin", link="/student-dashboard",
+        ntype="admin", link="/routine",
     )
     db.commit()
     return _serialize(req, db)
@@ -177,7 +177,7 @@ def reject(request_id: int, data: DecisionIn = DecisionIn(), user_id: int = Quer
         push_notification(
             db, student.user_id,
             "Your batch-change request was declined." + (f" Note: {data.note}" if data.note else ""),
-            ntype="admin", link="/student-dashboard",
+            ntype="admin", link="/routine",
         )
     db.commit()
     return _serialize(req, db)

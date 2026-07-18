@@ -117,7 +117,8 @@ def get_class_by_id(course_id: int, db: Session = Depends(get_db)):
         image_url=course.image_url,
         running=course.running,
         status=course.status or ("active" if course.running else "completed"),
-        schedules=my_schd
+        schedules=my_schd,
+        students_count=len(course.students),
     )
 
 
@@ -153,7 +154,8 @@ def get_all_my_classes(teacher_id: int, db: Session = Depends(get_db)):
             schedules=[
                 MySchedule(day=s.day, start_time=s.start_time)
                 for s in course.schedules
-            ]
+            ],
+            students_count=len(course.students),
         )
         for course in courses
     ]
