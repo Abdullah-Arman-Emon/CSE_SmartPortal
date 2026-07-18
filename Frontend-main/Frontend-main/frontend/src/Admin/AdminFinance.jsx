@@ -228,6 +228,33 @@ export default function AdminFinance() {
             <div className="p-6">
               <h2 className="text-xl font-semibold mb-4">Finance Events</h2>
 
+              {/* Filter Controls */}
+              <div className="flex flex-wrap gap-4 mb-4">
+                <input
+                  type="text"
+                  placeholder="Filter by Batch"
+                  value={filterBatch}
+                  onChange={e => setFilterBatch(e.target.value)}
+                  className="border rounded px-2 py-1"
+                />
+                <input
+                  type="date"
+                  placeholder="Filter by Deadline"
+                  value={filterDeadline}
+                  onChange={e => setFilterDeadline(e.target.value)}
+                  className="border rounded px-2 py-1"
+                />
+                {(filterBatch || filterDeadline) && (
+                  <button
+                    type="button"
+                    onClick={() => { setFilterBatch(''); setFilterDeadline(''); }}
+                    className="px-3 py-1 text-sm text-gray-600 border rounded hover:bg-gray-50"
+                  >
+                    Clear filters
+                  </button>
+                )}
+              </div>
+
               {loading ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
