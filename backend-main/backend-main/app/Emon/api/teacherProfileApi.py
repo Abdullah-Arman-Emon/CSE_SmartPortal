@@ -3,27 +3,19 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.Emon.model.teacher import Teacher
 from app.Emon.model.research_paper import ResearchPaper
-from app.Emon.schema.teacherProfileSchema import TeacherProfileUpdate, TeacherProfileResponse, TeacherSchema
+from app.Emon.schema.teacherProfileSchema import TeacherProfileUpdate, TeacherProfileResponse
 
 router = APIRouter(prefix="/v1/teacher/profile", tags=["Teacher Profile"])
 
 
-@router.get("/get", response_model=TeacherSchema)
+@router.get("/get", response_model=TeacherProfileResponse)
 def get_profile_with_user_id(userId : int, db: Session = Depends(get_db)):
     teacher = db.query(Teacher).filter(Teacher.user_id == userId).first()
-    
+
     if not teacher:
         raise HTTPException(status_code=404, detail="teacher not found")
-    
-    return TeacherSchema(
-        id=teacher.id,
-        first_name=teacher.first_name,
-        last_name=teacher.last_name,
-        phone=teacher.phone,
-        work=teacher.work,
-        bio=teacher.bio,
-        profile_image=teacher.profile_image
-    )
+
+    return teacher
 
 
 @router.get("/{teacher_id}", response_model=TeacherProfileResponse)

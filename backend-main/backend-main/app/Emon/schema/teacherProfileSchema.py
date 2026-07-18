@@ -30,6 +30,7 @@ class TeacherSchema(BaseModel):
 class TeacherProfileUpdate(BaseModel):
     first_name: str
     last_name: str
+    department: Optional[str]
     phone: str
     work: Optional[str]
     bio: Optional[str]

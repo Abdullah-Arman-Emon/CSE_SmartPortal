@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from app.core.database import SessionLocal
 from passlib.context import CryptContext
 from fastapi import Query
@@ -433,6 +434,8 @@ def delete_user(user_id: int, actor_id: int = Query(...), db: Session = Depends(
         raise HTTPException(status_code=400, detail="Cannot delete the last remaining admin")
 
     from app.Emon.model.course import Course
+    from app.Emon.model.activity_log import ActivityLog
+    from app.Rakib.model.announcement import Announcement
     teacher = db.query(Teacher).filter(Teacher.user_id == user_id).first()
     if teacher:
         owned = db.query(Course).filter(Course.teacher_id == teacher.id).count()
@@ -441,12 +444,24 @@ def delete_user(user_id: int, actor_id: int = Query(...), db: Session = Depends(
                 status_code=400,
                 detail=f"This teacher still owns {owned} course(s). Reassign or delete those courses first.",
             )
+        # no ORM cascade/ondelete on these FKs — delete manually or the final commit hits an IntegrityError
+        db.query(ActivityLog).filter(ActivityLog.teacher_id == teacher.id).delete(synchronize_session=False)
+        db.query(Announcement).filter(Announcement.teacher_id == teacher.id).delete(synchronize_session=False)
         db.delete(teacher)
 
+    from app.Rakib.model.attendance import Attendance
+    from app.Rakib.model.result import Result
+    from app.Rakib.model.semester_result import SemesterResult
+    from app.Rakib.model.batch_change import BatchChangeRequest
     student = db.query(Student).filter(Student.user_id == user_id).first()
     if student:
         student.courses = []      # drop enrolment links (student_courses rows)
         db.flush()
+        # same as above: attendance/results/batch-change requests have no cascade
+        db.query(Attendance).filter(Attendance.student_id == student.id).delete(synchronize_session=False)
+        db.query(Result).filter(Result.student_id == student.id).delete(synchronize_session=False)
+        db.query(SemesterResult).filter(SemesterResult.student_id == student.id).delete(synchronize_session=False)
+        db.query(BatchChangeRequest).filter(BatchChangeRequest.student_id == student.id).delete(synchronize_session=False)
         db.delete(student)
 
     # tidy up personal rows that key off the user id (no hard FK)
@@ -454,7 +469,14 @@ def delete_user(user_id: int, actor_id: int = Query(...), db: Session = Depends(
     db.query(Notification).filter(Notification.user_id == user_id).delete(synchronize_session=False)
 
     db.delete(u)
-    db.commit()
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=400,
+            detail="Could not delete this user: related records still reference their account.",
+        )
     return {"message": "User deleted", "id": user_id}
 
 
