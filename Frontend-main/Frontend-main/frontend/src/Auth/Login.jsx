@@ -9,6 +9,12 @@ import Spinner from "../components/ui/Spinner";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+const DEMO_ACCOUNTS = [
+  { role: "Admin", email: "admin@cse.du.ac.bd", password: "Admin@123" },
+  { role: "Teacher", email: "fahim@cse.du.ac.bd", password: "Teacher@123" },
+  { role: "Student", email: "mahmudul.sultana28@cs.du.ac.bd", password: "Student@123" },
+];
+
 function Login() {
   const { setToken, user, setUser, loading } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -20,6 +26,11 @@ function Login() {
   });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  const fillDemo = (acc) => {
+    setError("");
+    setFormData({ email: acc.email, password: acc.password, rememberMe: false });
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -128,6 +139,20 @@ function Login() {
           <span className="text-slate-600 text-sm cursor-not-allowed" title="Please contact the department office">
             Forgot password?
           </span>
+        </div>
+
+        <div>
+          <p className="text-slate-500 text-xs mb-2 text-center">Try a demo account</p>
+          <div className="grid grid-cols-3 gap-2">
+            {DEMO_ACCOUNTS.map((acc) => (
+              <button
+                key={acc.role} type="button" onClick={() => fillDemo(acc)}
+                className="py-2 text-xs font-medium rounded-lg border border-slate-700 bg-slate-800/70 text-slate-300 hover:border-indigo-500 hover:text-white transition-colors"
+              >
+                {acc.role}
+              </button>
+            ))}
+          </div>
         </div>
 
         <button
