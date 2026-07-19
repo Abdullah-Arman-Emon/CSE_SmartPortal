@@ -1,6 +1,8 @@
 # CSE SmartPortal
-Team Name: LogicLoop
-Project Deployed URL: http://logicloop.farefin.com/
+- Team Name: LogicLoop 
+- Project Deployed URL: http://logicloop.farefin.com/
+- Deployed github Branch Name: prod
+  
 CSE SmartPortal is a production-oriented university management and student engagement platform for the Department of Computer Science and Engineering. It provides a role-based digital workspace for guests, students, teachers, and administrators to manage admissions, academic activities, communications, finance, events, and departmental resources from a single system.
 
 ## Project Overview
